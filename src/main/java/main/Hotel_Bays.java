@@ -5,6 +5,8 @@
 
 package main;
 
+import ContenedoresJFrame.ContenedorInicio;
+
 /**
  *
  * @author Daniel
@@ -12,6 +14,11 @@ package main;
 public class Hotel_Bays {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        try{
+            ContenedorInicio inicio = new  ContenedorInicio();
+            inicio.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
