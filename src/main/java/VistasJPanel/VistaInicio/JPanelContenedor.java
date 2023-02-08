@@ -4,6 +4,7 @@
  */
 package VistasJPanel.VistaInicio;
 
+import Clases.Fuente;
 import ContenedoresJFrame.ContenedorInicio;
 import ContenedoresJFrame.ContenedorLogin;
 import java.awt.Color;
@@ -78,7 +79,7 @@ public class JPanelContenedor extends JPanel{
         lbLloguin = new JLabel();
         lbLloguin.setBounds(95, 280, 100, 30);
         lbLloguin.setText("Login");
-        lbLloguin.setFont(new Font("Arial", Font.PLAIN, 20));
+        lbLloguin.setFont(Fuente.getFuente().deriveFont(20f));
         lbLloguin.setForeground(new Color(52, 43, 255));
         jPanelIzquierdo.add(lbLloguin);
         

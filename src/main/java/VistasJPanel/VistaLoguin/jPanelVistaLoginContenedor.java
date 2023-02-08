@@ -54,7 +54,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
     }
 
     private void inicializadorObjetos() throws FontFormatException, IOException {
-        Fuente.getFuente();
+        
         //Panel Derecho
         jPanelDerecho = new JPanel();
         jPanelDerecho.setLayout(null);

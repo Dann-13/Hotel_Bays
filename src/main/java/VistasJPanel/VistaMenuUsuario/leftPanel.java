@@ -4,8 +4,12 @@
  */
 package VistasJPanel.VistaMenuUsuario;
 
+import Clases.Fuente;
 import java.awt.Color;
 import java.awt.Image;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,19 +45,42 @@ public class leftPanel extends JPanel{
         
         btnReservas = new JButton("Registro Reservas");
         btnReservas.setBounds(50, 250, 150, 30);
-        btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+        btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
         btnReservas.setForeground(Color.white);
+        btnReservas.setFont(Fuente.getFuente().deriveFont(17f));
         this.add(btnReservas);
         
         btnBusqueda = new JButton("Busqueda");
         btnBusqueda.setBounds(50, 300, 150, 30);
-        btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+        btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);
         btnBusqueda.setForeground(Color.white);
+        btnBusqueda.setFont(Fuente.getFuente().deriveFont(17f));
         this.add(btnBusqueda);
+        
+        Calendar cal = Calendar.getInstance();
+        JLabel labelHora = new JLabel();
+        labelHora.setBounds(180, 450, 200, 30);
+        labelHora.setForeground(Color.white);
+        labelHora.setFont(Fuente.getFuente().deriveFont(17f));
+        new Thread() {
+            @Override
+            public void run() {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                while (true) {
+                    labelHora.setText(sdf.format(new Date()));
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                }
+            }
+        }.start();
+
+        this.add(labelHora);
         
     }
     public JButton getBtnReservas() {
