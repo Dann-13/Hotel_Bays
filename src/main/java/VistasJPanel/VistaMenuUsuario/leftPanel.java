@@ -26,14 +26,14 @@ public class leftPanel extends JPanel{
 
     private void inicializador() {
         this.setLayout(null);
-        this.setBackground(Color.white);
+        this.setBackground(new Color(52, 43, 255));
     }
 
     private void inicializadorObjetos() {
 
         //Imagen Logo
         JLabel LblImgLogoIzquierdo = new JLabel();
-        LblImgLogoIzquierdo.setBounds(8, 10, 250, 250);
+        LblImgLogoIzquierdo.setBounds(0, 10, 250, 250);
         ImageIcon icon2 = new ImageIcon("./src/main/java/Source/imgLogoCirculo.png");
         icon2.setImage(icon2.getImage().getScaledInstance(LblImgLogoIzquierdo.getWidth(), LblImgLogoIzquierdo.getHeight(), Image.SCALE_DEFAULT));
         LblImgLogoIzquierdo.setIcon(icon2);
@@ -44,6 +44,7 @@ public class leftPanel extends JPanel{
         btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
+        btnReservas.setForeground(Color.white);
         this.add(btnReservas);
         
         btnBusqueda = new JButton("Busqueda");
@@ -51,6 +52,7 @@ public class leftPanel extends JPanel{
         btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);
+        btnBusqueda.setForeground(Color.white);
         this.add(btnBusqueda);
         
     }

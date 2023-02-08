@@ -4,6 +4,7 @@
  */
 package VistasJPanel.VistaLoguin;
 
+import Clases.Fuente;
 import ContenedoresJFrame.ContenedorLogin;
 import ContenedoresJFrame.ContenedorMenuUsuario;
 import java.awt.Color;
@@ -16,10 +17,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,11 +38,6 @@ public class jPanelVistaLoginContenedor extends JPanel {
     JButton btnIngresar;
     JPasswordField passwordField;
     JCheckBox showPasswordCheckbox;
-
-    private static Font customFont;
-
-    long startTime = System.currentTimeMillis();
-
     ContenedorLogin login;
     JPanel panelIzquierdo, jPanelDerecho;
 
@@ -61,12 +54,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
     }
 
     private void inicializadorObjetos() throws FontFormatException, IOException {
-        if (customFont == null) {
-            loadFont();
-            long endTime = System.currentTimeMillis();
-            long duration = endTime - startTime;
-            System.out.println("El tiempo de ejecución de loadFont() fue de " + duration + " milisegundos.");
-        }
+        Fuente.getFuente();
         //Panel Derecho
         jPanelDerecho = new JPanel();
         jPanelDerecho.setLayout(null);
@@ -82,11 +70,11 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jPanelDerecho.add(LblImgPanelDerecho);
         //Label Bienvenido
         lblBienvenido = new JLabel();
-        lblBienvenido.setBounds(80, 100, 150, 50);
+        lblBienvenido.setBounds(70, 100, 200, 50);
         lblBienvenido.setText("Bienvenido");
         lblBienvenido.setForeground(Color.WHITE);
         //lblBienvenido.setFont(font.deriveFont(Font.PLAIN, 25));
-        lblBienvenido.setFont(customFont.deriveFont(30f));
+        lblBienvenido.setFont(Fuente.getFuente().deriveFont(33f));
 
         jPanelDerecho.add(lblBienvenido);
         //Aqui agrgamos el panel
@@ -106,7 +94,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         lblLogin.setBounds(70, 110, 200, 50);
         lblLogin.setText("LOG IN");
         lblLogin.setForeground(new Color(52, 43, 255));
-        lblLogin.setFont(customFont.deriveFont(27f));
+        lblLogin.setFont(Fuente.getFuente().deriveFont(27f));
         this.add(lblLogin);
 
         //Label Login
@@ -114,11 +102,11 @@ public class jPanelVistaLoginContenedor extends JPanel {
         lblUsuario.setBounds(70, 170, 200, 50);
         lblUsuario.setText("User");
         lblUsuario.setForeground(new Color(52, 43, 255));
-        lblUsuario.setFont(customFont.deriveFont(23f));
+        lblUsuario.setFont(Fuente.getFuente().deriveFont(27f));
         this.add(lblUsuario);
 
         TxtUsuario = new JTextField(" Ingrese  su  Nombre  de  Usuario");
-        TxtUsuario.setFont(customFont.deriveFont(15f));
+        TxtUsuario.setFont(Fuente.getFuente().deriveFont(15f));
         TxtUsuario.setForeground(new Color(85, 74, 97));
         TxtUsuario.setBounds(70, 220, 300, 30);
         TxtUsuario.setSelectionStart(0);
@@ -151,7 +139,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         lblContrasena.setBounds(70, 250, 200, 50);
         lblContrasena.setText("Password");
         lblContrasena.setForeground(new Color(52, 43, 255));
-        lblContrasena.setFont(customFont.deriveFont(23f));
+        lblContrasena.setFont(Fuente.getFuente().deriveFont(23f));
         this.add(lblContrasena);
 
         passwordField = new JPasswordField();
@@ -179,7 +167,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
 
         //BtnIngresar
         btnIngresar = new JButton("INGRESAR");
-        btnIngresar.setFont(customFont.deriveFont(23f));
+        btnIngresar.setFont(Fuente.getFuente().deriveFont(23f));
         btnIngresar.setBackground(new Color(52, 43, 255));
         btnIngresar.setForeground(Color.white);
         btnIngresar.setBounds(70, 350, 150, 30);
@@ -203,17 +191,6 @@ public class jPanelVistaLoginContenedor extends JPanel {
         ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
         menuUseuario.setVisible(true);
         this.login.dispose();
-    }
-
-    private static void loadFont() {
-        try {
-            // Crea un nuevo objeto de tipo InputStream para leer la fuente desde un archivo
-            InputStream is = new BufferedInputStream(new FileInputStream("./src/main/java/Source/Font/TypoGraphica.otf"));
-            // Crea una nueva fuente a partir del InputStream
-            customFont = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     
