@@ -4,9 +4,13 @@
  */
 package VistasJPanel.VistaMenuUsuario;
 
-import Clases.Fuente;
+import utils.Fuente;
+import components.labels.JLabelFactory;
 import java.awt.Color;
+import static java.awt.Component.TOP_ALIGNMENT;
 import java.awt.Font;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,14 +42,11 @@ public class PanelDefecto extends JPanel {
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = new JLabel();
-        lblTitulo.setBounds(0, 10, 550, 50);
-        lblTitulo.setText("Sistema  de  Reservas  Hotel  Bay's");
+        lblTitulo = JLabelFactory.labelStandardFont("Sistemas de Reservas Hotel Bay's", 0, 10, 550, 50, 24f,new Color(52, 43, 255));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setFont(Fuente.getFuente().deriveFont(24f));
-        lblTitulo.setBackground(new Color(51, 110, 255));
         lblTitulo.setOpaque(true);
         lblTitulo.setForeground(Color.white);
+
         this.add(lblTitulo);
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -57,8 +58,6 @@ public class PanelDefecto extends JPanel {
         lblHora.setOpaque(true);
         lblHora.setForeground(Color.WHITE);
         this.add(lblHora);
-
-
 
         JTextArea area = new JTextArea();
         area.setBackground(new Color(0, 0, 0, 0));

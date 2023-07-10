@@ -4,7 +4,9 @@
  */
 package VistasJPanel.VistaMenuUsuario;
 
-import Clases.Fuente;
+import utils.Fuente;
+import components.buttons.JButtonsFactory;
+import components.labels.JLabelFactory;
 import java.awt.Color;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
@@ -20,10 +22,12 @@ import javax.swing.JPanel;
  *
  * @author Daniel
  */
-public class leftPanel extends JPanel{
+public class leftPanel extends JPanel {
+
     private JButton btnReservas;
     private JButton btnBusqueda;
-    public leftPanel(){
+
+    public leftPanel() {
         this.inicializador();
         this.inicializadorObjetos();
     }
@@ -42,30 +46,26 @@ public class leftPanel extends JPanel{
         icon2.setImage(icon2.getImage().getScaledInstance(LblImgLogoIzquierdo.getWidth(), LblImgLogoIzquierdo.getHeight(), Image.SCALE_DEFAULT));
         LblImgLogoIzquierdo.setIcon(icon2);
         this.add(LblImgLogoIzquierdo);
-        
-        btnReservas = new JButton("Registro Reservas");
-        btnReservas.setBounds(50, 250, 150, 30);
+
+        btnReservas = JButtonsFactory.buttonStandardFont("Registro de Reservas", 50, 250, 150, 30, 17f);
         btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
         btnReservas.setForeground(Color.white);
-        btnReservas.setFont(Fuente.getFuente().deriveFont(17f));
+
         this.add(btnReservas);
-        
-        btnBusqueda = new JButton("Busqueda");
-        btnBusqueda.setBounds(50, 300, 150, 30);
+
+        btnReservas = JButtonsFactory.buttonStandardFont("Busqueda", 50, 300, 150, 30, 17f);
         btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);
         btnBusqueda.setForeground(Color.white);
-        btnBusqueda.setFont(Fuente.getFuente().deriveFont(17f));
         this.add(btnBusqueda);
-        
+
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = new JLabel();
-        labelHora.setBounds(180, 450, 200, 30);
+        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 200, 30, 17f, Color.BLACK);
         labelHora.setForeground(Color.white);
-        labelHora.setFont(Fuente.getFuente().deriveFont(17f));
+
         new Thread() {
             @Override
             public void run() {
@@ -81,8 +81,9 @@ public class leftPanel extends JPanel{
         }.start();
 
         this.add(labelHora);
-        
+
     }
+
     public JButton getBtnReservas() {
         return btnReservas;
     }

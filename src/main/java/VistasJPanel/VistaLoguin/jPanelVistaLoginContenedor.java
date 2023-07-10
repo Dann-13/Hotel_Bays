@@ -4,22 +4,21 @@
  */
 package VistasJPanel.VistaLoguin;
 
-import Clases.Fuente;
+import utils.Fuente;
+import components.labels.JLabelFactory;
+import components.passwordFieldWithCheckbox.PasswordFieldWithCheckbox;
+import components.textField.JPasswordField.PasswordFieldFactory;
+import components.textField.JTextField.JTextFieldFactory;
+import components.textField.JTextField.TextFieldFocusListener.TextFieldFocusListener;
 import ContenedoresJFrame.ContenedorLogin;
-import ContenedoresJFrame.ContenedorMenuUsuario;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -30,168 +29,110 @@ import javax.swing.JTextField;
 /**
  *
  * @author Daniel
+ * Panel encargado de contener los los objtos como los botones y logo del formulario a su derecha estara un panel sobre-epuesto
+ * que servira para decorar y poner la imagen de la empresa 
  */
 public class jPanelVistaLoginContenedor extends JPanel {
-    
+
     JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, LblImgLogoIzquierdo, lblUsuario, lblContrasena;
     JTextField TxtUsuario;
     JButton btnIngresar;
     JPasswordField passwordField;
     JCheckBox showPasswordCheckbox;
     ContenedorLogin login;
-    JPanel panelIzquierdo, jPanelDerecho;
+    JPanel jpanelIzquierdo, jPanelDerecho;
 
     public jPanelVistaLoginContenedor(ContenedorLogin login) throws FontFormatException, IOException {
         this.login = login;
         this.inicializador();
         this.inicializadorObjetos();
-        inicializadorEventos();
+//        inicializadorEventos();
     }
 
     private void inicializador() {
-        this.setLayout(null);
+        this.setLayout(new GridBagLayout());
         this.setBackground(Color.white);
     }
 
     private void inicializadorObjetos() throws FontFormatException, IOException {
         
-        //Panel Derecho
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weighty = 1.0; // Expande los paneles verticalmente
+        
+        // ------------Panel de la derecha (35%)----------------
         jPanelDerecho = new JPanel();
         jPanelDerecho.setLayout(null);
-        jPanelDerecho.setBounds(500, 0, 300, 500);
         jPanelDerecho.setBackground(new Color(52, 43, 255));
-
-        LblImgPanelDerecho = new JLabel();
-        LblImgPanelDerecho.setBounds(7, 150, 280, 280);
-        ImageIcon icon1 = new ImageIcon("./src/main/java/Source/imgHotel.png");
-        icon1.setImage(icon1.getImage().getScaledInstance(LblImgPanelDerecho.getWidth(), LblImgPanelDerecho.getHeight(), Image.SCALE_DEFAULT));
-        LblImgPanelDerecho.setIcon(icon1);
-        //Agreamos la imagen al panel derecho
-        jPanelDerecho.add(LblImgPanelDerecho);
-        //Label Bienvenido
-        lblBienvenido = new JLabel();
-        lblBienvenido.setBounds(70, 100, 200, 50);
-        lblBienvenido.setText("Bienvenido");
-        lblBienvenido.setForeground(Color.WHITE);
-        //lblBienvenido.setFont(font.deriveFont(Font.PLAIN, 25));
-        lblBienvenido.setFont(Fuente.getFuente().deriveFont(33f));
-
+        constraints.gridx = 1;
+        constraints.weightx = 0.35;
+        this.add(jPanelDerecho, constraints);
+        
+        lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,100, 200, 50,33.0f, Color.WHITE);
         jPanelDerecho.add(lblBienvenido);
-        //Aqui agrgamos el panel
-        this.add(jPanelDerecho);
-
-        //Parte Izquierda
+        
+        LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/Source/imgHotel.png", 7, 150,280,280);
+        jPanelDerecho.add(LblImgPanelDerecho);
+        
+        // -------------Panel de la izquierda (65%)----------------
+        jpanelIzquierdo = new JPanel();
+        jpanelIzquierdo.setLayout(null);
+        jpanelIzquierdo.setBackground(Color.WHITE);
+        constraints.gridx = 0;
+        constraints.weightx = 0.65;
+        this.add(jpanelIzquierdo, constraints);
+        
         //Imagen Logo
-        LblImgLogoIzquierdo = new JLabel();
-        LblImgLogoIzquierdo.setBounds(70, 20, 100, 100);
-        ImageIcon icon2 = new ImageIcon("./src/main/java/Source/logoHotel.png");
-        icon2.setImage(icon2.getImage().getScaledInstance(LblImgLogoIzquierdo.getWidth(), LblImgLogoIzquierdo.getHeight(), Image.SCALE_DEFAULT));
-        LblImgLogoIzquierdo.setIcon(icon2);
-        this.add(LblImgLogoIzquierdo);
+        LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/Source/logoHotel.png", 70, 20, 100, 100);
+        jpanelIzquierdo.add(LblImgLogoIzquierdo);
+        
+        //Label Login
+        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 200, 50, 27F, new Color(52, 43, 255));
+        jpanelIzquierdo.add(lblLogin);
 
         //Label Login
-        lblLogin = new JLabel();
-        lblLogin.setBounds(70, 110, 200, 50);
-        lblLogin.setText("LOG IN");
-        lblLogin.setForeground(new Color(52, 43, 255));
-        lblLogin.setFont(Fuente.getFuente().deriveFont(27f));
-        this.add(lblLogin);
-
-        //Label Login
-        lblUsuario = new JLabel();
-        lblUsuario.setBounds(70, 170, 200, 50);
-        lblUsuario.setText("User");
-        lblUsuario.setForeground(new Color(52, 43, 255));
-        lblUsuario.setFont(Fuente.getFuente().deriveFont(27f));
-        this.add(lblUsuario);
-
-        TxtUsuario = new JTextField(" Ingrese  su  Nombre  de  Usuario");
-        TxtUsuario.setFont(Fuente.getFuente().deriveFont(15f));
-        TxtUsuario.setForeground(new Color(85, 74, 97));
-        TxtUsuario.setBounds(70, 220, 300, 30);
+        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 200, 50, 27f, new Color(52, 43, 255));
+        jpanelIzquierdo.add(lblUsuario);
+        
+        //Caja del usuario 
+        TxtUsuario = JTextFieldFactory.textFieldFactory("Ingrese su nombre de Usuario",70 ,220, 300, 30, 15f, new Color(85, 74, 97));
         TxtUsuario.setSelectionStart(0);
         TxtUsuario.setSelectionEnd(0);
         TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        TxtUsuario.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (TxtUsuario.getText().equals(" Ingrese  su  Nombre  de  Usuario")) {
-                    TxtUsuario.setCaretPosition(0);
-                    TxtUsuario.setText("");
-                    TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (TxtUsuario.getText().isEmpty()) {
-                    TxtUsuario.setText(" Ingrese  su  Nombre  de  Usuario");
-                    TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-                }
-            }
-        });
-        this.add(TxtUsuario);
-
+        
+        FocusListener focusListener = new TextFieldFocusListener(TxtUsuario,"Ingrese su Nombre de Usuario", Color.GRAY, Color.darkGray);
+        TxtUsuario.addFocusListener(focusListener);
+        jpanelIzquierdo.add(TxtUsuario);
+        
         //Label Contraseña
-        lblContrasena = new JLabel();
-        lblContrasena.setBounds(70, 250, 200, 50);
-        lblContrasena.setText("Password");
-        lblContrasena.setForeground(new Color(52, 43, 255));
-        lblContrasena.setFont(Fuente.getFuente().deriveFont(23f));
-        this.add(lblContrasena);
-
-        passwordField = new JPasswordField();
-        passwordField.setEchoChar('*');
-        passwordField.setBounds(70, 300, 300, 30);
-        passwordField.setBackground(Color.WHITE);
-        passwordField.setForeground(Color.BLACK);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 18));
+        lblContrasena = JLabelFactory.labelStandardFont("Password",70 , 250, 200, 50, 23f, new Color(52, 43, 255));
+        jpanelIzquierdo.add(lblContrasena);
+        
+        //Caja contraseña 
+        passwordField = PasswordFieldFactory.createPasswordField( 70, 300, 300, 30, 18f, Color.gray, '*');
         passwordField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        this.add(passwordField);
-
-        showPasswordCheckbox = new JCheckBox(" ͡o ");
-        showPasswordCheckbox.setBounds(380, 300, 20, 30);
-        showPasswordCheckbox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    passwordField.setEchoChar((char) 0);
-                } else {
-                    passwordField.setEchoChar('*');
-                }
-            }
-        });
-        this.add(showPasswordCheckbox);
-
-        //BtnIngresar
-        btnIngresar = new JButton("INGRESAR");
-        btnIngresar.setFont(Fuente.getFuente().deriveFont(23f));
-        btnIngresar.setBackground(new Color(52, 43, 255));
-        btnIngresar.setForeground(Color.white);
-        btnIngresar.setBounds(70, 350, 150, 30);
-        this.add(btnIngresar);
-
+        jpanelIzquierdo.add(passwordField);
+        //Checbox para ver contraseña 
+        showPasswordCheckbox = PasswordFieldWithCheckbox.createCheckboxWithPasswordField(passwordField, 380, 300, 20, 30);
+        jpanelIzquierdo.add(showPasswordCheckbox);
     }
 
-    private void inicializadorEventos() {
-        ActionListener escuchaBtnIngresar = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                escuchaBtnEntrarClick();
-            }
+//    private void inicializadorEventos() {
+//        ActionListener escuchaBtnIngresar = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                escuchaBtnEntrarClick();
+//            }
+//
+//        };
+//        btnIngresar.addActionListener(escuchaBtnIngresar);
+//
+//    }
+//
+//    private void escuchaBtnEntrarClick() {
+//        ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
+//        menuUseuario.setVisible(true);
+//        this.login.dispose();
+//    }
 
-        };
-        btnIngresar.addActionListener(escuchaBtnIngresar);
-
-    }
-
-    private void escuchaBtnEntrarClick() {
-        ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
-        menuUseuario.setVisible(true);
-        this.login.dispose();
-    }
-
-    
 }
