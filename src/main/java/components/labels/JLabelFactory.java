@@ -28,9 +28,10 @@ public class JLabelFactory {
 
     }
 
-    public static JLabel labelStandard(String text, int x, int y, int width, int height) {
+    public static JLabel labelStandard(String text, int x, int y, int width, int height, Color color) {
         JLabel label = new JLabel(text);
         label.setBounds(x, y, width, height);
+        label.setForeground(color);
 
         return label;
     }

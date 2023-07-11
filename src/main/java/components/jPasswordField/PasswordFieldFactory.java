@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package components.textField.JPasswordField;
+package components.jPasswordField;
 
 import utils.Fuente;
 import java.awt.Color;

@@ -47,7 +47,7 @@ public class leftPanel extends JPanel {
         LblImgLogoIzquierdo.setIcon(icon2);
         this.add(LblImgLogoIzquierdo);
 
-        btnReservas = JButtonsFactory.buttonStandardFont("Registro de Reservas", 50, 250, 150, 30, 17f);
+        btnReservas = JButtonsFactory.buttonStandardFont("Registro de Reservas", 50, 250, 150, 30, 17f, Color.BLACK);
         btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
@@ -55,7 +55,7 @@ public class leftPanel extends JPanel {
 
         this.add(btnReservas);
 
-        btnReservas = JButtonsFactory.buttonStandardFont("Busqueda", 50, 300, 150, 30, 17f);
+        btnBusqueda = JButtonsFactory.buttonStandardFont("Busqueda", 50, 300, 150, 30, 17f, Color.BLACK);
         btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);

@@ -6,16 +6,21 @@ package VistasJPanel.VistaLoguin;
 
 import utils.Fuente;
 import components.labels.JLabelFactory;
-import components.passwordFieldWithCheckbox.PasswordFieldWithCheckbox;
-import components.textField.JPasswordField.PasswordFieldFactory;
-import components.textField.JTextField.JTextFieldFactory;
-import components.textField.JTextField.TextFieldFocusListener.TextFieldFocusListener;
+import components.checkBox.event.PasswordFieldWithCheckbox;
+import components.jPasswordField.PasswordFieldFactory;
+import components.textField.JTextFieldFactory;
+import components.textField.event.TextFieldFocusListener.TextFieldFocusListener;
 import ContenedoresJFrame.ContenedorLogin;
+import ContenedoresJFrame.ContenedorMenuUsuario;
+import components.buttons.JButtonsFactory;
+import components.jPasswordField.event.PasswordFieldCapsLockListener;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.io.IOException;
 import javax.swing.BorderFactory;
@@ -34,7 +39,7 @@ import javax.swing.JTextField;
  */
 public class jPanelVistaLoginContenedor extends JPanel {
 
-    JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, LblImgLogoIzquierdo, lblUsuario, lblContrasena;
+    JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, LblImgLogoIzquierdo, lblUsuario, lblContrasena, capsLockLabel;
     JTextField TxtUsuario;
     JButton btnIngresar;
     JPasswordField passwordField;
@@ -46,7 +51,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         this.login = login;
         this.inicializador();
         this.inicializadorObjetos();
-//        inicializadorEventos();
+        inicializadorEventos();
     }
 
     private void inicializador() {
@@ -71,7 +76,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,100, 200, 50,33.0f, Color.WHITE);
         jPanelDerecho.add(lblBienvenido);
         
-        LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/Source/imgHotel.png", 7, 150,280,280);
+        LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/resources/images/imgHotel.png", 7, 150,280,280);
         jPanelDerecho.add(LblImgPanelDerecho);
         
         // -------------Panel de la izquierda (65%)----------------
@@ -83,7 +88,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         this.add(jpanelIzquierdo, constraints);
         
         //Imagen Logo
-        LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/Source/logoHotel.png", 70, 20, 100, 100);
+        LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/resources/images/logoHotel.png", 70, 20, 100, 100);
         jpanelIzquierdo.add(LblImgLogoIzquierdo);
         
         //Label Login
@@ -111,28 +116,43 @@ public class jPanelVistaLoginContenedor extends JPanel {
         //Caja contraseña 
         passwordField = PasswordFieldFactory.createPasswordField( 70, 300, 300, 30, 18f, Color.gray, '*');
         passwordField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        jpanelIzquierdo.add(passwordField);
+        
         //Checbox para ver contraseña 
         showPasswordCheckbox = PasswordFieldWithCheckbox.createCheckboxWithPasswordField(passwordField, 380, 300, 20, 30);
         jpanelIzquierdo.add(showPasswordCheckbox);
+        
+        //Aviso mayus
+        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, Color.RED);
+        capsLockLabel.setVisible(false);
+        PasswordFieldCapsLockListener capsLockListener = new PasswordFieldCapsLockListener(passwordField, capsLockLabel);
+        passwordField.addKeyListener(capsLockListener);
+        jpanelIzquierdo.add(passwordField);
+        jpanelIzquierdo.add(capsLockLabel);
+        
+        //Boton ingresar
+        btnIngresar = new JButton("INGRESAR");
+        btnIngresar = JButtonsFactory.buttonStandardFont("INGRESAR",70,350, 150,30, 23f, new Color(52, 43, 255));
+        jpanelIzquierdo.add(btnIngresar);
     }
 
-//    private void inicializadorEventos() {
-//        ActionListener escuchaBtnIngresar = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                escuchaBtnEntrarClick();
-//            }
-//
-//        };
-//        btnIngresar.addActionListener(escuchaBtnIngresar);
-//
-//    }
-//
-//    private void escuchaBtnEntrarClick() {
-//        ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
-//        menuUseuario.setVisible(true);
-//        this.login.dispose();
-//    }
+    
+    private void inicializadorEventos() {
+        ActionListener escuchaBtnIngresar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                escuchaBtnEntrarClick();
+            }
+
+        };
+        btnIngresar.addActionListener(escuchaBtnIngresar);
+
+    }
+
+    private void escuchaBtnEntrarClick() {
+        ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
+        menuUseuario.setVisible(true);
+        this.login.dispose();
+    }
+
 
 }
