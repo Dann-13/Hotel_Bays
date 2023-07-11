@@ -4,7 +4,6 @@
  */
 package VistasJPanel.VistaLoguin;
 
-import utils.Fuente;
 import components.labels.JLabelFactory;
 import components.checkBox.event.PasswordFieldWithCheckbox;
 import components.jPasswordField.PasswordFieldFactory;
@@ -15,7 +14,6 @@ import ContenedoresJFrame.ContenedorMenuUsuario;
 import components.buttons.JButtonsFactory;
 import components.jPasswordField.event.PasswordFieldCapsLockListener;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -73,7 +71,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         constraints.weightx = 0.35;
         this.add(jPanelDerecho, constraints);
         
-        lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,100, 200, 50,33.0f, Color.WHITE);
+        lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,100, 200, 50,33.0f, new Color(52, 43, 255), Color.WHITE);
         jPanelDerecho.add(lblBienvenido);
         
         LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/resources/images/imgHotel.png", 7, 150,280,280);
@@ -92,11 +90,11 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(LblImgLogoIzquierdo);
         
         //Label Login
-        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 200, 50, 27F, new Color(52, 43, 255));
+        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 200, 50, 27F, Color.white, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblLogin);
 
         //Label Login
-        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 200, 50, 27f, new Color(52, 43, 255));
+        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 200, 50, 27f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblUsuario);
         
         //Caja del usuario 
@@ -110,7 +108,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(TxtUsuario);
         
         //Label Contraseña
-        lblContrasena = JLabelFactory.labelStandardFont("Password",70 , 250, 200, 50, 23f, new Color(52, 43, 255));
+        lblContrasena = JLabelFactory.labelStandardFont("Password",70 , 250, 200, 50, 23f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblContrasena);
         
         //Caja contraseña 
@@ -122,7 +120,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(showPasswordCheckbox);
         
         //Aviso mayus
-        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, Color.RED);
+        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, Color.WHITE ,Color.RED);
         capsLockLabel.setVisible(false);
         PasswordFieldCapsLockListener capsLockListener = new PasswordFieldCapsLockListener(passwordField, capsLockLabel);
         passwordField.addKeyListener(capsLockListener);

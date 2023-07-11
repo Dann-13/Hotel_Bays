@@ -4,7 +4,6 @@
  */
 package VistasJPanel.VistaMenuUsuario;
 
-import utils.Fuente;
 import components.buttons.JButtonsFactory;
 import components.labels.JLabelFactory;
 import java.awt.Color;
@@ -40,14 +39,10 @@ public class leftPanel extends JPanel {
     private void inicializadorObjetos() {
 
         //Imagen Logo
-        JLabel LblImgLogoIzquierdo = new JLabel();
-        LblImgLogoIzquierdo.setBounds(0, 10, 250, 250);
-        ImageIcon icon2 = new ImageIcon("./src/main/java/Source/imgLogoCirculo.png");
-        icon2.setImage(icon2.getImage().getScaledInstance(LblImgLogoIzquierdo.getWidth(), LblImgLogoIzquierdo.getHeight(), Image.SCALE_DEFAULT));
-        LblImgLogoIzquierdo.setIcon(icon2);
+        JLabel LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/resources/images/imgLogoCirculo.png", 0, 0, 250, 250);
         this.add(LblImgLogoIzquierdo);
 
-        btnReservas = JButtonsFactory.buttonStandardFont("Registro de Reservas", 50, 250, 150, 30, 17f, Color.BLACK);
+        btnReservas = JButtonsFactory.buttonStandardFont("Reservas", 40, 250, 170, 30, 17f, Color.BLACK);
         btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
@@ -55,7 +50,7 @@ public class leftPanel extends JPanel {
 
         this.add(btnReservas);
 
-        btnBusqueda = JButtonsFactory.buttonStandardFont("Busqueda", 50, 300, 150, 30, 17f, Color.BLACK);
+        btnBusqueda = JButtonsFactory.buttonStandardFont("Clientes", 40, 300, 170, 30, 17f, Color.BLACK);
         btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);
@@ -63,7 +58,7 @@ public class leftPanel extends JPanel {
         this.add(btnBusqueda);
 
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 200, 30, 17f, Color.BLACK);
+        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 200, 30, 17f, new Color(52, 43, 255), Color.WHITE);
         labelHora.setForeground(Color.white);
 
         new Thread() {

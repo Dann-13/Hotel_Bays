@@ -4,23 +4,16 @@
  */
 package VistasJPanel.VistaMenuUsuario;
 
-import utils.Fuente;
 import components.labels.JLabelFactory;
 import java.awt.Color;
-import static java.awt.Component.TOP_ALIGNMENT;
 import java.awt.Font;
-import static java.awt.image.ImageObserver.HEIGHT;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -42,21 +35,13 @@ public class PanelDefecto extends JPanel {
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = JLabelFactory.labelStandardFont("Sistemas de Reservas Hotel Bay's", 0, 10, 550, 50, 24f,new Color(52, 43, 255));
+        lblTitulo = JLabelFactory.labelStandardFont("Sistemas de Reservas Hotel Bay's", 0, 0, 550, 60, 24f,new Color(52, 43, 255), Color.WHITE);
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setOpaque(true);
-        lblTitulo.setForeground(Color.white);
-
         this.add(lblTitulo);
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        lblHora = new JLabel();
-        lblHora.setText("Hoy es " + dateFormat.format(date));
-        lblHora.setBounds(0, 50, 550, 30);
-        lblHora.setBackground(new Color(51, 110, 255));
-        lblHora.setOpaque(true);
-        lblHora.setForeground(Color.WHITE);
+        lblHora = JLabelFactory.labelStandard(" Hoy es " + dateFormat.format(date), 0, 50, 550, 30, new Color(52, 43, 255), Color.white);
         this.add(lblHora);
 
         JTextArea area = new JTextArea();
@@ -68,7 +53,9 @@ public class PanelDefecto extends JPanel {
                 + "para tareas especificas como los son: \n \n"
                 + "- Registro de Reservas de huespedes \n"
                 + "- Edicion de reservas Y Huespedes Existentes \n"
-                + "- Eliminar todo tipo de registros."
+                + "- Eliminar todo tipo de registros. \n"
+                + "En el lado derecho encontraras 2 botones huespedes y reservas que te llevaran a la interfaz \n"
+                + "con las funcionalodades anteriormente mensionadas, Gracias por leer esto!"
         );
 
         area.setBounds(10, 200, 500, 200);

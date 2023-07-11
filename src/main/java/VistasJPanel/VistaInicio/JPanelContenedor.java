@@ -4,23 +4,17 @@
  */
 package VistasJPanel.VistaInicio;
 
-import utils.Fuente;
 import components.labels.JLabelFactory;
 import ContenedoresJFrame.ContenedorInicio;
 import ContenedoresJFrame.ContenedorLogin;
+import components.buttons.JButtonsFactory;
 import java.awt.Color;
-import static java.awt.Component.TOP_ALIGNMENT;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.HEIGHT;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,10 +26,11 @@ import javax.swing.JPanel;
 public class JPanelContenedor extends JPanel {
 
     ContenedorInicio inicio;
-    JPanel jPanelIzquierdo;
+    JPanel jPanelIzquierdo, jPanelDerecho;
 
     //Objetos
     JLabel labelImg, LblPie, lblLogo, lbLloguin;
+
     JButton btnlImgLoguin;
 
     public JPanelContenedor(ContenedorInicio inicio) {
@@ -51,49 +46,29 @@ public class JPanelContenedor extends JPanel {
 
     private void inicializadorObjetos() {
 
-//        Imamgen
-//        importamos imagen
-        labelImg = new JLabel();
-        labelImg.setBounds(0, 0, 550, 431);
-        ImageIcon icon = new ImageIcon("./src/main/java/resources/imageninicio.png");
-        icon.setImage(icon.getImage().getScaledInstance(labelImg.getWidth(), labelImg.getHeight(), Image.SCALE_DEFAULT));
-        labelImg.setIcon(icon);
+        labelImg = JLabelFactory.labelStandardImg("./src/main/java/resources/images/imageninicio.png", 0, 0, 550, 431);
         this.add(labelImg);
 
-        LblPie = new JLabel();
-        LblPie.setText("Desarrollado Por: Daniel Gomez ©");
+        LblPie = JLabelFactory.labelStandard("Desarrollado Por: FlashDev ©", 0, 431, 800, 30, new Color(52, 43, 255), Color.WHITE);
         LblPie.setHorizontalAlignment(JLabel.CENTER);
-        LblPie.setForeground(Color.white);
-        LblPie.setBounds(0, 431, 800, 30);
-        LblPie.setOpaque(true);
-        LblPie.setBackground(new Color(52, 43, 255));
         this.add(LblPie);
 
-        jPanelIzquierdo = new JPanel();
-        jPanelIzquierdo.setLayout(null);
-        jPanelIzquierdo.setBounds(550, 0, 250, 500);
+        jPanelDerecho = new JPanel();
+        jPanelDerecho.setLayout(null);
+        jPanelDerecho.setBackground(Color.WHITE);
+        jPanelDerecho.setBounds(550, 0, 250, 500);
 
         //Imagen Logo
-        lblLogo = new JLabel();
-        lblLogo.setBounds(20, 30, 200, 200);
-        ImageIcon iconLogo = new ImageIcon("./src/main/java/resources/logoHotel.png");
-        iconLogo.setImage(iconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
-        lblLogo.setIcon(iconLogo);
-        jPanelIzquierdo.add(lblLogo);
+        lblLogo = JLabelFactory.labelStandardImg("./src/main/java/resources/images/logoHotel.png", 20, 30, 200, 200);
+        jPanelDerecho.add(lblLogo);
 
-        lbLloguin = JLabelFactory.labelStandardFont("Login",95, 280, 100, 30, 23.0f, new Color(52, 43, 255));
-        jPanelIzquierdo.add(lbLloguin);
+        lbLloguin = JLabelFactory.labelStandardFont("Login", 95, 280, 100, 30, 23.0f, Color.WHITE, new Color(52, 43, 255));
+        jPanelDerecho.add(lbLloguin);
 
         //Imagen Loguin
-        btnlImgLoguin = new JButton();
-        btnlImgLoguin.setBounds(90, 320, 60, 60);
-        btnlImgLoguin.setBorderPainted(false);
-        btnlImgLoguin.setContentAreaFilled(false);
-        ImageIcon icon2 = new ImageIcon("./src/main/java/resources/user.png");
-        icon2.setImage(icon2.getImage().getScaledInstance(btnlImgLoguin.getWidth(), btnlImgLoguin.getHeight(), Image.SCALE_DEFAULT));
-        btnlImgLoguin.setIcon(icon2);
-        jPanelIzquierdo.add(btnlImgLoguin);
-        this.add(jPanelIzquierdo);
+        btnlImgLoguin = JButtonsFactory.buttonStandardFontImg("./src/main/java/resources/images/user.png", 90, 320, 60, 60);
+        jPanelDerecho.add(btnlImgLoguin);
+        this.add(jPanelDerecho);
 
     }
 
@@ -120,5 +95,4 @@ public class JPanelContenedor extends JPanel {
         login.setVisible(true);
         this.inicio.dispose();
     }
-
 }

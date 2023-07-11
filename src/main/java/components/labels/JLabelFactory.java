@@ -18,21 +18,25 @@ import javax.swing.JLabel;
  */
 public class JLabelFactory {
 
-    public static JLabel labelStandardFont(String text, int x, int y, int width, int height, float fontSize, Color colorFont) {
+    public static JLabel labelStandardFont(String text, int x, int y, int width, int height, float fontSize,Color colorBackground, Color colorForeground) {
         JLabel label = new JLabel(text);
         label.setBounds(x, y, width, height);
+        label.setOpaque(true);
         Font customFont = Fuente.getFuente(fontSize);
         label.setFont(customFont);
-        label.setForeground(colorFont);
+        label.setForeground(colorForeground);
+        label.setBackground(colorBackground);
         return label;
 
     }
 
-    public static JLabel labelStandard(String text, int x, int y, int width, int height, Color color) {
+    public static JLabel labelStandard(String text, int x, int y, int width, int height, Color colorBackground, Color colorForeground) {
         JLabel label = new JLabel(text);
         label.setBounds(x, y, width, height);
-        label.setForeground(color);
-
+        label.setForeground(colorForeground);
+        label.setBackground(colorBackground);
+        label.setOpaque(true);
+        
         return label;
     }
 
