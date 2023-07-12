@@ -5,7 +5,7 @@
 
 package main;
 
-import ContenedoresJFrame.ContenedorInicio;
+import views.ContenedoresJFrame.ContenedorInicio;
 
 /**
  *

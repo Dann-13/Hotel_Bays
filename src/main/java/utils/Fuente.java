@@ -21,7 +21,7 @@ import java.nio.file.Paths;
  */
 public class Fuente {
     private static Font customFont;
-    private static final Path FONT_FILE_PATH = Paths.get("src", "main", "java", "resources","font" ,"TypoGraphica.otf");
+    private static final Path FONT_FILE_PATH = Paths.get("src", "main", "java","views" ,"resources","font" ,"TypoGraphica.otf");
 
     public static Font getFuente(float fontSize) {
         if (customFont == null) {
