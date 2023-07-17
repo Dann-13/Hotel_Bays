@@ -58,7 +58,7 @@ public class leftPanel extends JPanel {
         this.add(btnBusqueda);
 
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 200, 30, 17f, new Color(52, 43, 255), Color.WHITE);
+        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 17f, new Color(52, 43, 255), Color.WHITE);
         labelHora.setForeground(Color.white);
 
         new Thread() {

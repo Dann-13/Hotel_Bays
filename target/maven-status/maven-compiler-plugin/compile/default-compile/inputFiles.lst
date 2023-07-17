@@ -2,7 +2,7 @@
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/ContenedoresJFrame/ContenedorInicio.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/jPasswordField/PasswordFieldFactory.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/utils/Conexion.java
-/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaInicio/JPanelContenedor.java
+/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaInicio/MainPanelInicio.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/dao/HabitacionDAO.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/textField/event/TextFieldFocusListener/TextFieldFocusListener.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/ContenedoresJFrame/ContenedorMenuUsuario.java
@@ -10,14 +10,14 @@
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/models/Habitacion.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaMenuUsuario/leftPanel.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/labels/JLabelFactory.java
+/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaLoguin/JPanelVistaLoginContenedor.java
+/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VIstaRegister/JPanelRegister.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/models/Administrador.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/main/Hotel_Bays.java
-/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/ContenedoresJFrame/ContenedorLogin.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/controllers/HabitacionController.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/dao/AdministradorDAO.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/buttons/JButtonsFactory.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaMenuUsuario/PanelDefecto.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/jPasswordField/event/PasswordFieldCapsLockListener.java
-/home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/VistasJPanel/VistaLoguin/jPanelVistaLoginContenedor.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/views/components/checkBox/event/PasswordFieldWithCheckbox.java
 /home/dann-dev/Documents/Proyects/Hotel_Bays/src/main/java/controllers/AdministradorController.java

@@ -7,7 +7,6 @@ package views.VistasJPanel.VistaInicio;
 import controllers.HabitacionController;
 import views.components.labels.JLabelFactory;
 import views.ContenedoresJFrame.ContenedorInicio;
-import views.ContenedoresJFrame.ContenedorLogin;
 import views.components.buttons.JButtonsFactory;
 import java.awt.Color;
 import java.awt.*;
@@ -26,9 +25,9 @@ import utils.Conexion;
  *
  * @author Daniel
  */
-public class JPanelContenedor extends JPanel {
+public class MainPanelInicio extends JPanel {
 
-    ContenedorInicio inicio;
+    ContenedorInicio mainFrame;
     JPanel jPanelIzquierdo, jPanelDerecho;
 
     //Objetos
@@ -36,8 +35,8 @@ public class JPanelContenedor extends JPanel {
 
     JButton btnlImgLoguin, btnRegister;
 
-    public JPanelContenedor(ContenedorInicio inicio) {
-        this.inicio = inicio;
+    public MainPanelInicio(ContenedorInicio mainFrame) {
+        this.mainFrame = mainFrame;
         this.inicializador();
         this.inicializadorObjetos();
         this.inicializadorEventos();
@@ -71,14 +70,14 @@ public class JPanelContenedor extends JPanel {
         lblLogo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/logoHotel.png", 20, 10, 200, 200);
         jPanelDerecho.add(lblLogo);
 
-        lbLloguin = JLabelFactory.labelStandardFont("Login", 95, 220, 100, 30, 23.0f, Color.WHITE, new Color(52, 43, 255));
+        lbLloguin = JLabelFactory.labelStandardFont("Login", 95, 220, 23.0f, Color.WHITE, new Color(52, 43, 255));
         jPanelDerecho.add(lbLloguin);
 
         //Imagen Loguin
         btnlImgLoguin = JButtonsFactory.buttonStandardFontImg("./src/main/java/views/resources/images/user.png", 90, 260, 60, 60);
         jPanelDerecho.add(btnlImgLoguin);
-        
-        lblRegister = JLabelFactory.labelStandardFont("Register", 85, 330, 100, 30, 23.0f, Color.WHITE, new Color(52, 43, 255));
+
+        lblRegister = JLabelFactory.labelStandardFont("Register", 85, 330, 23.0f, Color.WHITE, new Color(52, 43, 255));
         jPanelDerecho.add(lblRegister);
 
         //Images Registro
@@ -96,20 +95,30 @@ public class JPanelContenedor extends JPanel {
                 try {
                     escuchaBtnLoginClick();
                 } catch (FontFormatException ex) {
-                    Logger.getLogger(JPanelContenedor.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainPanelInicio.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(JPanelContenedor.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MainPanelInicio.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
         };
         btnlImgLoguin.addActionListener(escuchaBtnLogin);
 
+        ActionListener escuchaBtnRegister = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                escuchaBtnRegisterClick();
+            }
+        };
+        btnRegister.addActionListener(escuchaBtnRegister);
     }
 
     public void escuchaBtnLoginClick() throws FontFormatException, IOException {
-        ContenedorLogin login = new ContenedorLogin();
-        login.setVisible(true);
-        this.inicio.dispose();
+        mainFrame.showLoginPanel();
     }
+
+    public void escuchaBtnRegisterClick() {
+        mainFrame.showRegisterPanel();
+    }
+
 }

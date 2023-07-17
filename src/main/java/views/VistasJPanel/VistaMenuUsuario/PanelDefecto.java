@@ -35,7 +35,7 @@ public class PanelDefecto extends JPanel {
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = JLabelFactory.labelStandardFont("Sistemas de Reservas Hotel Bay's", 0, 0, 550, 60, 24f,new Color(52, 43, 255), Color.WHITE);
+        lblTitulo = JLabelFactory.labelStandardFont("Sistemas de Reservas Hotel Bay's", 0, 0, 24f,new Color(52, 43, 255), Color.WHITE);
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblTitulo);
 

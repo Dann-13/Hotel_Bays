@@ -9,11 +9,8 @@ import views.components.checkBox.event.PasswordFieldWithCheckbox;
 import views.components.jPasswordField.PasswordFieldFactory;
 import views.components.textField.JTextFieldFactory;
 import views.components.textField.event.TextFieldFocusListener.TextFieldFocusListener;
-import views.ContenedoresJFrame.ContenedorLogin;
-import views.ContenedoresJFrame.ContenedorMenuUsuario;
 import views.components.buttons.JButtonsFactory;
 import views.components.jPasswordField.event.PasswordFieldCapsLockListener;
-import utils.Conexion;
 import java.awt.Color;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
@@ -22,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.io.IOException;
-import java.sql.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import views.ContenedoresJFrame.ContenedorInicio;
 
 /**
  *
@@ -37,18 +34,19 @@ import javax.swing.JTextField;
  * Panel encargado de contener los los objtos como los botones y logo del formulario a su derecha estara un panel sobre-epuesto
  * que servira para decorar y poner la imagen de la empresa 
  */
-public class jPanelVistaLoginContenedor extends JPanel {
+public class JPanelVistaLoginContenedor extends JPanel {
     
     JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, LblImgLogoIzquierdo, lblUsuario, lblContrasena, capsLockLabel;
     JTextField TxtUsuario;
-    JButton btnIngresar;
+    JButton btnIngresar, btnVolver;
     JPasswordField passwordField;
     JCheckBox showPasswordCheckbox;
-    ContenedorLogin login;
     JPanel jpanelIzquierdo, jPanelDerecho;
-
-    public jPanelVistaLoginContenedor(ContenedorLogin login) throws FontFormatException, IOException {
-        this.login = login;
+    
+    private ContenedorInicio mainFrame;
+    
+    public JPanelVistaLoginContenedor(ContenedorInicio mainFrame) throws FontFormatException, IOException {
+        this.mainFrame = mainFrame;
         this.inicializador();
         this.inicializadorObjetos();
         inicializadorEventos();
@@ -74,11 +72,17 @@ public class jPanelVistaLoginContenedor extends JPanel {
         constraints.weightx = 0.35;
         this.add(jPanelDerecho, constraints);
         
-        lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,100, 200, 50,33.0f, new Color(52, 43, 255), Color.WHITE);
+        lblBienvenido = JLabelFactory.labelStandardFont("Bienvenido",70,50,33.0f, new Color(52, 43, 255), Color.WHITE);
         jPanelDerecho.add(lblBienvenido);
         
-        LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imgHotel.png", 7, 150,280,280);
+        LblImgPanelDerecho = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imgHotel.png", 7, 100,280,280);
         jPanelDerecho.add(LblImgPanelDerecho);
+        
+        //Boton Volver
+        btnVolver = new JButton();
+        btnVolver = JButtonsFactory.buttonStandardFont("VOLVER", 70, 400, 150, 30,16F, new Color(52, 43, 255));
+        jPanelDerecho.add(btnVolver);
+
         
         // -------------Panel de la izquierda (65%)----------------
         jpanelIzquierdo = new JPanel();
@@ -93,15 +97,15 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(LblImgLogoIzquierdo);
         
         //Label Login
-        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 200, 50, 27F, Color.white, new Color(52, 43, 255));
+        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 27F, Color.white, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblLogin);
 
         //Label Login
-        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 200, 50, 27f, Color.WHITE, new Color(52, 43, 255));
+        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 27f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblUsuario);
         
         //Caja del usuario 
-        TxtUsuario = JTextFieldFactory.textFieldFactory("Ingrese su nombre de Usuario",70 ,220, 300, 30, 15f, new Color(85, 74, 97));
+        TxtUsuario = JTextFieldFactory.textFieldFactory("Ingrese su nombre de Usuario",70 ,220, 300, 30, 15, new Color(85, 74, 97));
         TxtUsuario.setSelectionStart(0);
         TxtUsuario.setSelectionEnd(0);
         TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -111,7 +115,7 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(TxtUsuario);
         
         //Label Contraseña
-        lblContrasena = JLabelFactory.labelStandardFont("Password",70 , 250, 200, 50, 23f, Color.WHITE, new Color(52, 43, 255));
+        lblContrasena = JLabelFactory.labelStandardFont("Password",70 , 250, 23f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblContrasena);
         
         //Caja contraseña 
@@ -131,9 +135,10 @@ public class jPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(capsLockLabel);
         
         //Boton ingresar
-        btnIngresar = new JButton("INGRESAR");
+        btnIngresar = new JButton();
         btnIngresar = JButtonsFactory.buttonStandardFont("INGRESAR",70,350, 150,30, 23f, new Color(52, 43, 255));
         jpanelIzquierdo.add(btnIngresar);
+        
     }
 
     
@@ -141,19 +146,25 @@ public class jPanelVistaLoginContenedor extends JPanel {
         ActionListener escuchaBtnIngresar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                escuchaBtnEntrarClick();
+                //escuchaBtnEntrarClick();
             }
 
         };
         btnIngresar.addActionListener(escuchaBtnIngresar);
-
+        ActionListener escuchaBtnVolver = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            escuchaBtnVolverClick();
+            }
+        };
+        btnVolver.addActionListener(escuchaBtnVolver);
     }
 
-    private void escuchaBtnEntrarClick() {
-        ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();
-        menuUseuario.setVisible(true);
-        this.login.dispose();
+//    private void escuchaBtnEntrarClick() {
+//        /
+//    }
+    private void escuchaBtnVolverClick(){
+        mainFrame.showMainPanel();
     }
-
 
 }

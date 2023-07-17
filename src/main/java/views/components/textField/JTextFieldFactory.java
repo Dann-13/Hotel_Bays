@@ -15,12 +15,12 @@ import javax.swing.JTextField;
  */
 public class JTextFieldFactory {
 
-    public static JTextField textFieldFactory(String text, int x, int y, int width, int height, float fontSize, Color color) {
+    public static JTextField textFieldFactory(String text, int x, int y, int width, int height, int fontSize, Color color) {
         JTextField jTextField = new JTextField();
         jTextField.setToolTipText(text);  // Establecer el texto de marcador de posición
         jTextField.setBounds(x, y, width, height);
-        Font customFont = Fuente.getFuente(fontSize);
-        jTextField.setFont(customFont);
+        Font font = new Font("Agency FB", Font.BOLD, fontSize);
+        jTextField.setFont(font);
         jTextField.setForeground(color);
         return jTextField;
     }

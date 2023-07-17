@@ -9,30 +9,42 @@ package models;
  * @author dann-dev
  */
 public class Administrador {
-    private String Nombre;
-    private String Usuario;
+    private String Name;
+    private String Email;
+    private String UserName;
     private String Password;
+    private String Rol;
 
-    public Administrador(String Nombre, String Usuario, String Password) {
-        this.Nombre = Nombre;
-        this.Usuario = Usuario;
+    public Administrador(String Name, String Email, String UserName, String Password, String Rol) {
+        this.Name = Name;
+        this.Email = Email;
+        this.UserName = UserName;
         this.Password = Password;
+        this.Rol = Rol;
     }
 
-    public String getNombre() {
-        return Nombre;
+    public String getName() {
+        return Name;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public String getUsuario() {
-        return Usuario;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setUsuario(String Usuario) {
-        this.Usuario = Usuario;
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
     public String getPassword() {
@@ -42,5 +54,14 @@ public class Administrador {
     public void setPassword(String Password) {
         this.Password = Password;
     }
-    
+
+    public String getRol() {
+        return Rol;
+    }
+
+    public void setRol(String rol) {
+        this.Rol = rol;
+    }
+
+   
 }

@@ -15,15 +15,26 @@ import models.Administrador;
  * @author dann-dev
  */
 public class AdministradorController {
+
     private AdministradorDAO administradorDAO;
     private Connection con;
-    
+
     public AdministradorController(Connection con) {
         this.con = con;
         administradorDAO = new AdministradorDAO(con);
     }
-    public void registrarAdmin(String Nombre, String Usuario, String Password) throws SQLException{
-        Administrador nuevoAdministrador = new Administrador(Nombre, Usuario, Password);
-        administradorDAO.registrarAdministrador(nuevoAdministrador);
+
+    public void registrarAdmin(String Name, String Email, String UserName, String Password) throws SQLException {
+        int numAdmin = administradorDAO.numeroAdministradoresRegistrados();
+        if (numAdmin != 1) {
+            Administrador nuevoAdministrador = new Administrador(Name, Email, UserName, Password, "administrador de contenido");
+            administradorDAO.registrarAdministrador(nuevoAdministrador);
+            administradorDAO.cerrarConexion();
+        }else{
+            Administrador nuevoAdministrador = new Administrador(Name, Email, UserName, Password, "administrador principal");
+            administradorDAO.registrarAdministrador(nuevoAdministrador);
+            administradorDAO.cerrarConexion();
+        }
+
     }
 }
