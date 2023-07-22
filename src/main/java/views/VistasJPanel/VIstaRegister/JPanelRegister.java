@@ -86,7 +86,7 @@ public class JPanelRegister extends JPanel {
         jPanelDerecho.add(LblImgLogoIzquierdo);
 
         //Label Login
-        lblLogin = JLabelFactory.labelStandardFont("REGISTRO", 70, 20, 32F, Color.white, new Color(52, 43, 255));
+        lblLogin = JLabelFactory.labelStandardFont("Formulario de Registro", 70, 40, 32F, Color.white, new Color(52, 43, 255));
         jPanelDerecho.add(lblLogin);
 
         //Label Login
@@ -140,7 +140,7 @@ public class JPanelRegister extends JPanel {
         passwordField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         //Checbox para ver contraseña 
-        showPasswordCheckbox = PasswordFieldWithCheckbox.createCheckboxWithPasswordField(passwordField, 380, 300, 20, 30);
+        showPasswordCheckbox = PasswordFieldWithCheckbox.createCheckboxWithPasswordField(passwordField, 380, 335, 20, 30);
         jPanelDerecho.add(showPasswordCheckbox);
 
         //Aviso mayus
@@ -173,7 +173,7 @@ public class JPanelRegister extends JPanel {
 
         //Boton Volver
         btnVolver = new JButton();
-        btnVolver = JButtonsFactory.buttonStandardFont("VOLVER", 70, 400, 150, 30, 16F, new Color(52, 43, 255));
+        btnVolver = JButtonsFactory.buttonStandardFont("VOLVER", 65, 400, 150, 30, 16F, new Color(52, 43, 255));
         jPanelIzquierdo.add(btnVolver);
 
     }
@@ -182,9 +182,15 @@ public class JPanelRegister extends JPanel {
         ActionListener escuchaBtnEnviar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //registrarUsuario();
-                validarEmail();
-                validarCamposVacios();
+                if(validarCampos()){
+                    System.out.println("Pasaste Pibe");
+                    try {
+                        registrarAdministrador();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+              
             }
 
         };
@@ -198,8 +204,46 @@ public class JPanelRegister extends JPanel {
         };
         btnVolver.addActionListener(escuchaBtnVolver);
     }
+    /**
+     * La funcion validar campos recoge los textos introducios en el formulario estos son Usuario, nombre, correo
+     * contrasena para posteriormente validar cada uno de los campos con dos criterios especificos:
+     * 1- Todos los campos tienes que estar llenos
+     * 2- EL email o correo debe se valido
+     * @return 
+     */
+    private boolean validarCampos() {
+        String usuario = TxtUsuario.getText();
+        String nombre = txtNameUser.getText();
+        String correo = txtEmail.getText();
+        String contrasena = new String(passwordField.getPassword());
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
-    private void registrarUsuario() throws SQLException {
+        if (esPlaceholder(usuario) || esPlaceholder(nombre) || esPlaceholder(correo) || esPlaceholder(contrasena)) {
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+
+        } else {
+            Matcher matcher = pattern.matcher(correo);
+            if (!matcher.find()) {
+                JOptionPane.showMessageDialog(null, "El Correo debe contener un nombre de usuario seguido de un símbolo '@', \n" 
+                        + "seguido de un dominio y una extensión (por ejemplo, ejemplo@dominio.com)", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    private boolean esPlaceholder(String texto) {
+        // Compara el texto con el contenido del placeholder
+        return texto.equals("Ingrese su Nombre de Usuario")
+                || texto.equals("Ingrese su Nombren Completo")
+                || texto.equals("Ingrese su Correo Electronico")
+                || texto.equals("Ingrese su Contraseña");
+    }
+
+    private void registrarAdministrador() throws SQLException {
         String Name = TxtUsuario.getText();
         String UserName = txtNameUser.getText();
         String Email = txtEmail.getText();
@@ -213,51 +257,6 @@ public class JPanelRegister extends JPanel {
 
     private void escuchaBtnVolverClick() {
         mainFrame.showMainPanel();
-    }
-
-    private void validarCamposVacios() {
-        // Obtener el contenido de los campos de texto
-        String campo1 = TxtUsuario.getText();
-        System.out.println("campo 1: " + campo1);
-        String campo2 = txtEmail.getText();
-        System.out.println("campo 2: " + campo2);
-        String campo3 = txtNameUser.getText();
-        System.out.println("campo 3: " + campo3);
-
-        // Obtener los valores de los placeholders
-        String placeholderCampo1 = "Ingrese su Nombre de Usuario";
-        String placeholderCampo2 = "Ingrese su Email";
-        String placeholderCampo3 = "Ingrese su Nombre";
-
-        // Verificar si los campos están vacíos comparándolos con los placeholders
-        if (campo1.equals(placeholderCampo1) || campo2.equals(placeholderCampo2) || campo3.equals(placeholderCampo3)) {
-            JOptionPane.showMessageDialog(null, "Ingrese su Usuario");
-            
-        }
-         else {
-            // Los campos tienen contenido, proceder con el envío de datos
-            // Aquí puedes llamar a tu método de registro en la base de datos
-            System.out.println("Todos los campos están completos.");
-        }
-
-    }
-
-    private void validarEmail() {
-        // Patrón para validar el email
-        Pattern pattern = Pattern
-                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
-        // El email a validar
-        String email = txtEmail.getText();
-
-        Matcher mather = pattern.matcher(email);
-
-        if (mather.find() == true) {
-            System.out.println("El email ingresado es válido.");
-        } else {
-            System.out.println("El email ingresado es inválido.");
-        }
     }
 
 }

@@ -5,7 +5,8 @@
 ### Java ###
 # Compiled class file
 *.class
-
+#env
+.env
 # Log file
 *.log
 
