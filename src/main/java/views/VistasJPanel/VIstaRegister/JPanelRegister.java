@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
@@ -28,6 +29,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -52,8 +55,14 @@ public class JPanelRegister extends JPanel {
     JPasswordField passwordField;
     JCheckBox showPasswordCheckbox;
     JPanel jPanelIzquierdo, jPanelDerecho;
-
     private ContenedorInicio mainFrame;
+
+    String imagePath = "./src/main/java/views/resources/images/cheque.png";
+    ImageIcon icon = new ImageIcon(imagePath);
+    // Redimensionar la imagen
+    Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+    // Crear un nuevo ImageIcon con la imagen redimensionada
+    ImageIcon resizedIcon = new ImageIcon(image);
 
     public JPanelRegister(ContenedorInicio mainFrame) throws FontFormatException, IOException {
         this.mainFrame = mainFrame;
@@ -182,15 +191,18 @@ public class JPanelRegister extends JPanel {
         ActionListener escuchaBtnEnviar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(validarCampos()){
+                if (validarCampos()) {
                     System.out.println("Pasaste Pibe");
                     try {
                         registrarAdministrador();
                     } catch (SQLException ex) {
                         Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
+                    // Mostrar el mensaje con la imagen
+                    JOptionPane.showMessageDialog(null, "Aprendiendo a poner imágenes", "Imagen Java", JOptionPane.PLAIN_MESSAGE, resizedIcon);
                 }
-              
+
             }
 
         };
@@ -204,12 +216,14 @@ public class JPanelRegister extends JPanel {
         };
         btnVolver.addActionListener(escuchaBtnVolver);
     }
+
     /**
-     * La funcion validar campos recoge los textos introducios en el formulario estos son Usuario, nombre, correo
-     * contrasena para posteriormente validar cada uno de los campos con dos criterios especificos:
-     * 1- Todos los campos tienes que estar llenos
-     * 2- EL email o correo debe se valido
-     * @return 
+     * La funcion validar campos recoge los textos introducios en el formulario
+     * estos son Usuario, nombre, correo contrasena para posteriormente validar
+     * cada uno de los campos con dos criterios especificos: 1- Todos los campos
+     * tienes que estar llenos 2- EL email o correo debe se valido
+     *
+     * @return
      */
     private boolean validarCampos() {
         String usuario = TxtUsuario.getText();
@@ -226,10 +240,10 @@ public class JPanelRegister extends JPanel {
         } else {
             Matcher matcher = pattern.matcher(correo);
             if (!matcher.find()) {
-                JOptionPane.showMessageDialog(null, "El Correo debe contener un nombre de usuario seguido de un símbolo '@', \n" 
+                JOptionPane.showMessageDialog(null, "El Correo debe contener un nombre de usuario seguido de un símbolo '@', \n"
                         + "seguido de un dominio y una extensión (por ejemplo, ejemplo@dominio.com)", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }

@@ -22,7 +22,7 @@ public class AdministradorDAO {
     }
     
     public void registrarAdministrador(Administrador administrador) throws SQLException{
-        String query = "INSERT INTO administradores (nombre, usuario, password) VALUES (?,?,?)";
+        String query = "INSERT INTO administradores (Name, Email, UserName, Password, Rol) VALUES (?,?,?,?,?)";
         try(PreparedStatement stmt = con.prepareStatement(query)){
             stmt.setString(1, administrador.getName());
             stmt.setString(2, administrador.getUserName());
