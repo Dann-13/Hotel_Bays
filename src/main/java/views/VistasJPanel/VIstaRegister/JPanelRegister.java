@@ -200,7 +200,7 @@ public class JPanelRegister extends JPanel {
                     }
 
                     // Mostrar el mensaje con la imagen
-                    JOptionPane.showMessageDialog(null, "Aprendiendo a poner imágenes", "Imagen Java", JOptionPane.PLAIN_MESSAGE, resizedIcon);
+                    JOptionPane.showMessageDialog(null, "Se ha Registrado Correctamente", "Registro", JOptionPane.PLAIN_MESSAGE, resizedIcon);
                 }
 
             }

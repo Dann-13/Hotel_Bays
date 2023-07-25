@@ -37,4 +37,12 @@ public class AdministradorController {
         }
 
     }
+    
+    public boolean verificarAdministrador(String Email, String Password){
+       boolean result = administradorDAO.iniciarSesion(Email, Password);
+       administradorDAO.cerrarConexion();
+       return result;
+    }
+    
+   
 }

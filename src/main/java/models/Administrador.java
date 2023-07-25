@@ -23,6 +23,12 @@ public class Administrador {
         this.Rol = Rol;
     }
 
+    public Administrador(String Email, String Password) {
+        this.Email = Email;
+        this.Password = Password;
+    }
+    
+
     public String getName() {
         return Name;
     }

@@ -4,6 +4,7 @@
  */
 package views.VistasJPanel.VistaLoguin;
 
+import controllers.AdministradorController;
 import views.components.labels.JLabelFactory;
 import views.components.checkBox.event.PasswordFieldWithCheckbox;
 import views.components.jPasswordField.PasswordFieldFactory;
@@ -19,13 +20,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import utils.Conexion;
 import views.ContenedoresJFrame.ContenedorInicio;
 import views.ContenedoresJFrame.ContenedorMenuUsuario;
 
@@ -92,20 +98,19 @@ public class JPanelVistaLoginContenedor extends JPanel {
         constraints.weightx = 0.65;
         this.add(jpanelIzquierdo, constraints);
 
-        //Imagen Logo
-        LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/logoHotel.png", 70, 20, 100, 100);
-        jpanelIzquierdo.add(LblImgLogoIzquierdo);
-
+//        //Imagen Logo
+//        LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/logoHotel.png", 380, 20, 120, 120);
+//        jpanelIzquierdo.add(LblImgLogoIzquierdo);
         //Label Login
-        lblLogin = JLabelFactory.labelStandardFont("LOG IN", 70, 110, 27F, Color.white, new Color(52, 43, 255));
+        lblLogin = JLabelFactory.labelStandardFont("LOG I N", 70, 50, 37F, Color.white, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblLogin);
 
         //Label Login
-        lblUsuario = JLabelFactory.labelStandardFont("User", 70, 170, 27f, Color.WHITE, new Color(52, 43, 255));
+        lblUsuario = JLabelFactory.labelStandardFont("Email", 70, 180, 27f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblUsuario);
 
         //Caja del usuario 
-        TxtUsuario = JTextFieldFactory.textFieldFactory("Ingrese su nombre de Usuario", 70, 220, 300, 30, 15, new Color(85, 74, 97));
+        TxtUsuario = JTextFieldFactory.textFieldFactory("Ingrese su Correo Electronico", 70, 220, 300, 30, 15, new Color(85, 74, 97));
         TxtUsuario.setSelectionStart(0);
         TxtUsuario.setSelectionEnd(0);
         TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -115,7 +120,7 @@ public class JPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(TxtUsuario);
 
         //Label Contraseña
-        lblContrasena = JLabelFactory.labelStandardFont("Password", 70, 250, 23f, Color.WHITE, new Color(52, 43, 255));
+        lblContrasena = JLabelFactory.labelStandardFont("Password", 70, 270, 23f, Color.WHITE, new Color(52, 43, 255));
         jpanelIzquierdo.add(lblContrasena);
 
         //Caja contraseña 
@@ -145,7 +150,17 @@ public class JPanelVistaLoginContenedor extends JPanel {
         ActionListener escuchaBtnIngresar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                escuchaBtnEntrarClick();
+                if (validarCampos()) {
+                    if (iniciarSesion()) {
+                        escuchaBtnEntrarClick();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Inicio de Sesion Incorrecto, Usuario o contraseña no validos", "Sesion", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else {
+                    System.out.println("Campis no validos ");
+                }
+
             }
 
         };
@@ -157,6 +172,43 @@ public class JPanelVistaLoginContenedor extends JPanel {
             }
         };
         btnVolver.addActionListener(escuchaBtnVolver);
+    }
+
+    private boolean validarCampos() {
+        String email = TxtUsuario.getText();
+        String pass = new String(passwordField.getPassword());
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        if (esPlaceholder(email) || esPlaceholder(pass)) {
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            Matcher matcher = pattern.matcher(email);
+            if (!matcher.find()) {
+                JOptionPane.showMessageDialog(null, "El Correo debe contener un nombre de usuario seguido de un símbolo '@', \n"
+                        + "seguido de un dominio y una extensión (por ejemplo, ejemplo@dominio.com)", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            } else {
+
+                return true;
+            }
+
+        }
+
+    }
+
+    private boolean esPlaceholder(String texto) {
+        // Compara el texto con el contenido del placeholder
+        return texto.equals("Ingrese su Nombre de Usuario") || texto.equals("");
+    }
+
+    private boolean iniciarSesion() {
+        String user = TxtUsuario.getText();
+        String pass = new String(passwordField.getPassword());
+        Conexion conexion = new Conexion();
+        Connection con = conexion.getConnection();
+        AdministradorController administradorController = new AdministradorController(con);
+        return administradorController.verificarAdministrador(user, pass);
     }
 
     private void escuchaBtnEntrarClick() {
