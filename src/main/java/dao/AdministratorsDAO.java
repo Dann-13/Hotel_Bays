@@ -8,32 +8,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import models.Administrador;
+import models.Administrator;
 
 /**
  *
  * @author dann-dev
  */
-public class AdministradorDAO {
+public class AdministratorsDAO {
 
     private Connection con;
 
-    public AdministradorDAO(Connection con) {
+    public AdministratorsDAO(Connection con) {
         this.con = con;
     }
 
-    public void registrarAdministrador(Administrador administrador) throws SQLException {
-        String query = "INSERT INTO administradores (Name, Email, UserName, Password, Rol) VALUES (?,?,?,?,?)";
+    public void registrarAdministrador(Administrator administrador) throws SQLException {
+        String query = "INSERT INTO administrators (name, username, email, password, administrator_type) VALUES (?,?,?,?,?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, administrador.getName());
-            stmt.setString(2, administrador.getEmail());
-            stmt.setString(3, administrador.getUserName());
+            stmt.setString(2, administrador.getUserName());
+            stmt.setString(3, administrador.getEmail());
             stmt.setString(4, administrador.getPassword());
-            stmt.setString(5, administrador.getRol());
+            stmt.setString(5, administrador.getAdministrator_type());
             stmt.executeUpdate();
             System.out.println("Administrador Registrado");
 
         } catch (SQLException e) {
+            System.out.println(administrador.toString());
             e.printStackTrace();
         }
     }
@@ -44,7 +45,7 @@ public class AdministradorDAO {
      */
     public int numeroAdministradoresRegistrados() {
         int numAdministradores = 0;
-        String query = "SELECT COUNT(*) FROM administradores";
+        String query = "SELECT COUNT(*) FROM administrators";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -58,7 +59,7 @@ public class AdministradorDAO {
 
     public
          boolean iniciarSesion(String Email, String Password) {
-        String query = "SELECT * FROM administradores WHERE Email=? AND Password=?";
+        String query = "SELECT * FROM administrators WHERE email=? AND password=?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, Email);
             stmt.setString(2, Password);

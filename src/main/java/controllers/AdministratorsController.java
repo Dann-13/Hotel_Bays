@@ -4,34 +4,34 @@
  */
 package controllers;
 
-import dao.AdministradorDAO;
-import dao.HabitacionDAO;
+import dao.AdministratorsDAO;
+import dao.RoomsDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
-import models.Administrador;
+import models.Administrator;
 
 /**
  *
  * @author dann-dev
  */
-public class AdministradorController {
+public class AdministratorsController {
 
-    private AdministradorDAO administradorDAO;
+    private AdministratorsDAO administradorDAO;
     private Connection con;
 
-    public AdministradorController(Connection con) {
+    public AdministratorsController(Connection con) {
         this.con = con;
-        administradorDAO = new AdministradorDAO(con);
+        administradorDAO = new AdministratorsDAO(con);
     }
 
-    public void registrarAdmin(String Name, String Email, String UserName, String Password) throws SQLException {
+    public void registrarAdmin(String Name, String UserName, String Email, String Password) throws SQLException {
         int numAdmin = administradorDAO.numeroAdministradoresRegistrados();
         if (numAdmin != 1) {
-            Administrador nuevoAdministrador = new Administrador(Name, Email, UserName, Password, "administrador de contenido");
+            Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "principal");
             administradorDAO.registrarAdministrador(nuevoAdministrador);
             administradorDAO.cerrarConexion();
         }else{
-            Administrador nuevoAdministrador = new Administrador(Name, Email, UserName, Password, "administrador principal");
+            Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "contenido");
             administradorDAO.registrarAdministrador(nuevoAdministrador);
             administradorDAO.cerrarConexion();
         }

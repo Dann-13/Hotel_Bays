@@ -7,33 +7,32 @@ package views.VistasJPanel.VistaMenuUsuario;
 import views.components.buttons.JButtonsFactory;
 import views.components.labels.JLabelFactory;
 import java.awt.Color;
-import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import utils.Colores;
 
 /**
  *
  * @author Daniel
  */
-public class leftPanel extends JPanel {
+public class MenuPanel extends JPanel {
 
     private JButton btnReservas;
     private JButton btnBusqueda;
 
-    public leftPanel() {
+    public MenuPanel() {
         this.inicializador();
         this.inicializadorObjetos();
     }
 
     private void inicializador() {
         this.setLayout(null);
-        this.setBackground(new Color(52, 43, 255));
+        this.setBackground(Color.WHITE);
     }
 
     private void inicializadorObjetos() {
@@ -42,25 +41,23 @@ public class leftPanel extends JPanel {
         JLabel LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imgLogoCirculo.png", 0, 0, 250, 250);
         this.add(LblImgLogoIzquierdo);
 
-        btnReservas = JButtonsFactory.buttonStandardFont("Reservas", 40, 250, 170, 30, 17f, Color.BLACK);
-        btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
+        btnReservas = JButtonsFactory.buttonStandardFont("Usuarios", 40, 250, 170, 30, 25f, Color.BLACK);
+        btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
         btnReservas.setFocusPainted(false);
         btnReservas.setContentAreaFilled(false);
-        btnReservas.setForeground(Color.white);
+        btnReservas.setForeground(Colores.MORADO_BASE);
 
         this.add(btnReservas);
 
-        btnBusqueda = JButtonsFactory.buttonStandardFont("Clientes", 40, 300, 170, 30, 17f, Color.BLACK);
-        btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
+        btnBusqueda = JButtonsFactory.buttonStandardFont("Reservas", 40, 300, 170, 30, 25f, Color.BLACK);
+        btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
         btnBusqueda.setFocusPainted(false);
         btnBusqueda.setContentAreaFilled(false);
-        btnBusqueda.setForeground(Color.white);
+        btnBusqueda.setForeground(Colores.MORADO_BASE);
         this.add(btnBusqueda);
 
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandardFont("", 180, 450, 17f, new Color(52, 43, 255), Color.WHITE);
-        labelHora.setForeground(Color.white);
-
+        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 460,100,30, 17f,null, Colores.MORADO_BASE);
         new Thread() {
             @Override
             public void run() {
@@ -68,6 +65,7 @@ public class leftPanel extends JPanel {
                 while (true) {
                     labelHora.setText(sdf.format(new Date()));
                     try {
+                        System.out.println("1");
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }

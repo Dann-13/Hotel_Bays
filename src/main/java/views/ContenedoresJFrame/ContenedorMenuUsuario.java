@@ -5,7 +5,7 @@
 package views.ContenedoresJFrame;
 
 import views.VistasJPanel.VistaMenuUsuario.PanelDefecto;
-import views.VistasJPanel.VistaMenuUsuario.leftPanel;
+import views.VistasJPanel.VistaMenuUsuario.MenuPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -17,13 +17,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
+import views.VistasJPanel.VistaMenuUsuario.PanelUsuarios;
 
 /**
  *
  * @author Daniel
  */
 public class ContenedorMenuUsuario extends JFrame{
-    leftPanel panelIzquierdo;
+    PanelUsuarios panelUsuario;
+    PanelReservas panelReservas;
+    MenuPanel panelIzquierdo;
     PanelDefecto panelDefecto;
     private JPanel cards;
     private CardLayout cardLayout;
@@ -51,7 +55,7 @@ public class ContenedorMenuUsuario extends JFrame{
         
         panelDefecto = new PanelDefecto();        
 
-        panelIzquierdo = new leftPanel();
+        panelIzquierdo = new MenuPanel();
         panelIzquierdo.setLayout(null);
         panelIzquierdo.setPreferredSize(new Dimension(250, 0));
         
@@ -71,10 +75,10 @@ public class ContenedorMenuUsuario extends JFrame{
         panelIzquierdo.getBtnReservas().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panel1 = new JPanel();
-                panel1.setPreferredSize(new Dimension(500, 0));
-                panel1.setBackground(Color.red);
-                splitPane.setRightComponent(panel1);
+                JPanel panelUsuario = new PanelUsuarios();
+                panelUsuario.setPreferredSize(new Dimension(500, 0));
+                
+                splitPane.setRightComponent(panelUsuario);
                 splitPane.revalidate();
                 splitPane.repaint();
             }
@@ -83,10 +87,9 @@ public class ContenedorMenuUsuario extends JFrame{
         panelIzquierdo.getBtnBusqueda().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panel2 = new JPanel();
-                panel2.setPreferredSize(new Dimension(500, 0));
-                panel2.setBackground(Color.BLUE);
-                splitPane.setRightComponent(panel2);
+                JPanel panelReservas = new PanelReservas();
+                panelReservas.setPreferredSize(new Dimension(500, 0));
+                splitPane.setRightComponent(panelReservas);
                 splitPane.revalidate();
                 splitPane.repaint();
             }

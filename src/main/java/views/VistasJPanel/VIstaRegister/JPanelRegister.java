@@ -4,7 +4,7 @@
  */
 package views.VistasJPanel.VIstaRegister;
 
-import controllers.AdministradorController;
+import controllers.AdministratorsController;
 import views.VistasJPanel.VistaLoguin.*;
 import views.components.labels.JLabelFactory;
 import views.components.checkBox.event.PasswordFieldWithCheckbox;
@@ -153,7 +153,7 @@ public class JPanelRegister extends JPanel {
         jPanelDerecho.add(showPasswordCheckbox);
 
         //Aviso mayus
-        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, Color.WHITE, Color.RED);
+        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, 17f,Color.WHITE, Color.RED);
         capsLockLabel.setVisible(false);
         PasswordFieldCapsLockListener capsLockListener = new PasswordFieldCapsLockListener(passwordField, capsLockLabel);
         passwordField.addKeyListener(capsLockListener);
@@ -192,9 +192,13 @@ public class JPanelRegister extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validarCampos()) {
-                    System.out.println("Pasaste Pibe");
+                    
                     try {
                         registrarAdministrador();
+                        TxtUsuario.setText("");
+                        txtEmail.setText("");
+                        txtNameUser.setText("");
+                        passwordField.setText("");
                     } catch (SQLException ex) {
                         Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -265,8 +269,8 @@ public class JPanelRegister extends JPanel {
         String Pass = new String(password);
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
-        AdministradorController administradorController = new AdministradorController(con);
-        administradorController.registrarAdmin(Name, Email, UserName, Pass);
+        AdministratorsController administradorController = new AdministratorsController(con);
+        administradorController.registrarAdmin(Name, UserName, Email, Pass);
     }
 
     private void escuchaBtnVolverClick() {

@@ -4,7 +4,6 @@
  */
 package views.VistasJPanel.VistaInicio;
 
-import controllers.HabitacionController;
 import views.components.labels.JLabelFactory;
 import views.ContenedoresJFrame.ContenedorInicio;
 import views.components.buttons.JButtonsFactory;
@@ -40,12 +39,7 @@ public class MainPanelInicio extends JPanel {
         this.inicializador();
         this.inicializadorObjetos();
         this.inicializadorEventos();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-
-        HabitacionController habitacionController = new HabitacionController(con);
-        habitacionController.imprimirHabitaciones();
-//        conexion.cerrarConexion();
+       
     }
 
     private void inicializador() {
@@ -57,7 +51,7 @@ public class MainPanelInicio extends JPanel {
         labelImg = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imageninicio.png", 0, 0, 550, 431);
         this.add(labelImg);
 
-        LblPie = JLabelFactory.labelStandard("Desarrollado Por: FlashDev ©", 0, 431, 800, 30, new Color(52, 43, 255), Color.WHITE);
+        LblPie = JLabelFactory.labelStandard("Desarrollado Por: FlashDev ©", 0, 431, 800, 30,17f, new Color(52, 43, 255), Color.WHITE);
         LblPie.setHorizontalAlignment(JLabel.CENTER);
         this.add(LblPie);
 

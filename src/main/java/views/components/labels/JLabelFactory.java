@@ -31,8 +31,10 @@ public class JLabelFactory {
         return label;
     }
 
-    public static JLabel labelStandard(String text, int x, int y, int width, int height, Color colorBackground, Color colorForeground) {
+    public static JLabel labelStandard(String text, int x, int y, int width, int height,float fontSize, Color colorBackground, Color colorForeground) {
         JLabel label = new JLabel(text);
+        Font customFont = label.getFont().deriveFont(fontSize);
+        label.setFont(customFont);
         label.setBounds(x, y, width, height);
         label.setForeground(colorForeground);
         label.setBackground(colorBackground);

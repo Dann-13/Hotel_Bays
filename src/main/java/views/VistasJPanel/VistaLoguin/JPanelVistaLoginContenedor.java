@@ -4,7 +4,7 @@
  */
 package views.VistasJPanel.VistaLoguin;
 
-import controllers.AdministradorController;
+import controllers.AdministratorsController;
 import views.components.labels.JLabelFactory;
 import views.components.checkBox.event.PasswordFieldWithCheckbox;
 import views.components.jPasswordField.PasswordFieldFactory;
@@ -132,7 +132,7 @@ public class JPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(showPasswordCheckbox);
 
         //Aviso mayus
-        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, Color.WHITE, Color.RED);
+        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20,17f, Color.WHITE, Color.RED);
         capsLockLabel.setVisible(false);
         PasswordFieldCapsLockListener capsLockListener = new PasswordFieldCapsLockListener(passwordField, capsLockLabel);
         passwordField.addKeyListener(capsLockListener);
@@ -150,17 +150,18 @@ public class JPanelVistaLoginContenedor extends JPanel {
         ActionListener escuchaBtnIngresar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validarCampos()) {
-                    if (iniciarSesion()) {
-                        escuchaBtnEntrarClick();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Inicio de Sesion Incorrecto, Usuario o contraseña no validos", "Sesion", JOptionPane.WARNING_MESSAGE);
-                    }
-
-                } else {
-                    System.out.println("Campis no validos ");
-                }
-
+//                if (validarCampos()) {
+//                    if (iniciarSesion()) {
+//                        escuchaBtnEntrarClick();
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "Inicio de Sesion Incorrecto, Usuario o contraseña no validos", "Sesion", JOptionPane.WARNING_MESSAGE);
+//                    }
+//
+//                } else {
+//                    System.out.println("Campis no validos ");
+//                }
+                escuchaBtnEntrarClick();
+                
             }
 
         };
@@ -207,7 +208,7 @@ public class JPanelVistaLoginContenedor extends JPanel {
         String pass = new String(passwordField.getPassword());
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
-        AdministradorController administradorController = new AdministradorController(con);
+        AdministratorsController administradorController = new AdministratorsController(con);
         return administradorController.verificarAdministrador(user, pass);
     }
 

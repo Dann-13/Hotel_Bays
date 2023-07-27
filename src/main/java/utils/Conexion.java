@@ -20,7 +20,6 @@ public class Conexion {
     String USER = dotenv.get("USUARIO");
     String URL = dotenv.get("JDBCURL");
     String PASSWORD = dotenv.get("PASSWORD");
-
     Connection con;
 
     public Conexion() {

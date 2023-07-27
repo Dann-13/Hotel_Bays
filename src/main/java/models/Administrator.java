@@ -8,22 +8,22 @@ package models;
  *
  * @author dann-dev
  */
-public class Administrador {
+public class Administrator {
     private String Name;
     private String Email;
     private String UserName;
     private String Password;
-    private String Rol;
+    private String Administrator_type;
 
-    public Administrador(String Name, String Email, String UserName, String Password, String Rol) {
+    public Administrator(String Name, String Email, String UserName, String Password, String Administrator_type) {
         this.Name = Name;
         this.Email = Email;
         this.UserName = UserName;
         this.Password = Password;
-        this.Rol = Rol;
+        this.Administrator_type = Administrator_type;
     }
 
-    public Administrador(String Email, String Password) {
+    public Administrator(String Email, String Password) {
         this.Email = Email;
         this.Password = Password;
     }
@@ -61,13 +61,20 @@ public class Administrador {
         this.Password = Password;
     }
 
-    public String getRol() {
-        return Rol;
+    public String getAdministrator_type() {
+        return Administrator_type;
     }
 
-    public void setRol(String rol) {
-        this.Rol = rol;
+    public void setAdministrator_type(String Administrator_type) {
+        this.Administrator_type = Administrator_type;
     }
+
+    @Override
+    public String toString() {
+        return "Administrador{" + "Name=" + Name + ", Email=" + Email + ", UserName=" + UserName + ", Password=" + Password + ", Administrator_type=" + Administrator_type + '}';
+    }
+    
+   
 
    
 }
