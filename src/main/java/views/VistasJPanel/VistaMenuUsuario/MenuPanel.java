@@ -65,7 +65,6 @@ public class MenuPanel extends JPanel {
                 while (true) {
                     labelHora.setText(sdf.format(new Date()));
                     try {
-                        System.out.println("1");
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }

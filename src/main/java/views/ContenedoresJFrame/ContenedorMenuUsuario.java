@@ -24,7 +24,8 @@ import views.VistasJPanel.VistaMenuUsuario.PanelUsuarios;
  *
  * @author Daniel
  */
-public class ContenedorMenuUsuario extends JFrame{
+public class ContenedorMenuUsuario extends JFrame {
+
     PanelUsuarios panelUsuario;
     PanelReservas panelReservas;
     MenuPanel panelIzquierdo;
@@ -32,19 +33,21 @@ public class ContenedorMenuUsuario extends JFrame{
     private JPanel cards;
     private CardLayout cardLayout;
     private JButton button1, button2;
-    
-    public ContenedorMenuUsuario(){
+
+    public ContenedorMenuUsuario() {
         this.inicializador();
         this.inicializadorObjetos();
     }
 
     private void inicializador() {
-        this.setMinimumSize(new Dimension(800,550)); //Alto y ancho de nuestro frame
+        this.setMinimumSize(new Dimension(1100, 700)); //Alto y ancho de nuestro frame
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         this.setTitle("Menu de Usuario");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-       
+
     }
 
     private void inicializadorObjetos() {
@@ -52,32 +55,32 @@ public class ContenedorMenuUsuario extends JFrame{
         splitPane.setDividerLocation(250);
         splitPane.setContinuousLayout(true);
         splitPane.setEnabled(false);
-        
-        panelDefecto = new PanelDefecto();        
+
+        panelDefecto = new PanelDefecto();
 
         panelIzquierdo = new MenuPanel();
         panelIzquierdo.setLayout(null);
         panelIzquierdo.setPreferredSize(new Dimension(250, 0));
-        
 
         JPanel rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(500, 0));
+        rightPanel.setPreferredSize(new Dimension(0, 0));
 
         splitPane.setLeftComponent(panelIzquierdo);
         splitPane.setRightComponent(rightPanel);
-        
+
         //Panel defecto
         splitPane.setRightComponent(panelDefecto);
 
         /**
-         * Utilizamos los botones que creamos en el JPanel Izquierdo, Aqui solo le damos los eventos
+         * Utilizamos los botones que creamos en el JPanel Izquierdo, Aqui solo
+         * le damos los eventos
          */
         panelIzquierdo.getBtnReservas().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panelUsuario = new PanelUsuarios();
                 panelUsuario.setPreferredSize(new Dimension(500, 0));
-                
+
                 splitPane.setRightComponent(panelUsuario);
                 splitPane.revalidate();
                 splitPane.repaint();
