@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.List;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,9 +40,9 @@ public class PanelReservas extends JPanel {
 
     private JTable table;
     private DefaultTableModel tableModel;
-    private ReservationController reservationController;
     EdicionReservas jpanelEdicion;
     JLabel lblTitulo;
+    private ReservationController reservationController;
 
     public PanelReservas() {
         this.inicializador();
@@ -55,9 +56,10 @@ public class PanelReservas extends JPanel {
     }
 
     private void inicializadorObjetos() {
+
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
-        ReservationController reservationController = new ReservationController(con);
+        reservationController = new ReservationController(con);
 
         lblTitulo = new JLabel("Lista De Reservas", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
@@ -65,11 +67,7 @@ public class PanelReservas extends JPanel {
         lblTitulo.setForeground(Color.WHITE);
         lblTitulo.setOpaque(true);
         // Agregar más espacio al JLabel del título (10 píxeles en la parte superior e inferior)
-        int topPadding = 20;
-        int bottomPadding = 20;
-        int leftPadding = 0;
-        int rightPadding = 0;
-        lblTitulo.setBorder(new EmptyBorder(topPadding, leftPadding, bottomPadding, rightPadding));
+        lblTitulo.setBorder(new EmptyBorder(20, 0, 20, 0));
         this.add(lblTitulo, BorderLayout.NORTH);
 
         //Tabla 
@@ -94,22 +92,20 @@ public class PanelReservas extends JPanel {
         table.getTableHeader().setBackground(Colores.MORADO_BASE); // Cambia el color de fondo a tu preferencia
         table.getTableHeader().setForeground(Color.white); // Cambia el color de letra a tu preferencia
         table.getTableHeader().setFont(table.getTableHeader().getFont().deriveFont(Font.BOLD, 15)); // Cambia el tamaño de fuente a tu preferencia
-
+        table.setRowHeight(30);
         // Agregar la tabla a un JScrollPane para hacerla desplazable
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.SOUTH);
 
-        
         // Establecer el tamaño preferido del panel2
         jpanelEdicion = new EdicionReservas();
-        int panel2Height = 350; // Tamaño en píxeles, puedes ajustar este valor según tus necesidades
-        jpanelEdicion.setPreferredSize(new Dimension(jpanelEdicion.getWidth(), panel2Height));
+        jpanelEdicion.setPreferredSize(new Dimension(jpanelEdicion.getWidth(), 200));
         jpanelEdicion.setBackground(Colores.MORADO_BASE);
         this.add(jpanelEdicion, BorderLayout.CENTER);
 
     }
 
-     private void inicializadorEventos() {
+    private void inicializadorEventos() {
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -123,11 +119,32 @@ public class PanelReservas extends JPanel {
                         String checkIn = table.getValueAt(selectedRow, 3).toString();
                         String checkOut = table.getValueAt(selectedRow, 4).toString();
                         String estado = table.getValueAt(selectedRow, 5).toString();
-                        jpanelEdicion.actualizarDatos(idReserva, idCliente, idHabitacion, checkIn, checkOut, estado);
+                        jpanelEdicion.recogerDatos(idReserva, idCliente, idHabitacion, checkIn, checkOut, estado);
                     }
                 }
             }
         });
+
+        //
     }
 
+    public void actualizarTabla() {
+        tableModel.setRowCount(0); // Limpia todos los datos de la tabla
+
+        Conexion conexion = new Conexion();
+        Connection con = conexion.getConnection();
+        reservationController = new ReservationController(con);
+        ArrayList<Reservation> reservations = reservationController.obtenerReservas();
+        for (Reservation reservation : reservations) {
+            Object[] rowData = {
+                reservation.getId_reservation(),
+                reservation.getId_client(),
+                reservation.getId_room(),
+                reservation.getCheck_in_date(),
+                reservation.getCheck_out_date(),
+                reservation.getReservation_status()
+            };
+            tableModel.addRow(rowData);
+        }
+    }
 }

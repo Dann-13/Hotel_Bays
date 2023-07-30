@@ -29,7 +29,16 @@ public class ReservationController {
 
         return reservationDao.obtenerReservas();
 
-
     }
-    
+
+    public boolean actualizarReservation(Reservation reservation) {
+        System.out.println(reservation.getId_reservation());
+        System.out.println(reservation.getId_client());
+        System.out.println(reservation.getId_room());
+        System.out.println(reservation.getCheck_in_date());
+        System.out.println(reservation.getCheck_out_date());
+        System.out.println(reservation.getReservation_status());
+        return reservationDao.updateReservation(reservation);
+    }
+
 }

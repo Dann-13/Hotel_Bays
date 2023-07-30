@@ -4,15 +4,31 @@
  */
 package views.VistasJPanel.VistaMenuUsuario.Reservas;
 
+import controllers.ReservationController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import models.Reservation;
+import org.jdatepicker.JDatePicker;
 import utils.Colores;
+import utils.Conexion;
+import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
+import views.components.buttons.JButtonsFactory;
 import views.components.labels.JLabelFactory;
 
 /**
@@ -23,11 +39,12 @@ public class EdicionReservas extends JPanel {
 
     JLabel lblId_reserva, lblId_cliente, lblId_room, lblCheck_in_date, lblCheck_out_date, lblReservation_status;
     JTextField txtId_reserva, txtId_cliente, txtid_room, txtCheck_in_date, txtCheck_out_date, txtReservation_status;
+    JButton btnSave, btnDelete, btnAdd;
 
     public EdicionReservas() {
         this.inicializador();
+        this.inicializadorObjetos();
         this.inicializadorEventos();
-
     }
 
     private void inicializador() {
@@ -35,7 +52,7 @@ public class EdicionReservas extends JPanel {
         this.setLayout(null);
     }
 
-    private void inicializadorEventos() {
+    private void inicializadorObjetos() {
         lblId_reserva = JLabelFactory.labelStandard("Id Reserva", 66, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblId_reserva.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblId_reserva);
@@ -84,9 +101,15 @@ public class EdicionReservas extends JPanel {
         txtReservation_status.setBounds(630, 90, 150, 25);
         this.add(txtReservation_status);
 
+        btnSave = JButtonsFactory.buttonStandardFontImgAndText("Guardar", "./src/main/java/views/resources/images/cheque.png", 100, 140, 150, 30);
+        btnSave.setBackground(Color.WHITE);
+        btnSave.setOpaque(true);
+        btnSave.setForeground(Colores.MORADO_BASE);
+        this.add(btnSave);
+
     }
 
-    public void actualizarDatos(String idReserva, String idCliente, String idHabitacion,
+    public void recogerDatos(String idReserva, String idCliente, String idHabitacion,
             String checkIn, String checkOut, String estado) {
         txtId_reserva.setText(idReserva);
         txtId_cliente.setText(idCliente);
@@ -95,6 +118,52 @@ public class EdicionReservas extends JPanel {
         txtCheck_out_date.setText(checkOut);
         txtReservation_status.setText(estado);
 
+    }
+
+    private void inicializadorEventos() {
+        ActionListener escuchaBtnSave = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (actualizarDatos()) {
+                    JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+                    // Si la actualización fue exitosa, llamamos al método para actualizar la tabla en PanelReservas
+                    PanelReservas parentPanel = (PanelReservas) EdicionReservas.this.getParent();
+                    parentPanel.actualizarTabla();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al actualiza.");
+
+                }
+            }
+        };
+        btnSave.addActionListener(escuchaBtnSave);
+    }
+
+    public boolean actualizarDatos() {
+        // Obtener los datos de los campos de texto
+        int idReserva = Integer.parseInt(txtId_reserva.getText());
+        int idCliente = Integer.parseInt(txtId_cliente.getText());
+        int idHabitacion = Integer.parseInt(txtid_room.getText());
+        // Convertir los datos de tipo String a objetos Date
+        Date checkInDate = paserDate(txtCheck_in_date.getText());
+        Date checkOutDate = paserDate(txtCheck_out_date.getText());
+        String estado = txtReservation_status.getText();
+        Reservation reservation = new Reservation(idReserva, idCliente, idHabitacion, checkInDate, checkOutDate, estado);
+        Conexion conexion = new Conexion();
+        Connection con = conexion.getConnection();
+        ReservationController reservationController = new ReservationController(con);
+        boolean actualizado = reservationController.actualizarReservation(reservation);
+        return actualizado;
+    }
+
+    private Date paserDate(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            System.err.println("Error al parsear la fecha: " + e.getMessage());
+            return null;
+        }
     }
 
 }

@@ -38,5 +38,18 @@ public class JButtonsFactory {
         
         return button;
     }
-    
+    public static JButton buttonStandardFontImgAndText(String text, String imagePath, int x, int y, int width, int height) {
+        JButton button = new JButton(text);
+        button.setBounds(x, y, width, height);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+
+        // Cargar la imagen y escalarla para ajustarla al JButton
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image scaledImage = icon.getImage().getScaledInstance(height, height, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        button.setIcon(scaledIcon);
+
+        return button;
+    }
 }

@@ -65,7 +65,32 @@ public class ReservationDao {
         return reservas;
     }
 
+    public boolean updateReservation(Reservation reservation) {
 
+        String query = "UPDATE reservations SET id_client = ?, id_room = ?, "
+                + "check_in_date = ?, check_out_date = ?, reservation_status = ? "
+                + "WHERE id_reservation = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, reservation.getId_client());
+            ps.setInt(2, reservation.getId_room());
+            ps.setDate(3, new java.sql.Date(reservation.getCheck_in_date().getTime()));
+            ps.setDate(4, new java.sql.Date(reservation.getCheck_out_date().getTime()));
+            ps.setString(5, reservation.getReservation_status());
+            ps.setInt(6, reservation.getId_reservation());
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            System.out.println(reservation.getId_reservation());
+            System.out.println(reservation.getId_client());
+            System.out.println(reservation.getId_room());
+            System.out.println(reservation.getCheck_in_date());
+            System.out.println(reservation.getCheck_out_date());
+            System.out.println(reservation.getReservation_status());
+            System.err.println("Error al actualizar la reserva: " + e.getMessage());
+        }
+        return false;
+    }
 
     public void cerrarConexion() {
         try {
