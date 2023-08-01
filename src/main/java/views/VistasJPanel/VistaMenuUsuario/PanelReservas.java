@@ -71,9 +71,16 @@ public class PanelReservas extends JPanel {
         this.add(lblTitulo, BorderLayout.NORTH);
 
         //Tabla 
-        String[] columnNames = {"ID Reserva", "ID Cliente", "ID Habitación",
+        String[] columnNames = {"ID Reserva", "ID Cliente", "Tipo de Habitacion",
             "Check-in", "Check-out", "Estado"};
-        tableModel = new DefaultTableModel(columnNames, 0);
+        // Bloquear la edición del TableModel asociado a la tabla
+        tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Todas las celdas se vuelven no editables
+                return false;
+            }
+        };
         table = new JTable(tableModel);
 
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
@@ -81,13 +88,17 @@ public class PanelReservas extends JPanel {
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),
-                reservation.getId_room(),
+                reservation.getRoom_type(),
                 reservation.getCheck_in_date(),
                 reservation.getCheck_out_date(),
                 reservation.getReservation_status()
+
             };
             tableModel.addRow(rowData);
         }
+        // Después de agregar los datos a la tabla, establecer el nuevo TableModel
+        table.setModel(tableModel);
+
         // Cambiar el color de fondo y color de letra de la fila de títulos (celdas de encabezado)
         table.getTableHeader().setBackground(Colores.MORADO_BASE); // Cambia el color de fondo a tu preferencia
         table.getTableHeader().setForeground(Color.white); // Cambia el color de letra a tu preferencia
@@ -106,6 +117,13 @@ public class PanelReservas extends JPanel {
     }
 
     private void inicializadorEventos() {
+        /**
+         * *
+         * Evento que sirbe ára saber que fila de la tabla a seleccionado el
+         * usuario Segun la fila sellecionada se envia esos datos al panel de
+         * edicion por medio de recogerDatos() para que actualize los campos de
+         * edicion.
+         */
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -115,11 +133,11 @@ public class PanelReservas extends JPanel {
                         // Obtener los datos de la fila seleccionada
                         String idReserva = table.getValueAt(selectedRow, 0).toString();
                         String idCliente = table.getValueAt(selectedRow, 1).toString();
-                        String idHabitacion = table.getValueAt(selectedRow, 2).toString();
-                        String checkIn = table.getValueAt(selectedRow, 3).toString();
-                        String checkOut = table.getValueAt(selectedRow, 4).toString();
+                        String type_room = table.getValueAt(selectedRow, 2).toString();
+                        Date checkIn = (Date) table.getValueAt(selectedRow, 3);
+                        Date checkOut = (Date) table.getValueAt(selectedRow, 4);
                         String estado = table.getValueAt(selectedRow, 5).toString();
-                        jpanelEdicion.recogerDatos(idReserva, idCliente, idHabitacion, checkIn, checkOut, estado);
+                        jpanelEdicion.recogerDatos(idReserva, idCliente, type_room, checkIn, checkOut, estado);
                     }
                 }
             }
@@ -128,22 +146,29 @@ public class PanelReservas extends JPanel {
         //
     }
 
+    /**
+     * *
+     * Este metodo actualiza la tabla reservas con las ultimas reservas
+     * existente en la base de datos a su vez servira para cargar actulizat la
+     * tabla cuando se lo requiera (Editar, eliminar etc )
+     *
+     */
     public void actualizarTabla() {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
-
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
         reservationController = new ReservationController(con);
+        // Obtiene una lista de las últimas reservas desde la base de datos
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
+        // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
         for (Reservation reservation : reservations) {
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),
-                reservation.getId_room(),
+                reservation.getRoom_type(),
                 reservation.getCheck_in_date(),
                 reservation.getCheck_out_date(),
-                reservation.getReservation_status()
-            };
+                reservation.getReservation_status(),};
             tableModel.addRow(rowData);
         }
     }

@@ -4,6 +4,7 @@
  */
 package views.VistasJPanel.VistaMenuUsuario.Reservas;
 
+import com.toedter.calendar.JDateChooser;
 import controllers.ReservationController;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,13 +19,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import models.Reservation;
-import org.jdatepicker.JDatePicker;
 import utils.Colores;
 import utils.Conexion;
 import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
@@ -38,8 +39,11 @@ import views.components.labels.JLabelFactory;
 public class EdicionReservas extends JPanel {
 
     JLabel lblId_reserva, lblId_cliente, lblId_room, lblCheck_in_date, lblCheck_out_date, lblReservation_status;
-    JTextField txtId_reserva, txtId_cliente, txtid_room, txtCheck_in_date, txtCheck_out_date, txtReservation_status;
+    JTextField txtId_reserva, txtId_cliente, txtType_room, txtReservation_status;
     JButton btnSave, btnDelete, btnAdd;
+    JDateChooser checkInDatePicker, checkOutDatePicker;
+    String[] disponibilidadOptions = {"pendiente", "confirmada"};
+    JComboBox<String> cmbReservation_status;
 
     public EdicionReservas() {
         this.inicializador();
@@ -59,6 +63,7 @@ public class EdicionReservas extends JPanel {
 
         txtId_reserva = new JTextField();
         txtId_reserva.setBounds(66, 40, 150, 25);
+        txtId_reserva.setEnabled(false);
         this.add(txtId_reserva);
 
         lblId_cliente = JLabelFactory.labelStandard("Id Cliente", 348, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
@@ -67,39 +72,40 @@ public class EdicionReservas extends JPanel {
 
         txtId_cliente = new JTextField();
         txtId_cliente.setBounds(348, 40, 150, 25);
+        txtId_cliente.setEnabled(false);
         this.add(txtId_cliente);
 
         lblId_room = JLabelFactory.labelStandard("Id Habitacion", 630, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblId_room.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblId_room);
 
-        txtid_room = new JTextField();
-        txtid_room.setBounds(630, 40, 150, 25);
-        this.add(txtid_room);
+        txtType_room = new JTextField();
+        txtType_room.setBounds(630, 40, 150, 25);
+        this.add(txtType_room);
 
         lblCheck_in_date = JLabelFactory.labelStandard("Fecha LLegada", 66, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblCheck_in_date.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblCheck_in_date);
 
-        txtCheck_in_date = new JTextField();
-        txtCheck_in_date.setBounds(66, 90, 150, 25);
-        this.add(txtCheck_in_date);
+        checkInDatePicker = new JDateChooser();
+        checkInDatePicker.setBounds(66, 90, 150, 25);
+        this.add(checkInDatePicker);
 
         lblCheck_out_date = JLabelFactory.labelStandard("Fecha Salida", 340, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblCheck_out_date.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblCheck_out_date);
 
-        txtCheck_out_date = new JTextField();
-        txtCheck_out_date.setBounds(348, 90, 150, 25);
-        this.add(txtCheck_out_date);
+        checkOutDatePicker = new JDateChooser();
+        checkOutDatePicker.setBounds(348, 90, 150, 25);
+        this.add(checkOutDatePicker);
 
         lblReservation_status = JLabelFactory.labelStandard("Disponibilidad", 630, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblReservation_status.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblReservation_status);
 
-        txtReservation_status = new JTextField();
-        txtReservation_status.setBounds(630, 90, 150, 25);
-        this.add(txtReservation_status);
+        cmbReservation_status = new JComboBox<>(disponibilidadOptions);
+        cmbReservation_status.setBounds(630, 90, 150, 25);
+        this.add(cmbReservation_status);
 
         btnSave = JButtonsFactory.buttonStandardFontImgAndText("Guardar", "./src/main/java/views/resources/images/cheque.png", 100, 140, 150, 30);
         btnSave.setBackground(Color.WHITE);
@@ -109,14 +115,16 @@ public class EdicionReservas extends JPanel {
 
     }
 
-    public void recogerDatos(String idReserva, String idCliente, String idHabitacion,
-            String checkIn, String checkOut, String estado) {
+    public void recogerDatos(String idReserva, String idCliente, String type_room,
+            Date checkIn, Date checkOut, String estado) {
         txtId_reserva.setText(idReserva);
         txtId_cliente.setText(idCliente);
-        txtid_room.setText(idHabitacion);
-        txtCheck_in_date.setText(checkIn);
-        txtCheck_out_date.setText(checkOut);
-        txtReservation_status.setText(estado);
+        txtType_room.setText(type_room);
+        checkInDatePicker.setDate(checkIn);
+        checkOutDatePicker.setDate(checkOut);
+
+        // Establecer el valor seleccionado en el JComboBox según el estado de la reserva
+        cmbReservation_status.setSelectedItem(estado);
 
     }
 
@@ -125,45 +133,69 @@ public class EdicionReservas extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (actualizarDatos()) {
-                    JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
                     // Si la actualización fue exitosa, llamamos al método para actualizar la tabla en PanelReservas
                     PanelReservas parentPanel = (PanelReservas) EdicionReservas.this.getParent();
                     parentPanel.actualizarTabla();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al actualiza.");
-
+                    System.out.println("Error");
                 }
             }
         };
         btnSave.addActionListener(escuchaBtnSave);
     }
 
+    /**
+     * Actualiza los datos de una reserva utilizando los valores ingresados en
+     * los campos de texto y componentes de la interfaz.
+     *
+     * @return true si la reserva fue actualizada exitosamente; false en caso
+     * contrario.
+     *
+     *
+     */
     public boolean actualizarDatos() {
-        // Obtener los datos de los campos de texto
-        int idReserva = Integer.parseInt(txtId_reserva.getText());
-        int idCliente = Integer.parseInt(txtId_cliente.getText());
-        int idHabitacion = Integer.parseInt(txtid_room.getText());
-        // Convertir los datos de tipo String a objetos Date
-        Date checkInDate = paserDate(txtCheck_in_date.getText());
-        Date checkOutDate = paserDate(txtCheck_out_date.getText());
-        String estado = txtReservation_status.getText();
-        Reservation reservation = new Reservation(idReserva, idCliente, idHabitacion, checkInDate, checkOutDate, estado);
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        ReservationController reservationController = new ReservationController(con);
-        boolean actualizado = reservationController.actualizarReservation(reservation);
-        return actualizado;
+        if (validarCampos()) {
+            // Obtener los datos de los campos de texto
+            int idReserva = Integer.parseInt(txtId_reserva.getText());
+            int idCliente = Integer.parseInt(txtId_cliente.getText());
+            String type_room = txtType_room.getText();
+            // Obtener las fechas seleccionadas de los JDateChooser
+            Date checkInDate = checkInDatePicker.getDate();
+            Date checkOutDate = checkOutDatePicker.getDate();
+            // Obtener el valor seleccionado del JComboBox para el estado de la reserva
+            Object selectedOptionCmb = cmbReservation_status.getSelectedItem();
+            String selectedValue = selectedOptionCmb.toString();
+            Reservation reservation = new Reservation(idReserva, idCliente, checkInDate, checkOutDate, selectedValue, type_room);
+            Conexion conexion = new Conexion();
+            Connection con = conexion.getConnection();
+            ReservationController reservationController = new ReservationController(con);
+            boolean actualizado = reservationController.actualizarReservation(reservation);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al actualiza.");
+            }
+            return actualizado;
+        } else {
+            return false;
+        }
+
     }
 
-    private Date paserDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            System.err.println("Error al parsear la fecha: " + e.getMessage());
-            return null;
+    private boolean validarCampos() {
+        if (txtId_reserva.getText().isEmpty()
+                || txtId_cliente.getText().isEmpty()
+                || txtType_room.getText().isEmpty()
+                || checkInDatePicker.getDate() == null
+                || checkOutDatePicker.getDate() == null
+                || cmbReservation_status.getSelectedItem() == null
+                || cmbReservation_status.getSelectedItem().toString().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
+        return true;
     }
 
 }

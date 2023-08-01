@@ -13,21 +13,20 @@ import java.util.Date;
 public class Reservation {
     private int id_reservation;
     private int id_client;
-    private int id_room;
     private Date check_in_date;
     private Date check_out_date;
     private String reservation_status;
+    private String room_type;
 
-    public Reservation(int id_reservation, int id_client, int id_room, Date check_in_date, Date check_out_date, String reservation_status) {
+    public Reservation(int id_reservation, int id_client, Date check_in_date, Date check_out_date, String reservation_status, String room_type) {
         this.id_reservation = id_reservation;
         this.id_client = id_client;
-        this.id_room = id_room;
         this.check_in_date = check_in_date;
         this.check_out_date = check_out_date;
         this.reservation_status = reservation_status;
+        this.room_type = room_type;
     }
 
-    
     public int getId_reservation() {
         return id_reservation;
     }
@@ -42,14 +41,6 @@ public class Reservation {
 
     public void setId_client(int id_client) {
         this.id_client = id_client;
-    }
-
-    public int getId_room() {
-        return id_room;
-    }
-
-    public void setId_room(int id_room) {
-        this.id_room = id_room;
     }
 
     public Date getCheck_in_date() {
@@ -76,9 +67,19 @@ public class Reservation {
         this.reservation_status = reservation_status;
     }
 
+    public String getRoom_type() {
+        return room_type;
+    }
+
+    public void setRoom_type(String room_type) {
+        this.room_type = room_type;
+    }
+
     @Override
     public String toString() {
-        return "Reservation{" + "id_reservation=" + id_reservation + ", id_client=" + id_client + ", id_room=" + id_room + ", check_in_date=" + check_in_date + ", check_out_date=" + check_out_date + ", reservation_status=" + reservation_status + '}';
+        return "Reservation{" + "id_reservation=" + id_reservation + ", id_client=" + id_client + ", check_in_date=" + check_in_date + ", check_out_date=" + check_out_date + ", reservation_status=" + reservation_status + ", room_type=" + room_type + '}';
     }
+
+    
     
 }
