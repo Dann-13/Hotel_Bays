@@ -38,7 +38,7 @@ import views.components.labels.JLabelFactory;
  */
 public class EdicionReservas extends JPanel {
 
-    JLabel lblId_reserva, lblId_cliente, lblId_room, lblCheck_in_date, lblCheck_out_date, lblReservation_status;
+    JLabel lblTitulo, lblId_reserva, lblId_cliente, lblId_room, lblCheck_in_date, lblCheck_out_date, lblReservation_status;
     JTextField txtId_reserva, txtId_cliente, txtType_room, txtReservation_status;
     JButton btnSave, btnDelete, btnAdd;
     JDateChooser checkInDatePicker, checkOutDatePicker;
@@ -57,6 +57,10 @@ public class EdicionReservas extends JPanel {
     }
 
     private void inicializadorObjetos() {
+        lblTitulo = JLabelFactory.labelStandard("Listado de Reservas", 0, 0, 850 , 50, 20f, Colores.ROJO_DESTACADO, Color.WHITE);
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(lblTitulo);
+        
         lblId_reserva = JLabelFactory.labelStandard("Id Reserva", 66, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
         lblId_reserva.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblId_reserva);
@@ -134,7 +138,7 @@ public class EdicionReservas extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (actualizarDatos()) {
                     // Si la actualización fue exitosa, llamamos al método para actualizar la tabla en PanelReservas
-                    PanelReservas parentPanel = (PanelReservas) EdicionReservas.this.getParent();
+                    TablaReservas parentPanel = (TablaReservas) EdicionReservas.this.getParent();
                     parentPanel.actualizarTabla();
 
                 } else {
