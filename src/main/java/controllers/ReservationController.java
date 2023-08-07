@@ -32,7 +32,7 @@ public class ReservationController {
     }
 
     public boolean actualizarReservation(Reservation reservation) {
-        return reservationDao.updateReservation(reservation);
+        return reservationDao.actualizarReserva(reservation);
     }
 
 }

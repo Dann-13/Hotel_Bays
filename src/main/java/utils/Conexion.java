@@ -20,6 +20,7 @@ public class Conexion {
     String USER = dotenv.get("USUARIO");
     String URL = dotenv.get("JDBCURL");
     String PASSWORD = dotenv.get("PASSWORD");
+    private static Conexion instancia;
     Connection con;
 
     public Conexion() {
@@ -35,11 +36,17 @@ public class Conexion {
             e.printStackTrace();
         }
     }
-    
+    public static Conexion getInstance() {
+        if (instancia == null) {
+            instancia = new Conexion();
+        }
+        return instancia;
+    }
 
     public Connection getConnection() {
         return con;
     }
+
     public void cerrarConexion() {
         try {
             if (con != null && !con.isClosed()) {

@@ -8,11 +8,17 @@ import com.toedter.calendar.JDateChooser;
 import controllers.ReservationController;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,8 +29,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import models.Reservation;
 import utils.Colores;
 import utils.Conexion;
@@ -36,15 +44,29 @@ import views.components.labels.JLabelFactory;
  *
  * @author dan-dev
  */
-public class EdicionReservas extends JPanel {
+public class EdicionReservas extends JPanel{
 
-    JLabel lblTitulo, lblId_reserva, lblId_cliente, lblId_room, lblCheck_in_date, lblCheck_out_date, lblReservation_status;
-    JTextField txtId_reserva, txtId_cliente, txtType_room, txtReservation_status;
+    JLabel blId_reserva, lblClient_name, lblCheck_in_date, lblCheck_out_date, lblReservation_status,
+            lblRoom_type, lblTotal_payment, lblPayment_method, lblBuscar;
+    JTextField txtId_reserva, txtClientName, txtTotal_payment, txtBuscar, txtIdClient;
     JButton btnSave, btnDelete, btnAdd;
     JDateChooser checkInDatePicker, checkOutDatePicker;
+    //ComboBox's
     String[] disponibilidadOptions = {"pendiente", "confirmada"};
     JComboBox<String> cmbReservation_status;
 
+    String[] typeRooms = {"Standard", "Deluxe"};
+    JComboBox<String> cmbTypeRooms;
+
+    String[] metodo_payment = {"efectivo", "targeta"};
+    JComboBox<String> cmbMetodo_payment;
+
+    private TablaReservas tablaReservas;
+    
+    public void setPanelTablaReservas(TablaReservas tablaReservas) {
+        this.tablaReservas = tablaReservas;
+    }
+    
     public EdicionReservas() {
         this.inicializador();
         this.inicializadorObjetos();
@@ -53,82 +75,184 @@ public class EdicionReservas extends JPanel {
 
     private void inicializador() {
         this.setBackground(Colores.MORADO_BASE);
-        this.setLayout(null);
+        this.setLayout(new GridBagLayout());
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = JLabelFactory.labelStandard("Listado de Reservas", 0, 0, 850 , 50, 20f, Colores.ROJO_DESTACADO, Color.WHITE);
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblTitulo);
-        
-        lblId_reserva = JLabelFactory.labelStandard("Id Reserva", 66, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblId_reserva.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblId_reserva);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
 
-        txtId_reserva = new JTextField();
-        txtId_reserva.setBounds(66, 40, 150, 25);
+        txtIdClient = new JTextField("");
+
+        // Columna izquierda
+        gbc.anchor = GridBagConstraints.WEST;
+        // JLabel y JTextField para "Id Reserva"
+        JLabel lblId_reserva = new JLabel("Id Reserva:");
+        lblId_reserva.setPreferredSize(new Dimension(150, 20));
+        lblId_reserva.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblId_reserva.setForeground(Color.WHITE);
+        gbc.gridx = 0; // Columna 0
+        gbc.gridy = 0; // Fila 0
+        this.add(lblId_reserva, gbc);
+
+        txtId_reserva = new JTextField(10);
+        txtId_reserva.setPreferredSize(new Dimension(180, 25));
         txtId_reserva.setEnabled(false);
-        this.add(txtId_reserva);
+        gbc.gridx = 1; // Columna 1
+        gbc.gridy = 0; // Fila 0
+        this.add(txtId_reserva, gbc);
 
-        lblId_cliente = JLabelFactory.labelStandard("Id Cliente", 348, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblId_cliente.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblId_cliente);
+        // JLabel y JTextField para "Id Cliente"
+        lblClient_name = new JLabel("Cliente:");
+        lblClient_name.setPreferredSize(new Dimension(150, 20));
+        lblClient_name.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblClient_name.setForeground(Color.WHITE);
+        gbc.gridx = 0; // Columna 0
+        gbc.gridy = 1; // Fila 1
+        this.add(lblClient_name, gbc);
 
-        txtId_cliente = new JTextField();
-        txtId_cliente.setBounds(348, 40, 150, 25);
-        txtId_cliente.setEnabled(false);
-        this.add(txtId_cliente);
+        txtClientName = new JTextField(10);
+        txtClientName.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1; // Columna 1
+        gbc.gridy = 1; // Fila 1
+        this.add(txtClientName, gbc);
 
-        lblId_room = JLabelFactory.labelStandard("Id Habitacion", 630, 10, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblId_room.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblId_room);
-
-        txtType_room = new JTextField();
-        txtType_room.setBounds(630, 40, 150, 25);
-        this.add(txtType_room);
-
-        lblCheck_in_date = JLabelFactory.labelStandard("Fecha LLegada", 66, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblCheck_in_date.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblCheck_in_date);
+        lblCheck_in_date = new JLabel("Fecha Llegada");
+        lblCheck_in_date.setPreferredSize(new Dimension(150, 20));
+        lblCheck_in_date.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblCheck_in_date.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.add(lblCheck_in_date, gbc);
 
         checkInDatePicker = new JDateChooser();
-        checkInDatePicker.setBounds(66, 90, 150, 25);
-        this.add(checkInDatePicker);
+        checkInDatePicker.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        this.add(checkInDatePicker, gbc);
 
-        lblCheck_out_date = JLabelFactory.labelStandard("Fecha Salida", 340, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblCheck_out_date.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblCheck_out_date);
+        lblCheck_out_date = new JLabel("Fecha Salida");
+        lblCheck_out_date.setPreferredSize(new Dimension(150, 20));
+        lblCheck_out_date.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblCheck_out_date.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.add(lblCheck_out_date, gbc);
 
         checkOutDatePicker = new JDateChooser();
-        checkOutDatePicker.setBounds(348, 90, 150, 25);
-        this.add(checkOutDatePicker);
+        checkOutDatePicker.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        this.add(checkOutDatePicker, gbc);
 
-        lblReservation_status = JLabelFactory.labelStandard("Disponibilidad", 630, 70, 150, 20, 15, Colores.MORADO_BASE, Color.WHITE);
-        lblReservation_status.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(lblReservation_status);
+        lblReservation_status = new JLabel("Estado Reserva");
+        lblReservation_status.setPreferredSize(new Dimension(150, 20));
+        lblReservation_status.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblReservation_status.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        this.add(lblReservation_status, gbc);
 
         cmbReservation_status = new JComboBox<>(disponibilidadOptions);
-        cmbReservation_status.setBounds(630, 90, 150, 25);
-        this.add(cmbReservation_status);
+        cmbReservation_status.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        this.add(cmbReservation_status, gbc);
 
-        btnSave = JButtonsFactory.buttonStandardFontImgAndText("Guardar", "./src/main/java/views/resources/images/cheque.png", 100, 140, 150, 30);
-        btnSave.setBackground(Color.WHITE);
-        btnSave.setOpaque(true);
-        btnSave.setForeground(Colores.MORADO_BASE);
-        this.add(btnSave);
+        lblRoom_type = new JLabel("Tipo de Habitacion");
+        lblRoom_type.setPreferredSize(new Dimension(150, 20));
+        lblRoom_type.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblRoom_type.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        this.add(lblRoom_type, gbc);
 
+        cmbTypeRooms = new JComboBox<>(typeRooms);
+        cmbTypeRooms.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        this.add(cmbTypeRooms, gbc);
+
+        lblTotal_payment = new JLabel("Pago Total");
+        lblTotal_payment.setPreferredSize(new Dimension(150, 20));
+        lblTotal_payment.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblTotal_payment.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        this.add(lblTotal_payment, gbc);
+
+        txtTotal_payment = new JTextField(10);
+        txtTotal_payment.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        this.add(txtTotal_payment, gbc);
+
+        lblPayment_method = new JLabel("Metodo");
+        lblPayment_method.setPreferredSize(new Dimension(150, 20));
+        lblPayment_method.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblPayment_method.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        this.add(lblPayment_method, gbc);
+
+        cmbMetodo_payment = new JComboBox<>(metodo_payment);
+        cmbMetodo_payment.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        this.add(cmbMetodo_payment, gbc);
+
+        // Separador vertical
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setPreferredSize(new Dimension(2, 0));
+        gbc.gridx = 2; // Columna 2
+        gbc.gridy = 0; // Fila 0
+        gbc.gridheight = GridBagConstraints.REMAINDER; // Ocupa todas las filas
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(5, 100, 5, 10); // Padding para el separador (derecha)
+        this.add(separator, gbc);
+
+        // JButton en la sección derecha
+        gbc.gridx = 3; // Columna 3
+        gbc.gridy = 0; // Fila 0
+        gbc.gridheight = 1; // Volver a un valor predeterminado
+        gbc.gridwidth = 1; // Hacer que el botón ocupe 1 columna
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER; // Centro el contenido en la columna
+        gbc.insets = new Insets(5, 10, 5, 5); // Ajusta los márgenes izquierdo y derecho del botón
+
+        btnSave = new JButton("Guardar");
+        this.add(btnSave, gbc);
+
+        gbc.gridy = 1; // Fila 1
+        this.add(new JButton("Eliminar"), gbc);
+
+        gbc.gridy = 2; // Fila 2
+        lblBuscar = new JLabel("Buscar Reserva");
+
+        lblBuscar.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblBuscar.setForeground(Color.WHITE);
+        this.add(lblBuscar, gbc);
+
+        gbc.gridy = 3; // Fila 3
+        txtBuscar = new JTextField();
+        txtBuscar.setPreferredSize(new Dimension(250, 25));
+        this.add(txtBuscar, gbc);
     }
 
-    public void recogerDatos(String idReserva, String idCliente, String type_room,
-            Date checkIn, Date checkOut, String estado) {
+    public void recogerDatos(String idReserva, String idClient, String client_name,
+            Date checkIn, Date checkOut, String reservation_status, String room_type,
+            String total_payment, String payment_method) {
+
         txtId_reserva.setText(idReserva);
-        txtId_cliente.setText(idCliente);
-        txtType_room.setText(type_room);
+        txtIdClient.setText(idClient);
+        txtClientName.setText(client_name);
         checkInDatePicker.setDate(checkIn);
         checkOutDatePicker.setDate(checkOut);
-
         // Establecer el valor seleccionado en el JComboBox según el estado de la reserva
-        cmbReservation_status.setSelectedItem(estado);
+        cmbReservation_status.setSelectedItem(reservation_status);
+        cmbTypeRooms.setSelectedItem(room_type);
+        txtTotal_payment.setText(total_payment);
+        cmbMetodo_payment.setSelectedItem(payment_method);
 
     }
 
@@ -137,9 +261,7 @@ public class EdicionReservas extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (actualizarDatos()) {
-                    // Si la actualización fue exitosa, llamamos al método para actualizar la tabla en PanelReservas
-                    TablaReservas parentPanel = (TablaReservas) EdicionReservas.this.getParent();
-                    parentPanel.actualizarTabla();
+                    tablaReservas.actualizarTabla();
 
                 } else {
                     System.out.println("Error");
@@ -159,18 +281,30 @@ public class EdicionReservas extends JPanel {
      *
      */
     public boolean actualizarDatos() {
-        if (validarCampos()) {
+        if (true) {
+
             // Obtener los datos de los campos de texto
             int idReserva = Integer.parseInt(txtId_reserva.getText());
-            int idCliente = Integer.parseInt(txtId_cliente.getText());
-            String type_room = txtType_room.getText();
+            String clientName = txtClientName.getText();
+            int idCliente = Integer.parseInt(txtIdClient.getText());
             // Obtener las fechas seleccionadas de los JDateChooser
             Date checkInDate = checkInDatePicker.getDate();
             Date checkOutDate = checkOutDatePicker.getDate();
-            // Obtener el valor seleccionado del JComboBox para el estado de la reserva
+            // Obtener el valor seleccionado del JComboBox 
             Object selectedOptionCmb = cmbReservation_status.getSelectedItem();
             String selectedValue = selectedOptionCmb.toString();
-            Reservation reservation = new Reservation(idReserva, idCliente, checkInDate, checkOutDate, selectedValue, type_room);
+
+            Object selectedOptionRooms = cmbTypeRooms.getSelectedItem();
+            String SelectedRoom = selectedOptionRooms.toString();
+
+            String totalPaymentString = txtTotal_payment.getText();
+            BigDecimal totalPayment = new BigDecimal(totalPaymentString);
+            System.out.println(totalPayment);
+            Object selectedOptionPayment = cmbMetodo_payment.getSelectedItem();
+            String SelectedPayment = selectedOptionPayment.toString();
+
+            Reservation reservation = new Reservation(idReserva, idCliente, clientName, checkInDate,
+                    checkOutDate, selectedValue, SelectedRoom, totalPayment, SelectedPayment);
             Conexion conexion = new Conexion();
             Connection con = conexion.getConnection();
             ReservationController reservationController = new ReservationController(con);
@@ -190,8 +324,9 @@ public class EdicionReservas extends JPanel {
 
     private boolean validarCampos() {
         if (txtId_reserva.getText().isEmpty()
-                || txtId_cliente.getText().isEmpty()
-                || txtType_room.getText().isEmpty()
+                || txtIdClient.getText().isEmpty()
+                || txtClientName.getText().isEmpty()
+                || txtTotal_payment.getText().isEmpty()
                 || checkInDatePicker.getDate() == null
                 || checkOutDatePicker.getDate() == null
                 || cmbReservation_status.getSelectedItem() == null
@@ -202,4 +337,5 @@ public class EdicionReservas extends JPanel {
         return true;
     }
 
+   
 }

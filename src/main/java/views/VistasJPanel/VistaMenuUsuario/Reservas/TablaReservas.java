@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,17 +26,20 @@ import utils.Conexion;
  *
  * @author dan-dev
  */
-public class TablaReservas extends JPanel {
+public class TablaReservas extends JPanel{
 
     private JTable table;
     private DefaultTableModel tableModel;
     private ReservationController reservationController;
     EdicionReservas jpanelEdicion;
+    
+    public void setEdicionReservas(EdicionReservas jpanelEdicion) {
+        this.jpanelEdicion = jpanelEdicion;
+    }
 
-    public TablaReservas(EdicionReservas jpanelEdicion) {
+    public TablaReservas() {
         this.inicializador();
         inicializarTabla();
-        this.jpanelEdicion = jpanelEdicion;
         this.inicializadorEventos();
     }
 
@@ -49,10 +53,9 @@ public class TablaReservas extends JPanel {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
         reservationController = new ReservationController(con);
-
         //Tabla
-        String[] columnNames = {"ID Reserva", "ID Cliente", "Tipo de Habitacion",
-            "Check-in", "Check-out", "Estado"};
+        String[] columnNames = {"ID Reserva", "Id Cliente", "Cliente", "Fecha Llegada",
+            "Fecha Salida", "Estado", "Tipo", "Pago Total", "Metodo"};
         // Bloquear la edición del TableModel asociado a la tabla
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -68,11 +71,13 @@ public class TablaReservas extends JPanel {
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),
-                reservation.getRoom_type(),
+                reservation.getClient_name(),
                 reservation.getCheck_in_date(),
                 reservation.getCheck_out_date(),
-                reservation.getReservation_status()
-
+                reservation.getReservation_status(),
+                reservation.getRoom_type(),
+                reservation.getTotal_payment(),
+                reservation.getPayment_method()
             };
             tableModel.addRow(rowData);
         }
@@ -103,12 +108,17 @@ public class TablaReservas extends JPanel {
                     if (selectedRow != -1) { // Asegurarse de que se ha seleccionado una fila
                         // Obtener los datos de la fila seleccionada
                         String idReserva = table.getValueAt(selectedRow, 0).toString();
-                        String idCliente = table.getValueAt(selectedRow, 1).toString();
-                        String type_room = table.getValueAt(selectedRow, 2).toString();
+                        String idClient = table.getValueAt(selectedRow, 1).toString();
+                        String clienteName = table.getValueAt(selectedRow, 2).toString();
                         Date checkIn = (Date) table.getValueAt(selectedRow, 3);
                         Date checkOut = (Date) table.getValueAt(selectedRow, 4);
                         String estado = table.getValueAt(selectedRow, 5).toString();
-                        jpanelEdicion.recogerDatos(idReserva, idCliente, type_room, checkIn, checkOut, estado);
+                        String typeRooms = table.getValueAt(selectedRow, 6).toString();
+                        String total_payment = table.getValueAt(selectedRow, 7).toString();
+                        String metodo_payment = table.getValueAt(selectedRow, 8).toString();
+
+                        jpanelEdicion.recogerDatos(idReserva, idClient, clienteName, checkIn, checkOut,
+                                estado, typeRooms, total_payment, metodo_payment);
                     }
                 }
             }
@@ -123,6 +133,7 @@ public class TablaReservas extends JPanel {
      *
      */
     public void actualizarTabla() {
+        System.err.println("ESTAS AQUI");
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
@@ -134,12 +145,16 @@ public class TablaReservas extends JPanel {
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),
-                reservation.getRoom_type(),
+                reservation.getClient_name(),
                 reservation.getCheck_in_date(),
                 reservation.getCheck_out_date(),
-                reservation.getReservation_status(),};
+                reservation.getReservation_status(),
+                reservation.getRoom_type(),
+                reservation.getTotal_payment(),
+                reservation.getPayment_method(),};
             tableModel.addRow(rowData);
         }
     }
+
 
 }

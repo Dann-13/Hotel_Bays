@@ -55,15 +55,19 @@ public class PanelReservas extends JPanel {
 
     private void inicializadorObjetos() {
 
-        // Establecer el tamaño preferido del panel de edicion
-    jpanelEdicion = new EdicionReservas();
-    jpanelEdicion.setPreferredSize(new Dimension(jpanelEdicion.getWidth(), 300));
-    jpanelEdicion.setBackground(Colores.MORADO_BASE);
-    this.add(jpanelEdicion, BorderLayout.NORTH);
+        tablaReservas = new TablaReservas();
+        jpanelEdicion = new EdicionReservas();
+        jpanelEdicion.setPanelTablaReservas(tablaReservas);
+        tablaReservas.setEdicionReservas(jpanelEdicion);
+        jpanelEdicion.setPreferredSize(new Dimension(jpanelEdicion.getWidth(), 300));
+        jpanelEdicion.setBackground(Colores.MORADO_BASE);
+        this.add(jpanelEdicion, BorderLayout.NORTH);
+        
+        
+        this.add(tablaReservas, BorderLayout.CENTER);
+        
+        
 
-    // Crear la tabla de reservas y agregarla al panel
-    tablaReservas = new TablaReservas(jpanelEdicion); // Pasa la referencia de jpanelEdicion al constructor de TablaReservas
-    this.add(tablaReservas, BorderLayout.CENTER);
 
     }
 
