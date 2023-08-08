@@ -7,6 +7,8 @@ package views.VistasJPanel.VistaMenuUsuario.Reservas;
 import controllers.ReservationController;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -17,7 +19,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import models.Reservation;
 import utils.Colores;
 import utils.Conexion;
@@ -26,13 +32,13 @@ import utils.Conexion;
  *
  * @author dan-dev
  */
-public class TablaReservas extends JPanel{
+public class TablaReservas extends JPanel {
 
     private JTable table;
     private DefaultTableModel tableModel;
     private ReservationController reservationController;
     EdicionReservas jpanelEdicion;
-    
+
     public void setEdicionReservas(EdicionReservas jpanelEdicion) {
         this.jpanelEdicion = jpanelEdicion;
     }
@@ -65,6 +71,22 @@ public class TablaReservas extends JPanel{
             }
         };
         table = new JTable(tableModel);
+        // Actualizar los títulos de columna con saltos de línea
+        TableColumnModel columnModel = table.getColumnModel();
+        for (int i = 0; i < columnNames.length; i++) {
+            TableColumn column = columnModel.getColumn(i);
+            if (columnNames[i].equals("Fecha Llegada")){
+                column.setHeaderValue("<html>Fecha <br> Llegada </html>");
+            }
+            else if (columnNames[i].equals("Fecha Salida")) {
+                column.setHeaderValue("<html>Fecha<br>Salida</html>");
+            } else if (columnNames[i].equals("Pago Total")) {
+                column.setHeaderValue("<html>Pago<br>Total</html>");
+            }
+        }
+
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setReorderingAllowed(false);
 
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
         for (Reservation reservation : reservations) {
@@ -87,6 +109,7 @@ public class TablaReservas extends JPanel{
         table.getTableHeader().setForeground(Color.white); // Cambia el color de letra a tu preferencia
         table.getTableHeader().setFont(table.getTableHeader().getFont().deriveFont(Font.BOLD, 15)); // Cambia el tamaño de fuente a tu preferencia
         table.setRowHeight(30);
+        tableHeader.setPreferredSize(new Dimension(tableHeader.getPreferredSize().width, 50));
         // Agregar la tabla a un JScrollPane para hacerla desplazable
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -154,8 +177,8 @@ public class TablaReservas extends JPanel{
             tableModel.addRow(rowData);
         }
     }
-    
-    public void actualizarTablaBusqueda(String nombreCliente){
+
+    public void actualizarTablaBusqueda(String nombreCliente) {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
@@ -164,7 +187,7 @@ public class TablaReservas extends JPanel{
         ArrayList<Reservation> reservations = reservationController.buscarReservaCliente(nombreCliente);
         // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
         for (Reservation reservation : reservations) {
-            
+
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),
@@ -178,6 +201,5 @@ public class TablaReservas extends JPanel{
             tableModel.addRow(rowData);
         }
     }
-
 
 }
