@@ -11,8 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import models.Reservation;
 
 /**
@@ -30,8 +35,7 @@ public class ReservationDao {
     public ArrayList<Reservation> obtenerReservas() {
         ArrayList<Reservation> reservas = new ArrayList<>();
         String query = "SELECT r.id_reservation, r.id_client, c.name AS client_name, r.check_in_date, r.check_out_date, "
-                + "r.reservation_status, r.room_type, COALESCE(SUM(p.total_payment), 0) AS total_payment, "
-                + "p.payment_method "
+                + "r.reservation_status, r.room_type, p.payment_method "
                 + "FROM reservations r "
                 + "LEFT JOIN clients c ON r.id_client = c.id_client "
                 + "LEFT JOIN payments p ON r.id_reservation = p.id_reservation "
@@ -47,21 +51,59 @@ public class ReservationDao {
                 Date check_out_date = rs.getDate("check_out_date");
                 String reservation_status = rs.getString("reservation_status");
                 String room_type = rs.getString("room_type");
-                BigDecimal total_payment = rs.getBigDecimal("total_payment");
                 String payment_method = rs.getString("payment_method");
 
+                BigDecimal totalPayment = calcularTotalPayment(check_in_date, check_out_date, room_type);
+
                 Reservation reserva = new Reservation(id_reservation, id_client, client_name, check_in_date, check_out_date,
-                        reservation_status, room_type, total_payment, payment_method);
+                        reservation_status, room_type, totalPayment, payment_method);
                 reservas.add(reserva);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar la conexión después de leer todos los datos del ResultSet
             cerrarConexion();
         }
 
         return reservas;
+    }
+
+    /**
+     * Implementa aquí la lógica para calcular el totalPayment basado en el
+     * precio por noche y la duración de la estancia. Esto puede requerir
+     * consultas adicionales a la base de datos cálculos locales, dependiendo de
+     * tu diseño. Retorna el valor calculado como un BigDecimal.
+     *
+     * @param checkInDate
+     * @param checkOutDate
+     * @param roomType
+     * @return
+     */
+    private BigDecimal calcularTotalPayment(Date checkInDate, Date checkOutDate, String roomType) {
+        BigDecimal ratePerDayDeluxe = new BigDecimal("200"); // Precio por día en BigDecimal
+        BigDecimal ratePerDayStandard = new BigDecimal("100"); // Precio por día en BigDecimal
+
+        //obtenemos la los dias entre cada fecha 
+        // Convertir a LocalDate utilizando Instant
+        LocalDate localCheckInDate = Instant.ofEpochMilli(checkInDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate localCheckOutDate = Instant.ofEpochMilli(checkOutDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        long days = ChronoUnit.DAYS.between(localCheckInDate, localCheckOutDate);
+        // Convertir el valor long a BigDecimal para poder hacer la operacion
+        BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
+        if (roomType.equals("Deluxe")) {
+            // Realizar la multiplicación
+            BigDecimal totalPayment = daysBigDecimal.multiply(ratePerDayDeluxe);
+            System.out.println(totalPayment);
+            return totalPayment;
+        } else {
+            BigDecimal totalPayment = daysBigDecimal.multiply(ratePerDayStandard);
+            return totalPayment;
+        }
     }
 
     public boolean actualizarReserva(Reservation reserva) {
@@ -108,6 +150,42 @@ public class ReservationDao {
             System.err.println("Error al actualizar la reserva: " + e.getMessage());
         }
         return false; // Si hay algún error, retornar false
+    }
+
+    public ArrayList<Reservation> buscarReservaCliente(String nombreCliente) {
+        ArrayList<Reservation> reservas = new ArrayList<>();
+        String query = "SELECT r.id_reservation, r.id_client, c.name AS client_name, r.check_in_date, r.check_out_date, "
+                + "r.reservation_status, r.room_type, p.payment_method "
+                + "FROM reservations r "
+                + "LEFT JOIN clients c ON r.id_client = c.id_client "
+                + "LEFT JOIN payments p ON r.id_reservation = p.id_reservation "
+                + "WHERE c.name LIKE ?"; // Filtrar por nombre del cliente (sin GROUP BY)
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, "%" + nombreCliente +"%"); // Agregar el nombre del cliente como filtro
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id_reservation = rs.getInt("id_reservation");
+                int id_client = rs.getInt("id_client");
+                String client_name = rs.getString("client_name");
+                Date check_in_date = rs.getDate("check_in_date");
+                Date check_out_date = rs.getDate("check_out_date");
+                String reservation_status = rs.getString("reservation_status");
+                String room_type = rs.getString("room_type");
+                String payment_method = rs.getString("payment_method");
+
+                BigDecimal totalPayment = calcularTotalPayment(check_in_date, check_out_date, room_type);
+
+                Reservation reserva = new Reservation(id_reservation, id_client, client_name, check_in_date, check_out_date,
+                        reservation_status, room_type, totalPayment, payment_method);
+                reservas.add(reserva);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+        System.out.println("Resultado de la búsqueda: " + reservas); // Mensaje de depuración
+        return reservas;
     }
 
     public void cerrarConexion() {

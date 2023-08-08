@@ -111,6 +111,12 @@ public class Reservation {
     public String toString() {
         return "Reservation{" + "id_reservation=" + id_reservation + ", id_client=" + id_client + ", client_name=" + client_name + ", check_in_date=" + check_in_date + ", check_out_date=" + check_out_date + ", reservation_status=" + reservation_status + ", room_type=" + room_type + ", total_payment=" + total_payment + ", payment_method=" + payment_method + '}';
     }
+    
+    //Metodos 
+    public double calcularPrecioTotalPorHabitacion(String room){
+        double price_per_night = 200.00;
+        return price_per_night;
+    }
 
     
     

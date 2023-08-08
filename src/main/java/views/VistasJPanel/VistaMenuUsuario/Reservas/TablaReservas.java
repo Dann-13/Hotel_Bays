@@ -133,7 +133,6 @@ public class TablaReservas extends JPanel{
      *
      */
     public void actualizarTabla() {
-        System.err.println("ESTAS AQUI");
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
         Conexion conexion = new Conexion();
         Connection con = conexion.getConnection();
@@ -142,6 +141,30 @@ public class TablaReservas extends JPanel{
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
         // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
         for (Reservation reservation : reservations) {
+            Object[] rowData = {
+                reservation.getId_reservation(),
+                reservation.getId_client(),
+                reservation.getClient_name(),
+                reservation.getCheck_in_date(),
+                reservation.getCheck_out_date(),
+                reservation.getReservation_status(),
+                reservation.getRoom_type(),
+                reservation.getTotal_payment(),
+                reservation.getPayment_method(),};
+            tableModel.addRow(rowData);
+        }
+    }
+    
+    public void actualizarTablaBusqueda(String nombreCliente){
+        tableModel.setRowCount(0); // Limpia todos los datos de la tabla
+        Conexion conexion = new Conexion();
+        Connection con = conexion.getConnection();
+        reservationController = new ReservationController(con);
+        // Obtiene una lista de las últimas reservas desde la base de datos
+        ArrayList<Reservation> reservations = reservationController.buscarReservaCliente(nombreCliente);
+        // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
+        for (Reservation reservation : reservations) {
+            
             Object[] rowData = {
                 reservation.getId_reservation(),
                 reservation.getId_client(),

@@ -4,33 +4,11 @@
  */
 package views.VistasJPanel.VistaMenuUsuario;
 
-import controllers.ReservationController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.List;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import models.Reservation;
 import utils.Colores;
-import utils.Conexion;
 import views.VistasJPanel.VistaMenuUsuario.Reservas.EdicionReservas;
 import views.VistasJPanel.VistaMenuUsuario.Reservas.TablaReservas;
 

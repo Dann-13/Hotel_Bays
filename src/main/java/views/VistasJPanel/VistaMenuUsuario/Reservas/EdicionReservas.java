@@ -6,23 +6,16 @@ package views.VistasJPanel.VistaMenuUsuario.Reservas;
 
 import com.toedter.calendar.JDateChooser;
 import controllers.ReservationController;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,24 +25,20 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import models.Reservation;
 import utils.Colores;
 import utils.Conexion;
-import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
-import views.components.buttons.JButtonsFactory;
-import views.components.labels.JLabelFactory;
 
 /**
  *
  * @author dan-dev
  */
-public class EdicionReservas extends JPanel{
+public class EdicionReservas extends JPanel {
 
     JLabel blId_reserva, lblClient_name, lblCheck_in_date, lblCheck_out_date, lblReservation_status,
             lblRoom_type, lblTotal_payment, lblPayment_method, lblBuscar;
     JTextField txtId_reserva, txtClientName, txtTotal_payment, txtBuscar, txtIdClient;
-    JButton btnSave, btnDelete, btnAdd;
+    JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
     JDateChooser checkInDatePicker, checkOutDatePicker;
     //ComboBox's
     String[] disponibilidadOptions = {"pendiente", "confirmada"};
@@ -62,11 +51,11 @@ public class EdicionReservas extends JPanel{
     JComboBox<String> cmbMetodo_payment;
 
     private TablaReservas tablaReservas;
-    
+
     public void setPanelTablaReservas(TablaReservas tablaReservas) {
         this.tablaReservas = tablaReservas;
     }
-    
+
     public EdicionReservas() {
         this.inicializador();
         this.inicializadorObjetos();
@@ -183,6 +172,7 @@ public class EdicionReservas extends JPanel{
 
         txtTotal_payment = new JTextField(10);
         txtTotal_payment.setPreferredSize(new Dimension(180, 25));
+        txtTotal_payment.setEnabled(false);
         gbc.gridx = 1;
         gbc.gridy = 6;
         this.add(txtTotal_payment, gbc);
@@ -237,6 +227,15 @@ public class EdicionReservas extends JPanel{
         txtBuscar = new JTextField();
         txtBuscar.setPreferredSize(new Dimension(250, 25));
         this.add(txtBuscar, gbc);
+
+        gbc.gridy = 4;
+        btnShare = new JButton("Buscar");
+        this.add(btnShare, gbc);
+        
+        gbc.gridy = 5;
+        btnUpdate = new JButton("Actualizar Reservas");
+        this.add(btnUpdate, gbc);
+
     }
 
     public void recogerDatos(String idReserva, String idClient, String client_name,
@@ -260,15 +259,39 @@ public class EdicionReservas extends JPanel{
         ActionListener escuchaBtnSave = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (actualizarDatos()) {
-                    tablaReservas.actualizarTabla();
+                if (validarCampos()) {
+                    if (actualizarDatos()) {
+                        tablaReservas.actualizarTabla();
 
-                } else {
-                    System.out.println("Error");
+                    } else {
+                        System.out.println("Error");
+                    }
                 }
             }
         };
         btnSave.addActionListener(escuchaBtnSave);
+
+        ActionListener escuchaBtnShare = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(validarCampoBuscar()){
+                    buscarReservaCliente();
+                }else{
+                    System.err.println("Error en la busqueda, campo vacio o null");
+                }
+                
+            }
+        };
+
+        btnShare.addActionListener(escuchaBtnShare);
+        
+        ActionListener escuchaBtnUpdate = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablaReservas.actualizarTabla();
+            }
+        };
+        btnUpdate.addActionListener(escuchaBtnUpdate);
     }
 
     /**
@@ -330,12 +353,32 @@ public class EdicionReservas extends JPanel{
                 || checkInDatePicker.getDate() == null
                 || checkOutDatePicker.getDate() == null
                 || cmbReservation_status.getSelectedItem() == null
-                || cmbReservation_status.getSelectedItem().toString().isEmpty()) {
+                || cmbReservation_status.getSelectedItem().toString().isEmpty()
+                || cmbTypeRooms.getSelectedItem().toString().isEmpty()
+                || txtTotal_payment.getText().isEmpty()
+                || cmbMetodo_payment.getSelectedItem().toString().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         return true;
     }
 
-   
+    private boolean validarCampoBuscar() {
+        if (txtBuscar.getText().isEmpty() || txtBuscar.getText() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de cliente válido.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Este metodo es el encargado de traer el nombre del cliente de su
+     * jtextfield, el nombre lo envia al metodo del panel reservas para que haga
+     * uso de el y actualize la tabla
+     */
+    public void buscarReservaCliente() {
+        String nombreCliente = txtBuscar.getText();
+        tablaReservas.actualizarTablaBusqueda(nombreCliente);
+    }
+
 }

@@ -34,5 +34,9 @@ public class ReservationController {
     public boolean actualizarReservation(Reservation reservation) {
         return reservationDao.actualizarReserva(reservation);
     }
+    
+    public ArrayList<Reservation> buscarReservaCliente(String nombreCliente){
+        return reservationDao.buscarReservaCliente(nombreCliente);
+    }
 
 }
