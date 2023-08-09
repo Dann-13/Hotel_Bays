@@ -19,18 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import models.Reservation;
+import utils.Conexion;
 
 /**
  *
  * @author dan-dev
  */
 public class ReservationDao {
-
-    private Connection con;
-
-    public ReservationDao(Connection con) {
-        this.con = con;
-    }
 
     public ArrayList<Reservation> obtenerReservas() {
         ArrayList<Reservation> reservas = new ArrayList<>();
@@ -41,8 +36,16 @@ public class ReservationDao {
                 + "LEFT JOIN payments p ON r.id_reservation = p.id_reservation "
                 + "GROUP BY r.id_reservation, r.id_client, c.name, r.check_in_date, r.check_out_date, "
                 + "r.reservation_status, r.room_type, p.payment_method";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            rs = stmt.executeQuery();
+
             while (rs.next()) {
                 int id_reservation = rs.getInt("id_reservation");
                 int id_client = rs.getInt("id_client");
@@ -62,7 +65,7 @@ public class ReservationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            cerrarConexion();
+            cerrarRecursos(con, stmt, rs);
         }
 
         return reservas;
@@ -115,7 +118,7 @@ public class ReservationDao {
 
         String queryPayments = "UPDATE payments SET total_payment = ?, payment_method = ? WHERE id_reservation = ?";
 
-        try {
+        try (Connection con = Conexion.getInstance().getConnection()) {
             // Actualizar datos en la tabla 'reservations'
             try (PreparedStatement psReservations = con.prepareStatement(queryReservations)) {
                 psReservations.setInt(1, reserva.getId_client());
@@ -159,10 +162,18 @@ public class ReservationDao {
                 + "FROM reservations r "
                 + "LEFT JOIN clients c ON r.id_client = c.id_client "
                 + "LEFT JOIN payments p ON r.id_reservation = p.id_reservation "
-                + "WHERE c.name LIKE ?"; // Filtrar por nombre del cliente (sin GROUP BY)
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, "%" + nombreCliente +"%"); // Agregar el nombre del cliente como filtro
-            ResultSet rs = stmt.executeQuery();
+                + "WHERE c.name LIKE ?";
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, "%" + nombreCliente + "%"); // Agregar el nombre del cliente como filtro
+            rs = stmt.executeQuery();
+
             while (rs.next()) {
                 int id_reservation = rs.getInt("id_reservation");
                 int id_client = rs.getInt("id_client");
@@ -182,20 +193,36 @@ public class ReservationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            cerrarConexion();
+            cerrarRecursos(con, stmt, rs);
         }
+
         System.out.println("Resultado de la búsqueda: " + reservas); // Mensaje de depuración
         return reservas;
     }
-
-    public void cerrarConexion() {
-        try {
-            if (con != null && !con.isClosed()) {
-                con.close();
-                System.out.println("Conexión cerrada en Reservation");
+    
+    private void cerrarRecursos(Connection con, PreparedStatement stmt, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+   
 }

@@ -4,9 +4,13 @@
  */
 package utils;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -15,42 +19,52 @@ import java.sql.SQLException;
  */
 public class Conexion {
 
-    Dotenv dotenv = Dotenv.configure().directory("./").load();
-
-    String USER = dotenv.get("USUARIO");
-    String URL = dotenv.get("JDBCURL");
-    String PASSWORD = dotenv.get("PASSWORD");
+    private static final String DB_ENV_FILE_PATH = "./"; // Ubicación del archivo .env
+    private static final String DB_ENV_FILE_NAME = ".env"; // Nombre del archivo .env
+    private static final String DB_USER_KEY = "USUARIO";
+    private static final String DB_URL_KEY = "JDBCURL";
+    private static final String DB_PASSWORD_KEY = "PASSWORD";
+    
     private static Conexion instancia;
     Connection con;
+    private HikariDataSource dataSource;
 
     public Conexion() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(URL, USER, PASSWORD);
-            // Imprimir mensaje de conexión exitosa
-            System.out.println("Conexión exitosa a la base de datos");
-            
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Dotenv dotenv = Dotenv.configure().directory(DB_ENV_FILE_PATH).load();
+
+        String user = dotenv.get(DB_USER_KEY);
+        String url = dotenv.get(DB_URL_KEY);
+        String password = dotenv.get(DB_PASSWORD_KEY);
+        
+        HikariConfig config = new HikariConfig();
+        
+        config.setJdbcUrl(url);
+        config.setUsername(user);
+        config.setPassword(password);
+        dataSource = new HikariDataSource(config);
+        System.out.println("Conexión exitosa a la base de datos");
     }
+    
     public static Conexion getInstance() {
         if (instancia == null) {
             instancia = new Conexion();
         }
         return instancia;
     }
-
-    public Connection getConnection() {
-        return con;
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
-    public void cerrarConexion() {
+    public void cerrarConexion(Connection connection, PreparedStatement stmt, ResultSet rs) {
         try {
-            if (con != null && !con.isClosed()) {
-                con.close();
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
                 System.out.println("Conexión cerrada");
             }
         } catch (SQLException e) {

@@ -327,10 +327,9 @@ public class EdicionReservas extends JPanel {
 
             Reservation reservation = new Reservation(idReserva, idCliente, clientName, checkInDate,
                     checkOutDate, selectedValue, SelectedRoom, totalPayment, SelectedPayment);
-            Conexion conexion = new Conexion();
-            Connection con = conexion.getConnection();
-            ReservationController reservationController = new ReservationController(con);
+            ReservationController reservationController = new ReservationController();
             boolean actualizado = reservationController.actualizarReservation(reservation);
+            System.out.println(actualizado);
             if (actualizado) {
                 JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
 

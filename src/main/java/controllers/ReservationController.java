@@ -18,11 +18,10 @@ import models.Reservation;
 public class ReservationController {
 
     private ReservationDao reservationDao;
-    private Connection con;
 
-    public ReservationController(Connection con) {
-        this.con = con;
-        reservationDao = new ReservationDao(con);
+    public ReservationController() {
+
+        reservationDao = new ReservationDao();
     }
 
     public ArrayList<Reservation> obtenerReservas() {

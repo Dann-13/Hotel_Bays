@@ -267,9 +267,7 @@ public class JPanelRegister extends JPanel {
         String Email = txtEmail.getText();
         char[] password = passwordField.getPassword();
         String Pass = new String(password);
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        AdministratorsController administradorController = new AdministratorsController(con);
+        AdministratorsController administradorController = new AdministratorsController();
         administradorController.registrarAdmin(Name, UserName, Email, Pass);
     }
 

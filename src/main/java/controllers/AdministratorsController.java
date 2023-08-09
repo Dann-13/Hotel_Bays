@@ -17,11 +17,9 @@ import models.Administrator;
 public class AdministratorsController {
 
     private AdministratorsDAO administradorDAO;
-    private Connection con;
 
-    public AdministratorsController(Connection con) {
-        this.con = con;
-        administradorDAO = new AdministratorsDAO(con);
+    public AdministratorsController() {
+        administradorDAO = new AdministratorsDAO();
     }
 
     public void registrarAdmin(String Name, String UserName, String Email, String Password) throws SQLException {
@@ -29,18 +27,18 @@ public class AdministratorsController {
         if (numAdmin != 1) {
             Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "principal");
             administradorDAO.registrarAdministrador(nuevoAdministrador);
-            administradorDAO.cerrarConexion();
+            
         }else{
             Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "contenido");
             administradorDAO.registrarAdministrador(nuevoAdministrador);
-            administradorDAO.cerrarConexion();
+            
         }
 
     }
     
     public boolean verificarAdministrador(String Email, String Password){
        boolean result = administradorDAO.iniciarSesion(Email, Password);
-       administradorDAO.cerrarConexion();
+       
        return result;
     }
     

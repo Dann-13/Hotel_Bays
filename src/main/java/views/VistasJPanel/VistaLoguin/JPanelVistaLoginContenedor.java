@@ -203,14 +203,14 @@ public class JPanelVistaLoginContenedor extends JPanel {
         return texto.equals("Ingrese su Nombre de Usuario") || texto.equals("");
     }
 
-    private boolean iniciarSesion() {
-        String user = TxtUsuario.getText();
-        String pass = new String(passwordField.getPassword());
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        AdministratorsController administradorController = new AdministratorsController(con);
-        return administradorController.verificarAdministrador(user, pass);
-    }
+//    private boolean iniciarSesion() {
+//        String user = TxtUsuario.getText();
+//        String pass = new String(passwordField.getPassword());
+//        Conexion conexion = new Conexion();
+//        Connection con = conexion.getConnection();
+//        AdministratorsController administradorController = new AdministratorsController(con);
+//        return administradorController.verificarAdministrador(user, pass);
+//    }
 
     private void escuchaBtnEntrarClick() {
         ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();

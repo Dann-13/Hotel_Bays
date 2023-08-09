@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JPanel;
@@ -40,7 +41,7 @@ public class TablaUsuarios extends JPanel {
         this.edicionUsuarios = edicionUsuarios;
     }
 
-    public TablaUsuarios() {
+    public TablaUsuarios() throws SQLException {
         this.inicializador();
         this.inicializarTabla();
         this.inicializadorEventos();
@@ -51,10 +52,9 @@ public class TablaUsuarios extends JPanel {
         this.setLayout(new BorderLayout());
     }
 
-    private void inicializarTabla() {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        usuarioController = new UsuarioController(con);
+    private void inicializarTabla() throws SQLException {
+        
+        usuarioController = new UsuarioController();
 
         // Columnas de la tabla
         String[] columnNames = {"Nombre", "Identificacion Id", "Fecha Nacimiento", "Genero",

@@ -56,9 +56,8 @@ public class TablaReservas extends JPanel {
     }
 
     private void inicializarTabla() {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        reservationController = new ReservationController(con);
+        
+        reservationController = new ReservationController();
         //Tabla
         String[] columnNames = {"ID Reserva", "Id Cliente", "Cliente", "Fecha Llegada",
             "Fecha Salida", "Estado", "Tipo", "Pago Total", "Metodo"};
@@ -157,9 +156,7 @@ public class TablaReservas extends JPanel {
      */
     public void actualizarTabla() {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        reservationController = new ReservationController(con);
+        reservationController = new ReservationController();
         // Obtiene una lista de las últimas reservas desde la base de datos
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
         // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
@@ -180,10 +177,8 @@ public class TablaReservas extends JPanel {
 
     public void actualizarTablaBusqueda(String nombreCliente) {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConnection();
-        reservationController = new ReservationController(con);
-        // Obtiene una lista de las últimas reservas desde la base de datos
+        reservationController = new ReservationController();
+         //Obtiene una lista de las últimas reservas desde la base de datos
         ArrayList<Reservation> reservations = reservationController.buscarReservaCliente(nombreCliente);
         // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
         for (Reservation reservation : reservations) {

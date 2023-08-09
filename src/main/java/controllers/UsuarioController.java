@@ -4,9 +4,7 @@
  */
 package controllers;
 
-import dao.ReservationDao;
 import dao.UsuariosDao;
-import java.sql.Connection;
 import java.util.ArrayList;
 import models.Usuario;
 
@@ -15,14 +13,15 @@ import models.Usuario;
  * @author dan-dev
  */
 public class UsuarioController {
-    private Connection con;
+
     private UsuariosDao usuariosDao;
-    public UsuarioController(Connection con) {
-        this.con = con;
-        usuariosDao = new UsuariosDao(con);
+
+    public UsuarioController() {
+        usuariosDao = new UsuariosDao(); 
     }
     
-    public ArrayList<Usuario>obtenerUsuario(){
+
+    public ArrayList<Usuario> obtenerUsuario() {
         return usuariosDao.obtenerClientes();
     }
 }
