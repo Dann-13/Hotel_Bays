@@ -57,7 +57,7 @@ public class MenuPanel extends JPanel {
         this.add(btnBusqueda);
 
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 460,100,30, 17f,null, Colores.MORADO_BASE);
+        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 600,100,30, 17f,null, Colores.MORADO_BASE);
         new Thread() {
             @Override
             public void run() {

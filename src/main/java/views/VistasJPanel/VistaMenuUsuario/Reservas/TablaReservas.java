@@ -45,7 +45,7 @@ public class TablaReservas extends JPanel {
 
     public TablaReservas() {
         this.inicializador();
-        inicializarTabla();
+        this.inicializarTabla();
         this.inicializadorEventos();
     }
 
@@ -71,14 +71,14 @@ public class TablaReservas extends JPanel {
             }
         };
         table = new JTable(tableModel);
+
         // Actualizar los títulos de columna con saltos de línea
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnNames.length; i++) {
             TableColumn column = columnModel.getColumn(i);
-            if (columnNames[i].equals("Fecha Llegada")){
+            if (columnNames[i].equals("Fecha Llegada")) {
                 column.setHeaderValue("<html>Fecha <br> Llegada </html>");
-            }
-            else if (columnNames[i].equals("Fecha Salida")) {
+            } else if (columnNames[i].equals("Fecha Salida")) {
                 column.setHeaderValue("<html>Fecha<br>Salida</html>");
             } else if (columnNames[i].equals("Pago Total")) {
                 column.setHeaderValue("<html>Pago<br>Total</html>");
@@ -87,7 +87,7 @@ public class TablaReservas extends JPanel {
 
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setReorderingAllowed(false);
-
+        //listar las reservas existentes
         ArrayList<Reservation> reservations = reservationController.obtenerReservas();
         for (Reservation reservation : reservations) {
             Object[] rowData = {

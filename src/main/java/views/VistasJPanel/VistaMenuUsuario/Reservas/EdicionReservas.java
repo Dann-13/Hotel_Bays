@@ -84,9 +84,8 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 0; // Fila 0
         this.add(lblId_reserva, gbc);
 
-        txtId_reserva = new JTextField(10);
+        txtId_reserva = new JTextField();
         txtId_reserva.setPreferredSize(new Dimension(180, 25));
-        txtId_reserva.setEnabled(false);
         gbc.gridx = 1; // Columna 1
         gbc.gridy = 0; // Fila 0
         this.add(txtId_reserva, gbc);
@@ -100,7 +99,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 1; // Fila 1
         this.add(lblClient_name, gbc);
 
-        txtClientName = new JTextField(10);
+        txtClientName = new JTextField();
         txtClientName.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
         gbc.gridy = 1; // Fila 1

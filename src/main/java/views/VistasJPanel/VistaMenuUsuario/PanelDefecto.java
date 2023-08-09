@@ -37,14 +37,13 @@ public class PanelDefecto extends JPanel {
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = JLabelFactory.labelStandard("Sistemas de Reservas Hotel Bay's", 0, 0,550,60, 24f,Colores.MORADO_BASE, Color.WHITE);
-        
+        lblTitulo = JLabelFactory.labelStandard("Sistemas de Reservas Hotel Bay's", 0, 0,850,60, 24f,Colores.MORADO_BASE, Color.WHITE);        
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblTitulo);
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        lblHora = JLabelFactory.labelStandard(" Hoy es " + dateFormat.format(date), 0, 50, 550, 30,14f, Colores.MORADO_BASE, Color.white);
+        lblHora = JLabelFactory.labelStandard(" Hoy es " + dateFormat.format(date), 0, 50, 850, 30,14f, Colores.MORADO_BASE, Color.white);
         this.add(lblHora);
 
         JTextArea area = new JTextArea();
@@ -63,7 +62,7 @@ public class PanelDefecto extends JPanel {
                 + "Gracias por leer esto!"
         );
 
-        area.setBounds(10, 150, 500, 270);
+        area.setBounds(10, 150, 800, 270);
         area.setFont(new Font("Arial", Font.PLAIN, 16));
         this.add(area);
 
