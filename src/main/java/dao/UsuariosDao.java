@@ -4,6 +4,7 @@
  */
 package dao;
 
+import exceptions.CustomDaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ import utils.Conexion;
  */
 public class UsuariosDao {
 
-    public ArrayList<Usuario> obtenerClientes() {
+    public ArrayList<Usuario> obtenerClientes() throws CustomDaoException {
         ArrayList<Usuario> clientes = new ArrayList<>();
         String query = "SELECT name, identity_document, date_of_birth, gender, address, city, country, phone, email, username "
                 + "FROM clients";
@@ -48,8 +49,8 @@ public class UsuariosDao {
                 System.out.println(client.toString());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
+            throw new CustomDaoException("Error al obtener usuarios", e);
+        } finally {
             cerrarRecursos(con, stmt, rs);
         }
         return clientes;

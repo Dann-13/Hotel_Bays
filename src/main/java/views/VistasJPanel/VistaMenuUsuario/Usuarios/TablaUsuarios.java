@@ -5,6 +5,7 @@
 package views.VistasJPanel.VistaMenuUsuario.Usuarios;
 
 import controllers.UsuarioController;
+import exceptions.CustomDaoException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,10 +43,15 @@ public class TablaUsuarios extends JPanel {
         this.edicionUsuarios = edicionUsuarios;
     }
 
-    public TablaUsuarios() throws SQLException {
-        this.inicializador();
-        this.inicializarTabla();
-        this.inicializadorEventos();
+    public TablaUsuarios() {
+        try {
+            this.inicializador();
+            this.inicializarTabla();
+            this.inicializadorEventos();
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener usuarios", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     private void inicializador() {
@@ -52,8 +59,8 @@ public class TablaUsuarios extends JPanel {
         this.setLayout(new BorderLayout());
     }
 
-    private void inicializarTabla() throws SQLException {
-        
+    private void inicializarTabla() throws CustomDaoException {
+
         usuarioController = new UsuarioController();
 
         // Columnas de la tabla
@@ -91,24 +98,27 @@ public class TablaUsuarios extends JPanel {
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setReorderingAllowed(false);
 
-        // Listar los usuarios existentes y agregarlos a la tabla
-        ArrayList<Usuario> usuarios = usuarioController.obtenerUsuario();
-        for (Usuario usuario : usuarios) {
-            Object[] rowData = {
-                usuario.getName(),
-                usuario.getIdentity_document(),
-                usuario.getDate_of_birth(),
-                usuario.getGender(),
-                usuario.getAddress(),
-                usuario.getCity(),
-                usuario.getCountry(),
-                usuario.getPhone(),
-                usuario.getEmail(),
-                usuario.getUsername()
-            };
-            tableModel.addRow(rowData);
+        try {
+            // Listar los usuarios existentes y agregarlos a la tabla
+            ArrayList<Usuario> usuarios = usuarioController.obtenerUsuario();
+            for (Usuario usuario : usuarios) {
+                Object[] rowData = {
+                    usuario.getName(),
+                    usuario.getIdentity_document(),
+                    usuario.getDate_of_birth(),
+                    usuario.getGender(),
+                    usuario.getAddress(),
+                    usuario.getCity(),
+                    usuario.getCountry(),
+                    usuario.getPhone(),
+                    usuario.getEmail(),
+                    usuario.getUsername()
+                };
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            throw new CustomDaoException("Error al obtener usuarios para la tabla", e);
         }
-
         // Personalizar el aspecto de la tabla
         table.getTableHeader().setBackground(Colores.MORADO_BASE);
         table.getTableHeader().setForeground(Color.white);
@@ -131,7 +141,7 @@ public class TablaUsuarios extends JPanel {
                         String direccion = table.getValueAt(selectedRow, 4).toString();
                         String telefono = table.getValueAt(selectedRow, 7).toString();
                         String email = table.getValueAt(selectedRow, 8).toString();
-                        
+
                         edicionUsuarios.recogerDatos(nombreUsuario, direccion, telefono, email);
                     }
 

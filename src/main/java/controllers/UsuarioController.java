@@ -5,6 +5,7 @@
 package controllers;
 
 import dao.UsuariosDao;
+import exceptions.CustomDaoException;
 import java.util.ArrayList;
 import models.Usuario;
 
@@ -21,7 +22,7 @@ public class UsuarioController {
     }
     
 
-    public ArrayList<Usuario> obtenerUsuario() {
+    public ArrayList<Usuario> obtenerUsuario()throws CustomDaoException {
         return usuariosDao.obtenerClientes();
     }
 }
