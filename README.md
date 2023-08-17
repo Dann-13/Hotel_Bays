@@ -73,17 +73,17 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![NetBeans](https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Apache_NetBeans_Logo.svg/50px-Apache_NetBeans_Logo.svg.png)][NetBeans-url]
+* [![Java](https://www.vectorlogo.zone/logos/java/java-icon.svg)][Java-url]
+* [![Maven](https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Apache_Maven_logo.svg/50px-Apache_Maven_logo.svg.png)][Maven-url]
+
+[NetBeans-url]: https://netbeans.apache.org/
+[Java-url]: https://www.oracle.com/java/
+[Maven-url]: https://maven.apache.org/
+[Spring-Boot-url]: https://spring.io/projects/spring-boot
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -92,32 +92,33 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Welcome to the administration program for the "Playa Cristal" hotel's web application continuation project. This program is designed to empower administrators to efficiently manage user data, reservations, rooms, prices, and more. Please note that this project is currently under construction.
+
+To set up the program locally and start working on it, follow these simple steps:
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-downloads.html)
+* [NetBeans IDE](https://netbeans.apache.org/)
+* [Maven](https://maven.apache.org/)
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repository to your local machine:
    ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+   git clone https://github.com/Dann-13/Hotel_Bays
+2. Create a .env file at the root of your project.
+3. Open the .env file in a text editor.
+4. Add the following lines to the .env file and replace the placeholders with your actual database credentials:
+   `USUARIO=your_database_username`<br>
+   `JDBCURL=jdbc:mysql://localhost:3306/hotelKing` <br>
+   `PASSWORD=your_database_password` <br>
+   Replace your_database_username and your_database_password with your actual database username and password.
+5. Save the .env file.
+6. Open the project in NetBeans IDE.
+7. Configure your project settings and dependencies using Maven.
+8. Run /main/Hotel_Bays.java
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -166,21 +167,12 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Daniel - [Gmail](flashdev.13@gmail.com) 
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [Hotel]([https://github.com/github_username/repo_name](https://github.com/Dann-13/Hotel_Bays))
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -189,9 +181,16 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+I want to extend my gratitude to the following libraries and dependencies that have played a crucial role in the development of this hotel administration program:
+- [Alura](https://www.alura.com.br/): For providing the opportunity and resources to develop this project as one of the sprints in the Oracle Next Education program. Your guidance and support have been invaluable.
+- [mysql-connector-java](https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.33): For providing a reliable and efficient connection to the MySQL database.
+- [dotenv-java](https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java/3.0.0): For simplifying the process of managing environment variables.
+- [jcalendar](https://mvnrepository.com/artifact/com.toedter/jcalendar/1.4): For offering a powerful date picker component that enhances the user experience.
+- [HikariCP](https://mvnrepository.com/artifact/com.zaxxer/HikariCP/5.0.0): For enabling efficient and high-performance database connection pooling.
+
+These libraries have significantly contributed to the functionality and efficiency of the program, and I am thankful for the hard work put in by their respective developers.
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
