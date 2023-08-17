@@ -29,4 +29,9 @@ public class UsuarioController {
         return usuariosDao.actualizarUsuario(usuario);
     }
     
+    public ArrayList<Usuario> buscarUsuario(String nombre) throws CustomDaoException{
+        return usuariosDao.buscarUsuarioPorNombre(nombre);
+    }
+    
+    
 }

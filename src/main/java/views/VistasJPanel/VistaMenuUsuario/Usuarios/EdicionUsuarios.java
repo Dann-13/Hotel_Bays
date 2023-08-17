@@ -158,7 +158,7 @@ public class EdicionUsuarios extends JPanel {
         this.add(btnShare, gbc);
 
         gbc.gridy = 5;
-        btnUpdate = new JButton("Actualizar Reservas");
+        btnUpdate = new JButton("Actualizar Tabla");
         this.add(btnUpdate, gbc);
     }
 
@@ -185,6 +185,24 @@ public class EdicionUsuarios extends JPanel {
               }
           };
           btnSave.addActionListener(escuchaBtnSave);
+          
+          ActionListener escuchaBtnBuscar = new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  if(validarCampoBuscar()){
+                      buscarUsuario();
+                  }
+              }
+          };
+          btnShare.addActionListener(escuchaBtnBuscar);
+          
+          ActionListener escuchaBtnUpdate = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablaUsuarios.actualizarTabla();
+            }
+        };
+        btnUpdate.addActionListener(escuchaBtnUpdate);
 
     }
 
@@ -211,4 +229,23 @@ public class EdicionUsuarios extends JPanel {
             return false;
         }
     }
+    
+    private boolean validarCampoBuscar() {
+        if (txtBuscar.getText().isEmpty() || txtBuscar.getText() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de cliente válido.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Este metodo es el encargado de traer el nombre del cliente de su
+     * jtextfield, el nombre lo envia al metodo del panel reservas para que haga
+     * uso de el y actualize la tabla
+     */
+    public void buscarUsuario() {
+        String nombreCliente = txtBuscar.getText();
+        System.out.println(nombreCliente);
+        tablaUsuarios.actualizarTablaBusqueda(nombreCliente);
+    }
+
 }

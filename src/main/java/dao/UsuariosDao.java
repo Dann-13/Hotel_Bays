@@ -81,6 +81,44 @@ public class UsuariosDao {
         }
     }
 
+    public ArrayList<Usuario> buscarUsuarioPorNombre(String nombre) throws CustomDaoException {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        String query = "SELECT identity_document, date_of_birth, gender, address, city, country, phone, email, username "
+                + "FROM clients WHERE name LIKE ?";
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, "%" + nombre + "%"); // Agregar el nombre como filtro
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String identity_document = rs.getString("identity_document");
+                Date date_of_birth = rs.getDate("date_of_birth");
+                String gender = rs.getString("gender");
+                String address = rs.getString("address");
+                String city = rs.getString("city");
+                String country = rs.getString("country");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String username = rs.getString("username");
+
+                Usuario usuario = new Usuario(nombre, identity_document, date_of_birth, gender, address, city, country, phone, email, username);
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            throw new CustomDaoException("Error al buscar usuario por nombre", e);
+        } finally {
+            cerrarRecursos(con, stmt, rs);
+        }
+
+        return usuarios;
+    }
+
     private void cerrarRecursos(Connection con, PreparedStatement stmt, ResultSet rs) {
         if (rs != null) {
             try {

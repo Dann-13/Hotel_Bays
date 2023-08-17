@@ -188,4 +188,34 @@ public class TablaUsuarios extends JPanel {
 
         }
     }
+
+    public void actualizarTablaBusqueda(String nombreCliente) {
+        tableModel.setRowCount(0); // Limpia todos los datos de la tabla
+        usuarioController = new UsuarioController();
+        //Obtiene una lista de las últimas reservas desde la base de datos
+        try {
+            ArrayList<Usuario> usuarios = usuarioController.buscarUsuario(nombreCliente);
+            // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
+            for (Usuario usuario : usuarios) {
+
+                Object[] rowData = {
+                    usuario.getName(),
+                    usuario.getIdentity_document(),
+                    usuario.getDate_of_birth(),
+                    usuario.getGender(),
+                    usuario.getAddress(),
+                    usuario.getCity(),
+                    usuario.getCountry(),
+                    usuario.getPhone(),
+                    usuario.getEmail(),
+                    usuario.getUsername()
+                };
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener usuarios: " + e.getMessage());
+
+        }
+
+    }
 }
