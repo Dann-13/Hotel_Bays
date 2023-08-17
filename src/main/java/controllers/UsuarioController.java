@@ -25,4 +25,8 @@ public class UsuarioController {
     public ArrayList<Usuario> obtenerUsuario()throws CustomDaoException {
         return usuariosDao.obtenerClientes();
     }
+    public boolean actualizarUsuarios(Usuario usuario) throws CustomDaoException {
+        return usuariosDao.actualizarUsuario(usuario);
+    }
+    
 }

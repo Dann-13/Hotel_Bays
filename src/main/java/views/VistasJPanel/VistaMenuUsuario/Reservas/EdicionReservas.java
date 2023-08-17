@@ -230,7 +230,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 4;
         btnShare = new JButton("Buscar");
         this.add(btnShare, gbc);
-        
+
         gbc.gridy = 5;
         btnUpdate = new JButton("Actualizar Reservas");
         this.add(btnUpdate, gbc);
@@ -273,17 +273,17 @@ public class EdicionReservas extends JPanel {
         ActionListener escuchaBtnShare = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(validarCampoBuscar()){
+                if (validarCampoBuscar()) {
                     buscarReservaCliente();
-                }else{
+                } else {
                     System.err.println("Error en la busqueda, campo vacio o null");
                 }
-                
+
             }
         };
 
         btnShare.addActionListener(escuchaBtnShare);
-        
+
         ActionListener escuchaBtnUpdate = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,43 +303,38 @@ public class EdicionReservas extends JPanel {
      *
      */
     public boolean actualizarDatos() {
-        if (true) {
 
-            // Obtener los datos de los campos de texto
-            int idReserva = Integer.parseInt(txtId_reserva.getText());
-            String clientName = txtClientName.getText();
-            int idCliente = Integer.parseInt(txtIdClient.getText());
-            // Obtener las fechas seleccionadas de los JDateChooser
-            Date checkInDate = checkInDatePicker.getDate();
-            Date checkOutDate = checkOutDatePicker.getDate();
-            // Obtener el valor seleccionado del JComboBox 
-            Object selectedOptionCmb = cmbReservation_status.getSelectedItem();
-            String selectedValue = selectedOptionCmb.toString();
+        // Obtener los datos de los campos de texto
+        int idReserva = Integer.parseInt(txtId_reserva.getText());
+        String clientName = txtClientName.getText();
+        int idCliente = Integer.parseInt(txtIdClient.getText());
+        // Obtener las fechas seleccionadas de los JDateChooser
+        Date checkInDate = checkInDatePicker.getDate();
+        Date checkOutDate = checkOutDatePicker.getDate();
+        // Obtener el valor seleccionado del JComboBox 
+        Object selectedOptionCmb = cmbReservation_status.getSelectedItem();
+        String selectedValue = selectedOptionCmb.toString();
 
-            Object selectedOptionRooms = cmbTypeRooms.getSelectedItem();
-            String SelectedRoom = selectedOptionRooms.toString();
+        Object selectedOptionRooms = cmbTypeRooms.getSelectedItem();
+        String SelectedRoom = selectedOptionRooms.toString();
 
-            String totalPaymentString = txtTotal_payment.getText();
-            BigDecimal totalPayment = new BigDecimal(totalPaymentString);
-            System.out.println(totalPayment);
-            Object selectedOptionPayment = cmbMetodo_payment.getSelectedItem();
-            String SelectedPayment = selectedOptionPayment.toString();
+        String totalPaymentString = txtTotal_payment.getText();
+        BigDecimal totalPayment = new BigDecimal(totalPaymentString);
+        System.out.println(totalPayment);
+        Object selectedOptionPayment = cmbMetodo_payment.getSelectedItem();
+        String SelectedPayment = selectedOptionPayment.toString();
 
-            Reservation reservation = new Reservation(idReserva, idCliente, clientName, checkInDate,
-                    checkOutDate, selectedValue, SelectedRoom, totalPayment, SelectedPayment);
-            ReservationController reservationController = new ReservationController();
-            boolean actualizado = reservationController.actualizarReservation(reservation);
-            System.out.println(actualizado);
-            if (actualizado) {
-                JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+        Reservation reservation = new Reservation(idReserva, idCliente, clientName, checkInDate,
+                checkOutDate, selectedValue, SelectedRoom, totalPayment, SelectedPayment);
+        ReservationController reservationController = new ReservationController();
+        boolean actualizado = reservationController.actualizarReservation(reservation);
+        if (actualizado) {
+            JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al actualiza.");
-            }
-            return actualizado;
         } else {
-            return false;
+            JOptionPane.showMessageDialog(null, "Error al actualiza.");
         }
+        return actualizado;
 
     }
 

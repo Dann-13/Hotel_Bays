@@ -141,8 +141,8 @@ public class TablaUsuarios extends JPanel {
                         String direccion = table.getValueAt(selectedRow, 4).toString();
                         String telefono = table.getValueAt(selectedRow, 7).toString();
                         String email = table.getValueAt(selectedRow, 8).toString();
-
-                        edicionUsuarios.recogerDatos(nombreUsuario, direccion, telefono, email);
+                        String identify = table.getValueAt(selectedRow, 1).toString();
+                        edicionUsuarios.recogerDatos(nombreUsuario, direccion, telefono, email, identify);
                     }
 
                 }
@@ -150,5 +150,42 @@ public class TablaUsuarios extends JPanel {
 
         });
 
+    }
+
+    /**
+     * *
+     * Este metodo actualiza la tabla usuarios con las ultimos usuarios
+     * existente en la base de datos a su vez servira para cargar la tabla
+     * cuando se lo requiera (Editar, eliminar etc )
+     *
+     */
+    public void actualizarTabla() {
+        tableModel.setRowCount(0); // Limpia todos los datos de la tabla
+        usuarioController = new UsuarioController();
+        // Obtiene una lista de las últimas reservas desde la base de datos
+        // Listar los usuarios existentes y agregarlos a la tabla
+        try {
+            ArrayList<Usuario> usuarios = usuarioController.obtenerUsuario();
+            for (Usuario usuario : usuarios) {
+                Object[] rowData = {
+                    usuario.getName(),
+                    usuario.getIdentity_document(),
+                    usuario.getDate_of_birth(),
+                    usuario.getGender(),
+                    usuario.getAddress(),
+                    usuario.getCity(),
+                    usuario.getCountry(),
+                    usuario.getPhone(),
+                    usuario.getEmail(),
+                    usuario.getUsername()
+                };
+                tableModel.addRow(rowData);
+            }
+
+        } catch (CustomDaoException e) {
+            // Manejar la excepción aquí
+            JOptionPane.showMessageDialog(null, "Error al obtener usuarios: " + e.getMessage());
+
+        }
     }
 }

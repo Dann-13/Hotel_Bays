@@ -4,19 +4,25 @@
  */
 package views.VistasJPanel.VistaMenuUsuario.Usuarios;
 
+import controllers.UsuarioController;
+import exceptions.CustomDaoException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import models.Usuario;
 import utils.Colores;
 
 /**
@@ -24,17 +30,20 @@ import utils.Colores;
  * @author dan-dev
  */
 public class EdicionUsuarios extends JPanel {
-    JLabel  lblName, lblAddress, lblPhone, lblCorreo, lblBuscar;
-    JTextField txtName, txtAdress, txtPhone, txtCorreo, txtBuscar;
+
+    JLabel lblName, lblAddress, lblPhone, lblCorreo, lblBuscar;
+    JTextField txtName, txtAdress, txtPhone, txtCorreo, txtBuscar, txtIdentify;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
     TablaUsuarios tablaUsuarios;
+
     public void setPanelTablaUsuarios(TablaUsuarios tablaUsuarios) {
         this.tablaUsuarios = tablaUsuarios;
     }
-    public EdicionUsuarios(){
+
+    public EdicionUsuarios() {
         this.inicializador();
         this.inicializadorObjetos();
-//        this.inicializadorEventos();
+        this.inicializadorEventos();
     }
 
     private void inicializador() {
@@ -45,7 +54,7 @@ public class EdicionUsuarios extends JPanel {
     private void inicializadorObjetos() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
-        
+
         // Columna izquierda
         gbc.anchor = GridBagConstraints.WEST;
         // JLabel y JTextField para "Id Reserva"
@@ -56,13 +65,15 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridx = 0; // Columna 0
         gbc.gridy = 0; // Fila 0
         this.add(lblName, gbc);
-        
+
         txtName = new JTextField();
         txtName.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
         gbc.gridy = 0; // Fila 0
         this.add(txtName, gbc);
         
+        txtIdentify = new JTextField();
+
         lblAddress = new JLabel("Direccion");
         lblAddress.setPreferredSize(new Dimension(150, 20));
         lblAddress.setFont(lblAddress.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
@@ -70,13 +81,13 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridx = 0; // Columna 0
         gbc.gridy = 1; // Fila 1
         this.add(lblAddress, gbc);
-        
+
         txtAdress = new JTextField();
         txtAdress.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
         gbc.gridy = 1; // Fila 1
         this.add(txtAdress, gbc);
-        
+
         lblPhone = new JLabel("Telefono");
         lblPhone.setPreferredSize(new Dimension(150, 20));
         lblPhone.setFont(lblPhone.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
@@ -84,13 +95,13 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         this.add(lblPhone, gbc);
-        
+
         txtPhone = new JTextField();
         txtPhone.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
         gbc.gridy = 2;
         this.add(txtPhone, gbc);
-        
+
         lblCorreo = new JLabel("Correo");
         lblCorreo.setPreferredSize(new Dimension(150, 20));
         lblCorreo.setFont(lblCorreo.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
@@ -98,14 +109,14 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 3;
         this.add(lblCorreo, gbc);
-        
+
         txtCorreo = new JTextField();
         txtCorreo.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
         gbc.gridy = 3;
         this.add(txtCorreo, gbc);
-        
-         // Separador vertical
+
+        // Separador vertical
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setPreferredSize(new Dimension(2, 0));
         gbc.gridx = 2; // Columna 2
@@ -145,21 +156,59 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridy = 4;
         btnShare = new JButton("Buscar");
         this.add(btnShare, gbc);
-        
+
         gbc.gridy = 5;
         btnUpdate = new JButton("Actualizar Reservas");
         this.add(btnUpdate, gbc);
     }
+
     public void recogerDatos(String nombreUsuario, String direccion, String telefono,
-            String email) {
+            String email, String idIdentify) {
 
         txtName.setText(nombreUsuario);
         txtAdress.setText(direccion);
         txtPhone.setText(telefono);
         txtCorreo.setText(email);
+        txtIdentify.setText(idIdentify);
 
     }
-//    private void inicializadorEventos() {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
+
+    private void inicializadorEventos() {
+          ActionListener escuchaBtnSave = new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  if(actualizarDatos()){
+                      tablaUsuarios.actualizarTabla();
+                  }else{
+                      
+                  }
+              }
+          };
+          btnSave.addActionListener(escuchaBtnSave);
+
+    }
+
+    private boolean actualizarDatos() {
+        String name = txtName.getText();
+        String adress = txtAdress.getText();
+        String phone = txtPhone.getText();
+        String correo = txtCorreo.getText();
+        String identify = txtIdentify.getText();
+
+        Usuario usuario = new Usuario(name, adress, phone, correo,identify);
+        UsuarioController usuarioController = new UsuarioController();
+        try {
+            boolean actualizado = usuarioController.actualizarUsuarios(usuario);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al actualizar.");
+                return false;
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+            return false;
+        }
+    }
 }

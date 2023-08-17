@@ -55,7 +55,32 @@ public class UsuariosDao {
         }
         return clientes;
     }
-    
+
+    public boolean actualizarUsuario(Usuario usuario) throws CustomDaoException {
+        String query = "UPDATE clients SET name = ?, address = ?, phone = ?, email = ?, username = ? WHERE identity_document = ?";
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, usuario.getName());
+            stmt.setString(2, usuario.getAddress());
+            stmt.setString(3, usuario.getPhone());
+            stmt.setString(4, usuario.getEmail());
+            stmt.setString(5, usuario.getUsername());
+            stmt.setString(6, usuario.getIdentity_document());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected == 1;
+        } catch (SQLException e) {
+            throw new CustomDaoException("Error al actualizar el usuario", e);
+        } finally {
+            cerrarRecursos(con, stmt, null);
+        }
+    }
+
     private void cerrarRecursos(Connection con, PreparedStatement stmt, ResultSet rs) {
         if (rs != null) {
             try {

@@ -48,20 +48,22 @@ public class MainPanelInicio extends JPanel {
 
     private void inicializadorObjetos() {
 
-        labelImg = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imageninicio.png", 0, 0, 550, 431);
+        labelImg = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imageninicio.png", 0, 0, 550, 440);
+        
         this.add(labelImg);
 
-        LblPie = JLabelFactory.labelStandard("Desarrollado Por: FlashDev ©", 0, 431, 800, 30,17f, new Color(52, 43, 255), Color.WHITE);
+        LblPie = JLabelFactory.labelStandard("Desarrollado Por: FlashDev ©", 0, 440, 800, 30,17f, new Color(52, 43, 255), Color.WHITE);
         LblPie.setHorizontalAlignment(JLabel.CENTER);
         this.add(LblPie);
 
         jPanelDerecho = new JPanel();
         jPanelDerecho.setLayout(null);
         jPanelDerecho.setBackground(Color.WHITE);
-        jPanelDerecho.setBounds(550, 0, 250, 500);
+        jPanelDerecho.setBounds(550, 0, 250, 510);
 
         //Imagen Logo
-        lblLogo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/logoHotel.png", 20, 10, 200, 200);
+        lblLogo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/logoHotel.png", 30, 30, 200, 120);
+
         jPanelDerecho.add(lblLogo);
 
         lbLloguin = JLabelFactory.labelStandardFont("Login", 95, 220, 23.0f, Color.WHITE, new Color(52, 43, 255));

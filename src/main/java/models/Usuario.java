@@ -35,6 +35,13 @@ public class Usuario {
         this.Email = Email;
         this.Username = Username;
     }
+    public Usuario(String Name, String Address, String Phone, String Email, String Identity_document){
+        this.Name = Name;
+        this.Address = Address;
+        this.Phone = Phone;
+        this.Email = Email;
+        this.Identity_document = Identity_document;
+    }
 
     public String getName() {
         return Name;
