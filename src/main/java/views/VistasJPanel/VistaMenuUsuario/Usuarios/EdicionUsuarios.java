@@ -229,7 +229,10 @@ public class EdicionUsuarios extends JPanel {
             return false;
         }
     }
-    
+    /**
+     * Metodo que verifica si el campo de busqueda no este vacio
+     * @return true si la validacion es correcta
+     */
     private boolean validarCampoBuscar() {
         if (txtBuscar.getText().isEmpty() || txtBuscar.getText() == null) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de cliente válido.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);

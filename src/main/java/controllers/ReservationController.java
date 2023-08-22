@@ -5,10 +5,8 @@
 package controllers;
 
 import dao.ReservationDao;
-import java.sql.Connection;
-import java.sql.Statement;
+import exceptions.CustomDaoException;
 import java.util.ArrayList;
-import java.util.Date;
 import models.Reservation;
 
 /**
@@ -24,17 +22,17 @@ public class ReservationController {
         reservationDao = new ReservationDao();
     }
 
-    public ArrayList<Reservation> obtenerReservas() {
+    public ArrayList<Reservation> obtenerReservas() throws CustomDaoException{
 
         return reservationDao.obtenerReservas();
 
     }
 
-    public boolean actualizarReservation(Reservation reservation) {
+    public boolean actualizarReservation(Reservation reservation)  throws CustomDaoException {
         return reservationDao.actualizarReserva(reservation);
     }
     
-    public ArrayList<Reservation> buscarReservaCliente(String nombreCliente){
+    public ArrayList<Reservation> buscarReservaCliente(String nombreCliente)  throws CustomDaoException{
         return reservationDao.buscarReservaCliente(nombreCliente);
     }
 

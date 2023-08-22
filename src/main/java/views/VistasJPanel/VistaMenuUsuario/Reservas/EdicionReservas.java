@@ -6,6 +6,7 @@ package views.VistasJPanel.VistaMenuUsuario.Reservas;
 
 import com.toedter.calendar.JDateChooser;
 import controllers.ReservationController;
+import exceptions.CustomDaoException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -327,15 +328,19 @@ public class EdicionReservas extends JPanel {
         Reservation reservation = new Reservation(idReserva, idCliente, clientName, checkInDate,
                 checkOutDate, selectedValue, SelectedRoom, totalPayment, SelectedPayment);
         ReservationController reservationController = new ReservationController();
-        boolean actualizado = reservationController.actualizarReservation(reservation);
-        if (actualizado) {
-            JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al actualiza.");
+        try {
+            boolean actualizado = reservationController.actualizarReservation(reservation);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+                return actualizado;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al actualiza.");
+                return actualizado;
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+            return false;
         }
-        return actualizado;
-
     }
 
     private boolean validarCampos() {

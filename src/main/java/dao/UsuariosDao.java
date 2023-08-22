@@ -21,6 +21,13 @@ import utils.Conexion;
  */
 public class UsuariosDao {
 
+    /**
+     * Obtiene la lista de clientes almacenados en la base de datos. Realiza una
+     * consulta a la base de datos y devuelve una lista de objetos Usuario.
+     * 
+     * @return Una lista de objetos Usuario que representan a los clientes almacenados.
+     * @throws CustomDaoException Si ocurre un error al realizar la consulta o procesar los resultados.
+     */
     public ArrayList<Usuario> obtenerClientes() throws CustomDaoException {
         ArrayList<Usuario> clientes = new ArrayList<>();
         String query = "SELECT name, identity_document, date_of_birth, gender, address, city, country, phone, email, username "
@@ -55,7 +62,13 @@ public class UsuariosDao {
         }
         return clientes;
     }
-
+    
+    /**
+     * Actualiza los detalles de un usuario en la base de datos.
+     * @param usuario El objeto Usuario con los nuevos detalles a actualizar.
+     * @return true si la actualización se realizó con éxito, false si no se realizó.
+     * @throws CustomDaoException Si ocurre un error durante la actualización.
+     */
     public boolean actualizarUsuario(Usuario usuario) throws CustomDaoException {
         String query = "UPDATE clients SET name = ?, address = ?, phone = ?, email = ?, username = ? WHERE identity_document = ?";
         Connection con = null;
@@ -80,7 +93,13 @@ public class UsuariosDao {
             cerrarRecursos(con, stmt, null);
         }
     }
-
+    
+    /**
+     * Busca usuarios en la base de datos por su nombre, utilizando un filtro "LIKE".
+     * @param nombre El nombre (o parte del nombre) a utilizar como filtro de búsqueda.
+     * @return Una lista de objetos Usuario que coinciden con el filtro de nombre.
+     * @throws CustomDaoException Si ocurre un error durante la búsqueda.
+     */
     public ArrayList<Usuario> buscarUsuarioPorNombre(String nombre) throws CustomDaoException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         String query = "SELECT identity_document, date_of_birth, gender, address, city, country, phone, email, username "
@@ -119,6 +138,15 @@ public class UsuariosDao {
         return usuarios;
     }
 
+    /**
+     * Cierra los recursos de conexión, sentencia preparada y conjunto de
+     * resultados. Este método asegura que los recursos se cierren adecuadamente
+     * y maneja excepciones de SQLException.
+     *
+     * @param con La conexión a la base de datos que se cerrará.
+     * @param stmt La sentencia preparada que se cerrará.
+     * @param rs El conjunto de resultados que se cerrará.
+     */
     private void cerrarRecursos(Connection con, PreparedStatement stmt, ResultSet rs) {
         if (rs != null) {
             try {

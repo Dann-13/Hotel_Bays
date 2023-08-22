@@ -4,6 +4,7 @@
  */
 package dao;
 
+import exceptions.CustomDaoException;
 import java.awt.List;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -27,7 +28,7 @@ import utils.Conexion;
  */
 public class ReservationDao {
 
-    public ArrayList<Reservation> obtenerReservas() {
+    public ArrayList<Reservation> obtenerReservas() throws CustomDaoException {
         ArrayList<Reservation> reservas = new ArrayList<>();
         String query = "SELECT r.id_reservation, r.id_client, c.name AS client_name, r.check_in_date, r.check_out_date, "
                 + "r.reservation_status, r.room_type, p.payment_method "
@@ -63,7 +64,7 @@ public class ReservationDao {
                 reservas.add(reserva);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomDaoException("Error al obtener reservas", e);
         } finally {
             cerrarRecursos(con, stmt, rs);
         }

@@ -10,10 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +23,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import models.Usuario;
 import utils.Colores;
-import utils.Conexion;
 
 /**
  *
@@ -129,7 +125,11 @@ public class TablaUsuarios extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
     }
-
+    
+    /**
+     * Metodo inicializador de eventos, aqui estaran los listener que ejecutaran las acciones
+     * de los botones segun corresponda
+     */
     private void inicializadorEventos() {
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -188,6 +188,12 @@ public class TablaUsuarios extends JPanel {
 
         }
     }
+    
+    /**
+     * Metodo para listar los resultados de la busqueda, limpia y lista los resultados 
+     * segun el nombre que el administrador decida buscar
+     * @param nombreCliente 
+     */
 
     public void actualizarTablaBusqueda(String nombreCliente) {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla

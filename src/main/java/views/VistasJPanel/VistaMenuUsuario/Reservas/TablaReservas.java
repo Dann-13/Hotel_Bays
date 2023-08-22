@@ -5,6 +5,7 @@
 package views.VistasJPanel.VistaMenuUsuario.Reservas;
 
 import controllers.ReservationController;
+import exceptions.CustomDaoException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,9 +46,15 @@ public class TablaReservas extends JPanel {
     }
 
     public TablaReservas() {
-        this.inicializador();
-        this.inicializarTabla();
-        this.inicializadorEventos();
+        try {
+            this.inicializador();
+            this.inicializarTabla();
+            this.inicializadorEventos();
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener usuarios", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
     }
 
     private void inicializador() {
@@ -55,8 +63,8 @@ public class TablaReservas extends JPanel {
 
     }
 
-    private void inicializarTabla() {
-        
+    private void inicializarTabla() throws CustomDaoException {
+
         reservationController = new ReservationController();
         //Tabla
         String[] columnNames = {"ID Reserva", "Id Cliente", "Cliente", "Fecha Llegada",
@@ -86,21 +94,26 @@ public class TablaReservas extends JPanel {
 
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setReorderingAllowed(false);
-        //listar las reservas existentes
-        ArrayList<Reservation> reservations = reservationController.obtenerReservas();
-        for (Reservation reservation : reservations) {
-            Object[] rowData = {
-                reservation.getId_reservation(),
-                reservation.getId_client(),
-                reservation.getClient_name(),
-                reservation.getCheck_in_date(),
-                reservation.getCheck_out_date(),
-                reservation.getReservation_status(),
-                reservation.getRoom_type(),
-                reservation.getTotal_payment(),
-                reservation.getPayment_method()
-            };
-            tableModel.addRow(rowData);
+        try {
+            //listar las reservas existentes
+            ArrayList<Reservation> reservations = reservationController.obtenerReservas();
+            for (Reservation reservation : reservations) {
+                Object[] rowData = {
+                    reservation.getId_reservation(),
+                    reservation.getId_client(),
+                    reservation.getClient_name(),
+                    reservation.getCheck_in_date(),
+                    reservation.getCheck_out_date(),
+                    reservation.getReservation_status(),
+                    reservation.getRoom_type(),
+                    reservation.getTotal_payment(),
+                    reservation.getPayment_method()
+                };
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            throw new CustomDaoException("Error al obtener usuarios para la tabla", e);
+
         }
 
         // Cambiar el color de fondo y color de letra de la fila de títulos (celdas de encabezado)
@@ -157,44 +170,57 @@ public class TablaReservas extends JPanel {
     public void actualizarTabla() {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
         reservationController = new ReservationController();
-        // Obtiene una lista de las últimas reservas desde la base de datos
-        ArrayList<Reservation> reservations = reservationController.obtenerReservas();
-        // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
-        for (Reservation reservation : reservations) {
-            Object[] rowData = {
-                reservation.getId_reservation(),
-                reservation.getId_client(),
-                reservation.getClient_name(),
-                reservation.getCheck_in_date(),
-                reservation.getCheck_out_date(),
-                reservation.getReservation_status(),
-                reservation.getRoom_type(),
-                reservation.getTotal_payment(),
-                reservation.getPayment_method(),};
-            tableModel.addRow(rowData);
+        try {
+            // Obtiene una lista de las últimas reservas desde la base de datos
+            ArrayList<Reservation> reservations = reservationController.obtenerReservas();
+            // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
+            for (Reservation reservation : reservations) {
+                Object[] rowData = {
+                    reservation.getId_reservation(),
+                    reservation.getId_client(),
+                    reservation.getClient_name(),
+                    reservation.getCheck_in_date(),
+                    reservation.getCheck_out_date(),
+                    reservation.getReservation_status(),
+                    reservation.getRoom_type(),
+                    reservation.getTotal_payment(),
+                    reservation.getPayment_method(),};
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            // Manejar la excepción aquí
+            JOptionPane.showMessageDialog(null, "Error al obtener las reservas: " + e.getMessage());
+
         }
+
     }
 
     public void actualizarTablaBusqueda(String nombreCliente) {
         tableModel.setRowCount(0); // Limpia todos los datos de la tabla
         reservationController = new ReservationController();
-         //Obtiene una lista de las últimas reservas desde la base de datos
-        ArrayList<Reservation> reservations = reservationController.buscarReservaCliente(nombreCliente);
-        // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
-        for (Reservation reservation : reservations) {
+        try {
+            //Obtiene una lista de las últimas reservas desde la base de datos
+            ArrayList<Reservation> reservations = reservationController.buscarReservaCliente(nombreCliente);
+            // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
+            for (Reservation reservation : reservations) {
 
-            Object[] rowData = {
-                reservation.getId_reservation(),
-                reservation.getId_client(),
-                reservation.getClient_name(),
-                reservation.getCheck_in_date(),
-                reservation.getCheck_out_date(),
-                reservation.getReservation_status(),
-                reservation.getRoom_type(),
-                reservation.getTotal_payment(),
-                reservation.getPayment_method(),};
-            tableModel.addRow(rowData);
+                Object[] rowData = {
+                    reservation.getId_reservation(),
+                    reservation.getId_client(),
+                    reservation.getClient_name(),
+                    reservation.getCheck_in_date(),
+                    reservation.getCheck_out_date(),
+                    reservation.getReservation_status(),
+                    reservation.getRoom_type(),
+                    reservation.getTotal_payment(),
+                    reservation.getPayment_method(),};
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener usuarios: " + e.getMessage());
+
         }
+
     }
 
 }
