@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import views.VistasJPanel.VistaMenuUsuario.PanelHabitaciones;
 import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
 import views.VistasJPanel.VistaMenuUsuario.PanelUsuarios;
 
@@ -28,6 +29,7 @@ public class ContenedorMenuUsuario extends JFrame {
 
     PanelUsuarios panelUsuario;
     PanelReservas panelReservas;
+    PanelHabitaciones panelHabitaciones;
     MenuPanel panelIzquierdo;
     PanelDefecto panelDefecto;
     private JPanel cards;
@@ -96,6 +98,18 @@ public class ContenedorMenuUsuario extends JFrame {
                 splitPane.revalidate();
                 splitPane.repaint();
             }
+        });
+        
+        panelIzquierdo.getBtnHabitaciones().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panelHabitaciones = new PanelHabitaciones();
+                panelHabitaciones.setPreferredSize(new Dimension(500,0));
+                splitPane.setRightComponent(panelHabitaciones);
+                splitPane.revalidate();
+                splitPane.repaint();
+            }
+            
         });
         this.add(splitPane, BorderLayout.CENTER);
         this.pack();

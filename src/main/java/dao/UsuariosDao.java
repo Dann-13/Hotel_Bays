@@ -53,7 +53,6 @@ public class UsuariosDao {
 
                 Usuario client = new Usuario(name, identity_document, date_of_birth, gender, address, city, country, phone, email, username);
                 clientes.add(client);
-                System.out.println(client.toString());
             }
         } catch (SQLException e) {
             throw new CustomDaoException("Error al obtener usuarios", e);

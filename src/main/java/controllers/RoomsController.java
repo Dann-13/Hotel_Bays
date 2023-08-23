@@ -5,12 +5,10 @@
 package controllers;
 
 import dao.RoomsDAO;
-import java.awt.List;
+import exceptions.CustomDaoException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import models.Rooms;
-import utils.Conexion;
+import models.Room;
 
 /**
  *
@@ -19,13 +17,13 @@ import utils.Conexion;
 public class RoomsController {
 
     private RoomsDAO habitacionDAO;
-    private Connection con;
 
-    public RoomsController(Connection con) {
-        this.con = con;
-        habitacionDAO = new RoomsDAO(con);
+    public RoomsController() {
+        habitacionDAO = new RoomsDAO();
     }
-
+    public ArrayList<Room>  obtenerHabitaciones()throws CustomDaoException {
+        return habitacionDAO.obtenerHabitaciones();
+    }
     
 
 }

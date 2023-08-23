@@ -24,6 +24,7 @@ public class MenuPanel extends JPanel {
 
     private JButton btnReservas;
     private JButton btnBusqueda;
+    private JButton btnHabitaciones;
 
     public MenuPanel() {
         this.inicializador();
@@ -56,8 +57,15 @@ public class MenuPanel extends JPanel {
         btnBusqueda.setForeground(Colores.MORADO_BASE);
         this.add(btnBusqueda);
 
+        btnHabitaciones = JButtonsFactory.buttonStandardFont("Habitaciones", 40, 350, 170, 30, 25f, Color.BLACK);
+        btnHabitaciones.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
+        btnHabitaciones.setFocusPainted(false);
+        btnHabitaciones.setContentAreaFilled(false);
+        btnHabitaciones.setForeground(Colores.MORADO_BASE);
+        this.add(btnHabitaciones);
+        
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 600,100,30, 17f,null, Colores.MORADO_BASE);
+        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 600, 100, 30, 17f, null, Colores.MORADO_BASE);
         new Thread() {
             @Override
             public void run() {
@@ -82,5 +90,9 @@ public class MenuPanel extends JPanel {
 
     public JButton getBtnBusqueda() {
         return btnBusqueda;
+    }
+    
+    public JButton getBtnHabitaciones(){
+        return btnHabitaciones;
     }
 }

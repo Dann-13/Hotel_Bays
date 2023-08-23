@@ -8,7 +8,7 @@ package models;
  *
  * @author dann-dev
  */
-public class Rooms {
+public class Room {
 
     private int id_room;
     private String room_number;
@@ -16,6 +16,15 @@ public class Rooms {
     private int capacity;
     private double price_per_night;
 
+    public Room(int id_room, String room_number, String room_type, int capacity, double price_per_night) {
+        this.id_room = id_room;
+        this.room_number = room_number;
+        this.room_type = room_type;
+        this.capacity = capacity;
+        this.price_per_night = price_per_night;
+    }
+
+    
     public int getId_room() {
         return id_room;
     }
