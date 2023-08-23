@@ -24,6 +24,8 @@ public class RoomsController {
     public ArrayList<Room>  obtenerHabitaciones()throws CustomDaoException {
         return habitacionDAO.obtenerHabitaciones();
     }
-    
+    public boolean actualizarHabitacion(Room room) throws CustomDaoException {
+        return habitacionDAO.actualizarHabitacion(room);
+    }
 
 }

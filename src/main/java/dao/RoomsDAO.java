@@ -51,6 +51,31 @@ public class RoomsDAO {
         return habitaciones;
     }
     
+    public boolean actualizarHabitacion(Room room) throws CustomDaoException{
+        String query = "UPDATE rooms SET room_number = ?, room_type = ?, capacity = ?, price_per_night = ? WHERE id_room = ?";
+        Connection con = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, room.getRoom_number());
+            stmt.setString(2, room.getRoom_type());
+            stmt.setInt(3, room.getCapacity());
+            stmt.setDouble(4, room.getPrice_per_night());
+            stmt.setInt(5, room.getId_room());
+
+
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected == 1;
+        } catch (SQLException e) {
+            throw new CustomDaoException("Error al actualizar el usuario", e);
+        } finally {
+            cerrarRecursos(con, stmt, null);
+        }
+    }
+    
     /**
      * Cierra los recursos de conexión, sentencia preparada y conjunto de
      * resultados. Este método asegura que los recursos se cierren adecuadamente

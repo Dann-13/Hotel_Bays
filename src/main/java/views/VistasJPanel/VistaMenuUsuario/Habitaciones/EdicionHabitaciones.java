@@ -4,18 +4,24 @@
  */
 package views.VistasJPanel.VistaMenuUsuario.Habitaciones;
 
+import controllers.RoomsController;
+import exceptions.CustomDaoException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import models.Room;
 import utils.Colores;
 
 /**
@@ -26,8 +32,8 @@ public class EdicionHabitaciones extends JPanel {
 
     TablaHabitaciones tablaHabitaciones;
 
-    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice,lblBuscar;
-    JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice,txtBuscar;
+    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar;
+    JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice, txtBuscar, txtid;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
 
     public void setPanelTablaUsuarios(TablaHabitaciones tablaHabitaciones) {
@@ -37,7 +43,7 @@ public class EdicionHabitaciones extends JPanel {
     public EdicionHabitaciones() {
         this.inicializador();
         this.inicializadorObjetos();
-        //this.inicializadorEventos();
+        this.inicializadorEventos();
 
     }
 
@@ -52,6 +58,7 @@ public class EdicionHabitaciones extends JPanel {
 
         // Columna izquierda
         gbc.anchor = GridBagConstraints.WEST;
+        txtid = new JTextField();
         // JLabel y JTextField para "Id Reserva"
         lblRoomNumber = new JLabel("N° Habitacion:");
         lblRoomNumber.setPreferredSize(new Dimension(150, 20));
@@ -155,13 +162,56 @@ public class EdicionHabitaciones extends JPanel {
         btnUpdate = new JButton("Actualizar Tabla");
         this.add(btnUpdate, gbc);
     }
-    
-    public void RecogerDatos(String roomNumber, String roomType, int capacity, double pricePerNight ){
+
+    public void RecogerDatos(int id, String roomNumber, String roomType, int capacity, double pricePerNight) {
+        txtid.setText(String.valueOf(id));
         txtRoomNumber.setText(roomNumber);
         txtRommType.setText(roomType);
         txtCapacity.setText(String.valueOf(capacity));
         txtPrice.setText(String.valueOf(pricePerNight));
-        
+
+    }
+
+    private void inicializadorEventos() {
+        ActionListener escuchaBtnSave = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (true) {
+                    if (actualizarDatos()) {
+                        tablaHabitaciones.actualizarTabla();
+
+                    } else {
+                        System.out.println("Error");
+                    }
+                }
+            }
+        };
+        btnSave.addActionListener(escuchaBtnSave);
+    }
+
+    public boolean actualizarDatos() {
+        // Obtener los datos de los campos de texto
+        int id = Integer.parseInt(txtid.getText());
+        String roomNumber = txtRoomNumber.getText();
+        String roomType = txtRommType.getText();
+        int capacity = Integer.parseInt(txtCapacity.getText());
+        double price = Double.parseDouble(txtPrice.getText());
+
+        Room room = new Room(id, roomNumber, roomType, capacity, price);
+        RoomsController roomsController = new RoomsController();
+        try {
+            boolean actualizado = roomsController.actualizarHabitacion(room);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(null, "¡Actualizado correctamente!");
+                return actualizado;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al actualiza.");
+                return actualizado;
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+            return false;
+        }
     }
 
 }

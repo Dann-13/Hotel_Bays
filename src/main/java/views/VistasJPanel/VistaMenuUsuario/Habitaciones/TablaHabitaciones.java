@@ -33,6 +33,7 @@ public class TablaHabitaciones extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     EdicionHabitaciones edicionHabitaciones;
+    RoomsController roomsController;
 
     public void setEdicionUsuarios(EdicionHabitaciones edicionHabitaciones) {
         this.edicionHabitaciones = edicionHabitaciones;
@@ -58,7 +59,7 @@ public class TablaHabitaciones extends JPanel {
         RoomsController roomsController = new RoomsController();
 
         // Columnas de la tabla
-        String[] columnNames = {"N° Habitacion", "Tipo Habitacion", "Capacidad", "Precio Noche"};
+        String[] columnNames = {"ID", "N° Habitacion", "Tipo Habitacion", "Capacidad", "Precio Noche"};
 
         // Crear el TableModel con los nombres de las columnas
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -94,6 +95,7 @@ public class TablaHabitaciones extends JPanel {
             ArrayList<Room> habitaciones = roomsController.obtenerHabitaciones();
             for (Room habitacion : habitaciones) {
                 Object[] rowData = {
+                    habitacion.getId_room(),
                     habitacion.getRoom_number(),
                     habitacion.getRoom_type(),
                     habitacion.getCapacity(),
@@ -122,17 +124,49 @@ public class TablaHabitaciones extends JPanel {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = table.getSelectedRow();
                     if (selectedRow != -1) {
-                        String numeroHabitacion  = table.getValueAt(selectedRow, 0).toString();
-                        String tipo = table.getValueAt(selectedRow, 1).toString();
-                        int capacidad  = (int) table.getValueAt(selectedRow, 2);
-                        double precioNoche = (double) table.getValueAt(selectedRow, 3);
-                        
-                        edicionHabitaciones.RecogerDatos(numeroHabitacion, tipo, capacidad, precioNoche);
+                        int id = (int) table.getValueAt(selectedRow, 0);
+                        String numeroHabitacion = table.getValueAt(selectedRow, 1).toString();
+                        String tipo = table.getValueAt(selectedRow, 2).toString();
+                        int capacidad = (int) table.getValueAt(selectedRow, 3);
+                        double precioNoche = (double) table.getValueAt(selectedRow, 4);
+
+                        edicionHabitaciones.RecogerDatos(id, numeroHabitacion, tipo, capacidad, precioNoche);
                     }
                 }
             }
 
         });
+
+    }
+
+    /**
+     * *
+     * Este metodo actualiza la tabla reservas con las ultimas reservas
+     * existente en la base de datos a su vez servira para cargar actulizat la
+     * tabla cuando se lo requiera (Editar, eliminar etc )
+     *
+     */
+    public void actualizarTabla() {
+        tableModel.setRowCount(0); // Limpia todos los datos de la tabla
+        roomsController = new RoomsController();
+        try {
+            // Obtiene una lista de las últimas reservas desde la base de datos
+            ArrayList<Room> habitaciones = roomsController.obtenerHabitaciones();
+            // Recorre la lista de reservas y agrega cada reserva como una nueva fila en la tabla
+            for (Room habitacion : habitaciones) {
+                Object[] rowData = {
+                    habitacion.getId_room(),
+                    habitacion.getRoom_number(),
+                    habitacion.getRoom_type(),
+                    habitacion.getCapacity(),
+                    habitacion.getPrice_per_night()};
+                tableModel.addRow(rowData);
+            }
+        } catch (CustomDaoException e) {
+            // Manejar la excepción aquí
+            JOptionPane.showMessageDialog(null, "Error al obtener las Habitaciones: " + e.getMessage());
+
+        }
 
     }
 
