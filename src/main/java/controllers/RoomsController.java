@@ -6,7 +6,6 @@ package controllers;
 
 import dao.RoomsDAO;
 import exceptions.CustomDaoException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import models.Room;
 
@@ -26,6 +25,10 @@ public class RoomsController {
     }
     public boolean actualizarHabitacion(Room room) throws CustomDaoException {
         return habitacionDAO.actualizarHabitacion(room);
+    }
+    
+    public boolean agregarHabitacion(Room room) throws CustomDaoException {
+        return habitacionDAO.agregarHabitacion(room);
     }
 
 }

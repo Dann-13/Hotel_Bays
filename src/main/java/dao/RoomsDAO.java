@@ -26,36 +26,36 @@ public class RoomsDAO {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try{
+        try {
             con = Conexion.getInstance().getConnection();
             stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id_room");
                 String room_number = rs.getString("room_number");
                 String room_type = rs.getString("room_type");
                 int capacity = rs.getInt("capacity");
                 double price_per_night = rs.getDouble("price_per_night");
-                
+
                 Room rooms = new Room(id, room_number, room_type, capacity, price_per_night);
                 habitaciones.add(rooms);
                 System.out.println(rooms.toString());
-                
+
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             throw new CustomDaoException("Error al obtener Habitaciones", e);
-        }finally{
-             cerrarRecursos(con, stmt, rs);
-             System.out.println("Cerrando Recursos en RoomsDAO Metodo obtenerHabitaciones");
+        } finally {
+            cerrarRecursos(con, stmt, rs);
+            System.out.println("Cerrando Recursos en RoomsDAO Metodo obtenerHabitaciones");
         }
         return habitaciones;
     }
-    
-    public boolean actualizarHabitacion(Room room) throws CustomDaoException{
+
+    public boolean actualizarHabitacion(Room room) throws CustomDaoException {
         String query = "UPDATE rooms SET room_number = ?, room_type = ?, capacity = ?, price_per_night = ? WHERE id_room = ?";
         Connection con = null;
         PreparedStatement stmt = null;
-        
+
         try {
             con = Conexion.getInstance().getConnection();
             stmt = con.prepareStatement(query);
@@ -64,7 +64,6 @@ public class RoomsDAO {
             stmt.setInt(3, room.getCapacity());
             stmt.setDouble(4, room.getPrice_per_night());
             stmt.setInt(5, room.getId_room());
-
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -75,7 +74,37 @@ public class RoomsDAO {
             cerrarRecursos(con, stmt, null);
         }
     }
-    
+
+    /**
+     * Agrega una nueva habitación a la base de datos.
+     *
+     * @param room La habitación a agregar.
+     * @return true si la habitación se agregó con éxito, false si no se agregó.
+     * @throws CustomDaoException Si ocurre un error durante la inserción.
+     */
+    public boolean agregarHabitacion(Room room) throws CustomDaoException {
+        String query = "INSERT INTO rooms (room_number, room_type, capacity, price_per_night) VALUES (?, ?, ?, ?)";
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = Conexion.getInstance().getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, room.getRoom_number());
+            stmt.setString(2, room.getRoom_type());
+            stmt.setInt(3, room.getCapacity());
+            stmt.setDouble(4, room.getPrice_per_night());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected == 1;
+        } catch (SQLException e) {
+            throw new CustomDaoException("Error al agregar la habitación", e);
+        } finally {
+            cerrarRecursos(con, stmt, null);
+        }
+    }
+
     /**
      * Cierra los recursos de conexión, sentencia preparada y conjunto de
      * resultados. Este método asegura que los recursos se cierren adecuadamente

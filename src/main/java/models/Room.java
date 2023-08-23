@@ -24,6 +24,15 @@ public class Room {
         this.price_per_night = price_per_night;
     }
 
+    public Room(String room_number, String room_type, int capacity, double price_per_night) {
+        this.room_number = room_number;
+        this.room_type = room_type;
+        this.capacity = capacity;
+        this.price_per_night = price_per_night;
+    }
+    
+    
+
     
     public int getId_room() {
         return id_room;

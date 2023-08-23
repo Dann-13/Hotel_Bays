@@ -143,6 +143,10 @@ public class EdicionHabitaciones extends JPanel {
         this.add(new JButton("Eliminar"), gbc);
 
         gbc.gridy = 2; // Fila 2
+        btnAdd = new JButton("Agregar");
+        this.add(btnAdd, gbc);
+
+        gbc.gridy = 3; // Fila 3
         lblBuscar = new JLabel("Buscar Habitacion");
 
         lblBuscar.setFont(lblBuscar.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
@@ -176,7 +180,7 @@ public class EdicionHabitaciones extends JPanel {
         ActionListener escuchaBtnSave = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (true) {
+                if (validarCampos()) {
                     if (actualizarDatos()) {
                         tablaHabitaciones.actualizarTabla();
 
@@ -187,6 +191,21 @@ public class EdicionHabitaciones extends JPanel {
             }
         };
         btnSave.addActionListener(escuchaBtnSave);
+        
+        ActionListener escuchaBtnAdd = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validarCampos()) {
+                    if (agregarHabitacion()) {
+                        tablaHabitaciones.actualizarTabla();
+
+                    } else {
+                        System.out.println("Error");
+                    }
+                }
+            }
+        };
+        btnAdd.addActionListener(escuchaBtnAdd);
     }
 
     public boolean actualizarDatos() {
@@ -212,6 +231,44 @@ public class EdicionHabitaciones extends JPanel {
             JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
             return false;
         }
+    }
+
+    public boolean agregarHabitacion() {
+        
+        // Obtener los datos de los campos de texto
+ 
+        String roomNumber = txtRoomNumber.getText();
+        String roomType = txtRommType.getText();
+        int capacity = Integer.parseInt(txtCapacity.getText());
+        double price = Double.parseDouble(txtPrice.getText());
+
+        Room room = new Room( roomNumber, roomType, capacity, price);
+        RoomsController roomsController = new RoomsController();
+
+        try {
+            boolean actualizado = roomsController.agregarHabitacion(room);
+            if (actualizado) {
+                JOptionPane.showMessageDialog(null, "¡Agregado correctamente!");
+                return actualizado;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al Agregar.");
+                return actualizado;
+            }
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al Agregar: " + e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean validarCampos() {
+        if (txtRoomNumber.getText().isEmpty()
+                || txtRommType.getText().isEmpty()
+                || txtCapacity.getText().isEmpty()
+                || txtPrice.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
 }
