@@ -12,6 +12,7 @@ import java.awt.Color;
  */
 public class Colores {
     public static final Color MORADO_BASE = new Color(52, 43, 255);
+    public static final Color MORADO_CLARO = new Color(72, 63, 255);
     public static final Color ROJO_DESTACADO = new Color(255, 0, 0);
     public static final Color VERDE_EXITO = new Color(0, 128, 0);
 }

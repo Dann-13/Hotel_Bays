@@ -15,6 +15,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,6 +36,8 @@ public class EdicionHabitaciones extends JPanel {
     JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar;
     JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice, txtBuscar, txtid;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
+    String[] roomOptions = {"Deluxe", "Standard"};
+    JComboBox<String> cmbRoomOptions;
 
     public void setPanelTablaUsuarios(TablaHabitaciones tablaHabitaciones) {
         this.tablaHabitaciones = tablaHabitaciones;
@@ -82,12 +85,12 @@ public class EdicionHabitaciones extends JPanel {
         gbc.gridx = 0; // Columna 0
         gbc.gridy = 1; // Fila 1
         this.add(lblRommType, gbc);
-
-        txtRommType = new JTextField();
-        txtRommType.setPreferredSize(new Dimension(180, 25));
-        gbc.gridx = 1; // Columna 1
-        gbc.gridy = 1; // Fila 1
-        this.add(txtRommType, gbc);
+        
+        cmbRoomOptions = new JComboBox<>(roomOptions);
+        cmbRoomOptions.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        this.add(cmbRoomOptions, gbc);
 
         lblCapacity = new JLabel("Capacidad:");
         lblCapacity.setPreferredSize(new Dimension(150, 20));
@@ -170,7 +173,7 @@ public class EdicionHabitaciones extends JPanel {
     public void RecogerDatos(int id, String roomNumber, String roomType, int capacity, double pricePerNight) {
         txtid.setText(String.valueOf(id));
         txtRoomNumber.setText(roomNumber);
-        txtRommType.setText(roomType);
+        cmbRoomOptions.setSelectedItem(roomType);
         txtCapacity.setText(String.valueOf(capacity));
         txtPrice.setText(String.valueOf(pricePerNight));
 
@@ -211,12 +214,15 @@ public class EdicionHabitaciones extends JPanel {
     public boolean actualizarDatos() {
         // Obtener los datos de los campos de texto
         int id = Integer.parseInt(txtid.getText());
-        String roomNumber = txtRoomNumber.getText();
-        String roomType = txtRommType.getText();
+        String roomNumber = txtRoomNumber.getText();        
+        // Obtener el valor seleccionado del JComboBox 
+        Object selectedOptionCmb = cmbRoomOptions.getSelectedItem();
+        String selectedValueTypeRoom = selectedOptionCmb.toString();
+        
         int capacity = Integer.parseInt(txtCapacity.getText());
         double price = Double.parseDouble(txtPrice.getText());
 
-        Room room = new Room(id, roomNumber, roomType, capacity, price);
+        Room room = new Room(id, roomNumber, selectedValueTypeRoom, capacity, price);
         RoomsController roomsController = new RoomsController();
         try {
             boolean actualizado = roomsController.actualizarHabitacion(room);
@@ -238,11 +244,13 @@ public class EdicionHabitaciones extends JPanel {
         // Obtener los datos de los campos de texto
  
         String roomNumber = txtRoomNumber.getText();
-        String roomType = txtRommType.getText();
+        // Obtener el valor seleccionado del JComboBox 
+        Object selectedOptionCmb = cmbRoomOptions.getSelectedItem();
+        String selectedValueTypeRoom = selectedOptionCmb.toString();
         int capacity = Integer.parseInt(txtCapacity.getText());
         double price = Double.parseDouble(txtPrice.getText());
 
-        Room room = new Room( roomNumber, roomType, capacity, price);
+        Room room = new Room( roomNumber, selectedValueTypeRoom, capacity, price);
         RoomsController roomsController = new RoomsController();
 
         try {
@@ -262,7 +270,6 @@ public class EdicionHabitaciones extends JPanel {
 
     private boolean validarCampos() {
         if (txtRoomNumber.getText().isEmpty()
-                || txtRommType.getText().isEmpty()
                 || txtCapacity.getText().isEmpty()
                 || txtPrice.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);

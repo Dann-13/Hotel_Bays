@@ -77,7 +77,7 @@ public class ContenedorMenuUsuario extends JFrame {
          * Utilizamos los botones que creamos en el JPanel Izquierdo, Aqui solo
          * le damos los eventos
          */
-        panelIzquierdo.getBtnReservas().addActionListener(new ActionListener() {
+        panelIzquierdo.getBtnbtnUsuarios().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panelUsuario = new PanelUsuarios();
@@ -89,7 +89,7 @@ public class ContenedorMenuUsuario extends JFrame {
             }
         });
 
-        panelIzquierdo.getBtnBusqueda().addActionListener(new ActionListener() {
+        panelIzquierdo.getbtnReserva().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panelReservas = new PanelReservas();

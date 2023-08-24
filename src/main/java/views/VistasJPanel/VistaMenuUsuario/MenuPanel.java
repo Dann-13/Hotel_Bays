@@ -22,8 +22,8 @@ import utils.Colores;
  */
 public class MenuPanel extends JPanel {
 
-    private JButton btnReservas;
-    private JButton btnBusqueda;
+    private JButton btnUsuarios;
+    private JButton btnReserva;
     private JButton btnHabitaciones;
 
     public MenuPanel() {
@@ -42,26 +42,13 @@ public class MenuPanel extends JPanel {
         JLabel LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imgLogoCirculo.png", 0, 0, 250, 250);
         this.add(LblImgLogoIzquierdo);
 
-        btnReservas = JButtonsFactory.buttonStandardFont("Usuarios", 40, 250, 170, 30, 25f, Color.BLACK);
-        btnReservas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
-        btnReservas.setFocusPainted(false);
-        btnReservas.setContentAreaFilled(false);
-        btnReservas.setForeground(Colores.MORADO_BASE);
+        btnUsuarios = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Usuarios", 40, 250, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
+        this.add(btnUsuarios);
 
-        this.add(btnReservas);
+        btnReserva = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Reservas", 40, 300, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
+        this.add(btnReserva);
 
-        btnBusqueda = JButtonsFactory.buttonStandardFont("Reservas", 40, 300, 170, 30, 25f, Color.BLACK);
-        btnBusqueda.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
-        btnBusqueda.setFocusPainted(false);
-        btnBusqueda.setContentAreaFilled(false);
-        btnBusqueda.setForeground(Colores.MORADO_BASE);
-        this.add(btnBusqueda);
-
-        btnHabitaciones = JButtonsFactory.buttonStandardFont("Habitaciones", 40, 350, 170, 30, 25f, Color.BLACK);
-        btnHabitaciones.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Colores.MORADO_BASE));
-        btnHabitaciones.setFocusPainted(false);
-        btnHabitaciones.setContentAreaFilled(false);
-        btnHabitaciones.setForeground(Colores.MORADO_BASE);
+        btnHabitaciones = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Usuarios", 40, 350, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
         this.add(btnHabitaciones);
         
         Calendar cal = Calendar.getInstance();
@@ -84,12 +71,12 @@ public class MenuPanel extends JPanel {
 
     }
 
-    public JButton getBtnReservas() {
-        return btnReservas;
+    public JButton getBtnbtnUsuarios() {
+        return btnUsuarios;
     }
 
-    public JButton getBtnBusqueda() {
-        return btnBusqueda;
+    public JButton getbtnReserva() {
+        return btnReserva;
     }
     
     public JButton getBtnHabitaciones(){

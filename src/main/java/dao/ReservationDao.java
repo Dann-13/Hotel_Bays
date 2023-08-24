@@ -18,6 +18,8 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import models.Reservation;
 import utils.Conexion;
@@ -47,6 +49,18 @@ public class ReservationDao {
             stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
 
+            // Crear un Map para almacenar los precios por noche de las habitaciones
+            Map<String, BigDecimal> priceMap = new HashMap<>();
+            String priceQuery = "SELECT room_type, price_per_night FROM rooms";
+            PreparedStatement priceStmt = con.prepareStatement(priceQuery);
+            ResultSet priceRs = priceStmt.executeQuery();
+            while (priceRs.next()) {
+                String roomType = priceRs.getString("room_type");
+                BigDecimal pricePerNight = priceRs.getBigDecimal("price_per_night");
+                priceMap.put(roomType, pricePerNight);
+            }
+
+            // Almacenamos en una lista las reservas de los usuarios para despues listar
             while (rs.next()) {
                 int id_reservation = rs.getInt("id_reservation");
                 int id_client = rs.getInt("id_client");
@@ -57,8 +71,8 @@ public class ReservationDao {
                 String room_type = rs.getString("room_type");
                 String payment_method = rs.getString("payment_method");
 
-                BigDecimal totalPayment = calcularTotalPayment(check_in_date, check_out_date, room_type);
-
+                //BigDecimal totalPayment = calcularTotalPayment(check_in_date, check_out_date, room_type);
+                BigDecimal totalPayment = calcular(check_in_date, check_out_date, room_type, priceMap);
                 Reservation reserva = new Reservation(id_reservation, id_client, client_name, check_in_date, check_out_date,
                         reservation_status, room_type, totalPayment, payment_method);
                 reservas.add(reserva);
@@ -70,6 +84,23 @@ public class ReservationDao {
         }
 
         return reservas;
+    }
+
+    private BigDecimal calcular(Date checkInDate, Date checkOutDate, String roomType, Map<String, BigDecimal> priceMap) {
+        // Convertir a LocalDate utilizando Instant
+        LocalDate localCheckInDate = Instant.ofEpochMilli(checkInDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate localCheckOutDate = Instant.ofEpochMilli(checkOutDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        long days = ChronoUnit.DAYS.between(localCheckInDate, localCheckOutDate);
+        BigDecimal pricePerNight = priceMap.getOrDefault(roomType, BigDecimal.ZERO);
+        BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
+        BigDecimal totalPayment = daysBigDecimal.multiply(pricePerNight);
+
+        return totalPayment;
+
     }
 
     /**
@@ -85,7 +116,7 @@ public class ReservationDao {
      */
     private BigDecimal calcularTotalPayment(Date checkInDate, Date checkOutDate, String roomType) {
         BigDecimal ratePerDayDeluxe = new BigDecimal("200"); // Precio por día en BigDecimal
-        BigDecimal ratePerDayStandard = new BigDecimal("100"); // Precio por día en BigDecimal
+        BigDecimal ratePerDayStandard = new BigDecimal("1000"); // Precio por día en BigDecimal
 
         //obtenemos la los dias entre cada fecha 
         // Convertir a LocalDate utilizando Instant
@@ -97,6 +128,7 @@ public class ReservationDao {
                 .toLocalDate();
 
         long days = ChronoUnit.DAYS.between(localCheckInDate, localCheckOutDate);
+        System.out.println("dias : " + days);
         // Convertir el valor long a BigDecimal para poder hacer la operacion
         BigDecimal daysBigDecimal = BigDecimal.valueOf(days);
         if (roomType.equals("Deluxe")) {
@@ -200,7 +232,7 @@ public class ReservationDao {
         System.out.println("Resultado de la búsqueda: " + reservas); // Mensaje de depuración
         return reservas;
     }
-    
+
     private void cerrarRecursos(Connection con, PreparedStatement stmt, ResultSet rs) {
         if (rs != null) {
             try {
@@ -225,5 +257,4 @@ public class ReservationDao {
         }
     }
 
-   
 }

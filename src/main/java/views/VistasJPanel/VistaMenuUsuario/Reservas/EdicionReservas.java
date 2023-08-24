@@ -15,6 +15,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
@@ -26,9 +28,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import models.Reservation;
 import utils.Colores;
 import utils.Conexion;
+import views.components.buttons.JButtonsFactory;
 
 /**
  *
@@ -233,7 +237,7 @@ public class EdicionReservas extends JPanel {
         this.add(btnShare, gbc);
 
         gbc.gridy = 5;
-        btnUpdate = new JButton("Actualizar Reservas");
+        btnUpdate = JButtonsFactory.buttonStandardFont("Actualizar", 10, 10, 100, 30, 16f, Colores.MORADO_BASE);
         this.add(btnUpdate, gbc);
 
     }
@@ -378,5 +382,7 @@ public class EdicionReservas extends JPanel {
         String nombreCliente = txtBuscar.getText();
         tablaReservas.actualizarTablaBusqueda(nombreCliente);
     }
+    
+    
 
 }
