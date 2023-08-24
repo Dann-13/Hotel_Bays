@@ -71,7 +71,7 @@ public class EdicionUsuarios extends JPanel {
         gbc.gridx = 1; // Columna 1
         gbc.gridy = 0; // Fila 0
         this.add(txtName, gbc);
-        
+
         txtIdentify = new JTextField();
 
         lblAddress = new JLabel("Direccion");
@@ -162,6 +162,22 @@ public class EdicionUsuarios extends JPanel {
         this.add(btnUpdate, gbc);
     }
 
+    /**
+     * Recoge los datos proporcionados y los muestra en los campos de texto
+     * correspondientes en la interfaz. Establece los valores proporcionados en
+     * los campos de texto para el nombre del usuario, dirección, teléfono,
+     * correo y documento de identidad del usuario.
+     *
+     * @param nombreUsuario El nombre del usuario a mostrar en el campo de
+     * nombre.
+     * @param direccion La dirección del usuario a mostrar en el campo de
+     * dirección.
+     * @param telefono El teléfono del usuario a mostrar en el campo de
+     * teléfono.
+     * @param email El correo del usuario a mostrar en el campo de correo.
+     * @param idIdentify El documento de identidad del usuario a mostrar en el
+     * campo de documento de identidad.
+     */
     public void recogerDatos(String nombreUsuario, String direccion, String telefono,
             String email, String idIdentify) {
 
@@ -173,30 +189,40 @@ public class EdicionUsuarios extends JPanel {
 
     }
 
+    /**
+     * Metodo que controla los eventos de los botones
+     */
     private void inicializadorEventos() {
-          ActionListener escuchaBtnSave = new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                  if(actualizarDatos()){
-                      tablaUsuarios.actualizarTabla();
-                  }else{
-                      
-                  }
-              }
-          };
-          btnSave.addActionListener(escuchaBtnSave);
-          
-          ActionListener escuchaBtnBuscar = new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                  if(validarCampoBuscar()){
-                      buscarUsuario();
-                  }
-              }
-          };
-          btnShare.addActionListener(escuchaBtnBuscar);
-          
-          ActionListener escuchaBtnUpdate = new ActionListener() {
+        ActionListener escuchaBtnSave = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validarCampos()) {
+                    if (actualizarDatos()) {
+                        tablaUsuarios.actualizarTabla();
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        };
+        btnSave.addActionListener(escuchaBtnSave);
+
+        ActionListener escuchaBtnBuscar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (validarCampoBuscar()) {
+                    if (buscarUsuario()) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuario no encontrado: ");
+
+                    }
+                }
+            }
+        };
+        btnShare.addActionListener(escuchaBtnBuscar);
+
+        ActionListener escuchaBtnUpdate = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tablaUsuarios.actualizarTabla();
@@ -206,6 +232,18 @@ public class EdicionUsuarios extends JPanel {
 
     }
 
+    /**
+     * Actualiza los datos del usuario con la información ingresada en los
+     * campos de texto. Obtiene los valores ingresados en los campos de texto
+     * correspondientes al nombre, dirección, teléfono, correo y documento de
+     * identidad del usuario. Luego, crea un objeto Usuario con estos valores y
+     * llama al controlador de usuarios para realizar la actualización en la
+     * base de datos.
+     *
+     * @return true si los datos del usuario fueron actualizados correctamente,
+     * false si ocurrió un error durante la actualización o si no se pudo
+     * completar la operación.
+     */
     private boolean actualizarDatos() {
         String name = txtName.getText();
         String adress = txtAdress.getText();
@@ -213,7 +251,7 @@ public class EdicionUsuarios extends JPanel {
         String correo = txtCorreo.getText();
         String identify = txtIdentify.getText();
 
-        Usuario usuario = new Usuario(name, adress, phone, correo,identify);
+        Usuario usuario = new Usuario(name, adress, phone, correo, identify);
         UsuarioController usuarioController = new UsuarioController();
         try {
             boolean actualizado = usuarioController.actualizarUsuarios(usuario);
@@ -229,8 +267,32 @@ public class EdicionUsuarios extends JPanel {
             return false;
         }
     }
+
+    /**
+     * Valida si los campos de texto correspondientes a los datos del usuario
+     * están llenos. Verifica si los campos de nombre, dirección, teléfono,
+     * correo y documento de identidad están llenos. Si alguno de estos campos
+     * está vacío, muestra un mensaje de advertencia y retorna false. Si todos
+     * los campos están llenos, retorna true.
+     *
+     * @return true si todos los campos están llenos, false si al menos uno de
+     * los campos está vacío.
+     */
+    private boolean validarCampos() {
+        if (txtName.getText().isEmpty()
+                || txtAdress.getText().isEmpty()
+                || txtPhone.getText().isEmpty()
+                || txtCorreo.getText().isEmpty()
+                || txtIdentify.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Metodo que verifica si el campo de busqueda no este vacio
+     *
      * @return true si la validacion es correcta
      */
     private boolean validarCampoBuscar() {
@@ -240,15 +302,20 @@ public class EdicionUsuarios extends JPanel {
         }
         return true;
     }
+
     /**
      * Este metodo es el encargado de traer el nombre del cliente de su
-     * jtextfield, el nombre lo envia al metodo del panel reservas para que haga
-     * uso de el y actualize la tabla
+     * jtextfield, el nombre lo envia al metodo del panel TablaUsuarios y lo
+     * envia al metodo actualizarTablaBusqueda
+     *
+     * @return true si encontro un usuario, false si no hay usuarios uso de el y
+     * actualize la tabla
      */
-    public void buscarUsuario() {
+    public boolean buscarUsuario() {
         String nombreCliente = txtBuscar.getText();
         System.out.println(nombreCliente);
-        tablaUsuarios.actualizarTablaBusqueda(nombreCliente);
+        boolean actualizacion = tablaUsuarios.actualizarTablaBusqueda(nombreCliente);
+        return actualizacion;
     }
 
 }

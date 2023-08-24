@@ -48,7 +48,7 @@ public class MenuPanel extends JPanel {
         btnReserva = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Reservas", 40, 300, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
         this.add(btnReserva);
 
-        btnHabitaciones = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Usuarios", 40, 350, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
+        btnHabitaciones = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Habitaciones", 40, 350, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
         this.add(btnHabitaciones);
         
         Calendar cal = Calendar.getInstance();

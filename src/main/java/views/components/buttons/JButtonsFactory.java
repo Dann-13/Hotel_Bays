@@ -29,7 +29,6 @@ public class JButtonsFactory {
         button.setForeground(Color.WHITE);
         Font customFont = Fuente.getFuente(fontSize);
         button.setFont(customFont);
-        addHoverEffect(button, Color.WHITE, Colores.MORADO_BASE);
         return button;
     }
 
@@ -45,18 +44,22 @@ public class JButtonsFactory {
         return button;
     }
 
-    public static JButton buttonStandardFontImgAndText(String text, String imagePath, int x, int y, int width, int height) {
+    public static JButton buttonStandardFontImgAndText(String text, String imagePath, int x, int y, int width, int height, Color backgroundBase, Color foregroundBase,
+            Color backgroundHover, Color foregroundHover) {
         JButton button = new JButton(text);
         button.setBounds(x, y, width, height);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
-
+        button.setOpaque(true);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBackground(backgroundBase);
         // Cargar la imagen y escalarla para ajustarla al JButton
         ImageIcon icon = new ImageIcon(imagePath);
         Image scaledImage = icon.getImage().getScaledInstance(height, height, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         button.setIcon(scaledIcon);
-
+        addHoverEffect(button, backgroundBase, foregroundBase, backgroundHover, foregroundHover);
         return button;
     }
 
@@ -67,13 +70,12 @@ public class JButtonsFactory {
         Font customFont = Fuente.getFuente(fontSize);
         button.setFont(customFont);
 
-        
         setCustomBorder(button, borderColor);
 
         return button;
     }
 
-    private static void addHoverEffect(JButton button, Color colorBackground, Color colorForeground) {
+    private static void addHoverEffect(JButton button, Color colorBackground, Color colorForeground, Color backgroundHover, Color foregroundHover) {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -83,8 +85,8 @@ public class JButtonsFactory {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Colores.MORADO_BASE);
-                button.setForeground(Color.WHITE);
+                button.setBackground(backgroundHover);
+                button.setForeground(foregroundHover);
             }
         });
     }

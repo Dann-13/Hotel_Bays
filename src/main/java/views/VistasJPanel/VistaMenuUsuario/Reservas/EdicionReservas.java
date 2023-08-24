@@ -33,6 +33,7 @@ import models.Reservation;
 import utils.Colores;
 import utils.Conexion;
 import views.components.buttons.JButtonsFactory;
+import views.components.labels.JLabelFactory;
 
 /**
  *
@@ -40,7 +41,7 @@ import views.components.buttons.JButtonsFactory;
  */
 public class EdicionReservas extends JPanel {
 
-    JLabel blId_reserva, lblClient_name, lblCheck_in_date, lblCheck_out_date, lblReservation_status,
+    JLabel lblTitle, lblClient_name, lblCheck_in_date, lblCheck_out_date, lblReservation_status,
             lblRoom_type, lblTotal_payment, lblPayment_method, lblBuscar;
     JTextField txtId_reserva, txtClientName, txtTotal_payment, txtBuscar, txtIdClient;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
@@ -74,32 +75,27 @@ public class EdicionReservas extends JPanel {
 
     private void inicializadorObjetos() {
         GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbcTitle = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
+        gbcTitle.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
 
         txtIdClient = new JTextField("");
 
         // Columna izquierda
         gbc.anchor = GridBagConstraints.WEST;
-        // JLabel y JTextField para "Id Reserva"
-        JLabel lblId_reserva = new JLabel("Id Reserva:");
-        lblId_reserva.setPreferredSize(new Dimension(150, 20));
-        lblId_reserva.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblId_reserva.setForeground(Color.WHITE);
-        gbc.gridx = 0; // Columna 0
-        gbc.gridy = 0; // Fila 0
-        this.add(lblId_reserva, gbc);
+        // JLabel y JTextField para "Title"
+
+        lblTitle = JLabelFactory.labelStandardFont("Formulario  Reserva", 0, 0, 25f, Colores.MORADO_BASE, Color.WHITE);
+        gbcTitle.gridx = 0; // Columna 0
+        gbcTitle.gridy = 0; // Fila 0
+        gbcTitle.anchor = GridBagConstraints.CENTER;
+        gbcTitle.gridwidth = 2; // Indicar que ocupe dos columnas
+        this.add(lblTitle, gbcTitle);
 
         txtId_reserva = new JTextField();
-        txtId_reserva.setPreferredSize(new Dimension(180, 25));
-        gbc.gridx = 1; // Columna 1
-        gbc.gridy = 0; // Fila 0
-        this.add(txtId_reserva, gbc);
 
         // JLabel y JTextField para "Id Cliente"
-        lblClient_name = new JLabel("Cliente:");
-        lblClient_name.setPreferredSize(new Dimension(150, 20));
-        lblClient_name.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblClient_name.setForeground(Color.WHITE);
+        lblClient_name = JLabelFactory.labelStandard("Cliente:", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0; // Columna 0
         gbc.gridy = 1; // Fila 1
         this.add(lblClient_name, gbc);
@@ -110,10 +106,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 1; // Fila 1
         this.add(txtClientName, gbc);
 
-        lblCheck_in_date = new JLabel("Fecha Llegada");
-        lblCheck_in_date.setPreferredSize(new Dimension(150, 20));
-        lblCheck_in_date.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblCheck_in_date.setForeground(Color.WHITE);
+        lblCheck_in_date = JLabelFactory.labelStandard("Fecha Llegada", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;
         this.add(lblCheck_in_date, gbc);
@@ -124,10 +117,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 2;
         this.add(checkInDatePicker, gbc);
 
-        lblCheck_out_date = new JLabel("Fecha Salida");
-        lblCheck_out_date.setPreferredSize(new Dimension(150, 20));
-        lblCheck_out_date.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblCheck_out_date.setForeground(Color.WHITE);
+        lblCheck_out_date = JLabelFactory.labelStandard("Fecha Salida", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 3;
         this.add(lblCheck_out_date, gbc);
@@ -138,10 +128,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 3;
         this.add(checkOutDatePicker, gbc);
 
-        lblReservation_status = new JLabel("Estado Reserva");
-        lblReservation_status.setPreferredSize(new Dimension(150, 20));
-        lblReservation_status.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblReservation_status.setForeground(Color.WHITE);
+        lblReservation_status = JLabelFactory.labelStandard("Estado Reserva", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 4;
         this.add(lblReservation_status, gbc);
@@ -152,10 +139,7 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 4;
         this.add(cmbReservation_status, gbc);
 
-        lblRoom_type = new JLabel("Tipo de Habitacion");
-        lblRoom_type.setPreferredSize(new Dimension(150, 20));
-        lblRoom_type.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblRoom_type.setForeground(Color.WHITE);
+        lblRoom_type = JLabelFactory.labelStandard("Tipo de Habitacion", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 5;
         this.add(lblRoom_type, gbc);
@@ -166,25 +150,9 @@ public class EdicionReservas extends JPanel {
         gbc.gridy = 5;
         this.add(cmbTypeRooms, gbc);
 
-        lblTotal_payment = new JLabel("Pago Total");
-        lblTotal_payment.setPreferredSize(new Dimension(150, 20));
-        lblTotal_payment.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblTotal_payment.setForeground(Color.WHITE);
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        this.add(lblTotal_payment, gbc);
-
         txtTotal_payment = new JTextField(10);
-        txtTotal_payment.setPreferredSize(new Dimension(180, 25));
-        txtTotal_payment.setEnabled(false);
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        this.add(txtTotal_payment, gbc);
 
-        lblPayment_method = new JLabel("Metodo");
-        lblPayment_method.setPreferredSize(new Dimension(150, 20));
-        lblPayment_method.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblPayment_method.setForeground(Color.WHITE);
+        lblPayment_method = JLabelFactory.labelStandard("Metodo", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 7;
         this.add(lblPayment_method, gbc);
@@ -214,17 +182,12 @@ public class EdicionReservas extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER; // Centro el contenido en la columna
         gbc.insets = new Insets(5, 10, 5, 5); // Ajusta los márgenes izquierdo y derecho del botón
 
-        btnSave = new JButton("Guardar");
+        btnSave = JButtonsFactory.buttonStandardFont("Guardar", 0, 0, 150, 30, 15f, Colores.VERDE_EXITO);
+
         this.add(btnSave, gbc);
-
-        gbc.gridy = 1; // Fila 1
-        this.add(new JButton("Eliminar"), gbc);
-
         gbc.gridy = 2; // Fila 2
-        lblBuscar = new JLabel("Buscar Reserva");
 
-        lblBuscar.setFont(lblId_reserva.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblBuscar.setForeground(Color.WHITE);
+        lblBuscar = JLabelFactory.labelStandard("Buscar Reserva", 0, 0, 150, 20, 15f, Colores.MORADO_BASE, Color.WHITE);
         this.add(lblBuscar, gbc);
 
         gbc.gridy = 3; // Fila 3
@@ -233,11 +196,11 @@ public class EdicionReservas extends JPanel {
         this.add(txtBuscar, gbc);
 
         gbc.gridy = 4;
-        btnShare = new JButton("Buscar");
+        btnShare = JButtonsFactory.buttonStandardFont("Buscar", 0, 0, 100, 30, 16f, Colores.MORADO_BASE);
         this.add(btnShare, gbc);
 
         gbc.gridy = 5;
-        btnUpdate = JButtonsFactory.buttonStandardFont("Actualizar", 10, 10, 100, 30, 16f, Colores.MORADO_BASE);
+        btnUpdate = JButtonsFactory.buttonStandardFont("Actualizar", 0, 0, 100, 30, 16f, Colores.MORADO_BASE);
         this.add(btnUpdate, gbc);
 
     }
@@ -279,7 +242,12 @@ public class EdicionReservas extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (validarCampoBuscar()) {
-                    buscarReservaCliente();
+                    if (buscarReservaCliente()) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Reserva no encontrada: ");
+
+                    }
                 } else {
                     System.err.println("Error en la busqueda, campo vacio o null");
                 }
@@ -364,7 +332,10 @@ public class EdicionReservas extends JPanel {
         }
         return true;
     }
-
+    /**
+     * Valida el campo buscar
+     * @return false si el admin no ingreso campos de texto
+     */
     private boolean validarCampoBuscar() {
         if (txtBuscar.getText().isEmpty() || txtBuscar.getText() == null) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese un nombre de cliente válido.", "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
@@ -374,15 +345,23 @@ public class EdicionReservas extends JPanel {
     }
 
     /**
-     * Este metodo es el encargado de traer el nombre del cliente de su
-     * jtextfield, el nombre lo envia al metodo del panel reservas para que haga
-     * uso de el y actualize la tabla
+     * Busca reservas de un cliente específico en la tabla de reservas. Obtiene
+     * el nombre del cliente desde el campo de búsqueda en la interfaz. Luego,
+     * llama al método para actualizar la tabla con las reservas filtradas por
+     * el nombre.
+     *
+     * @return true si se actualizó la tabla con las reservas del cliente, false
+     * si no se encontraron reservas para el cliente y la tabla permaneció sin
+     * cambios.
      */
-    public void buscarReservaCliente() {
+    public boolean buscarReservaCliente() {
+        // Obtener el nombre del cliente desde el campo de búsqueda en la interfaz
         String nombreCliente = txtBuscar.getText();
-        tablaReservas.actualizarTablaBusqueda(nombreCliente);
+        // Llamar al método para actualizar la tabla con las reservas filtradas por el nombre del cliente
+        boolean actualizacion = tablaReservas.actualizarTablaBusqueda(nombreCliente);
+        // Retornar true si se actualizó la tabla con las reservas del cliente, o false si no se encontraron
+        // reservas para el cliente y la tabla permaneció sin cambios.
+        return actualizacion;
     }
-    
-    
 
 }
