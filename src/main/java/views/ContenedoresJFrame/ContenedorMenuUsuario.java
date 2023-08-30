@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -42,13 +43,12 @@ public class ContenedorMenuUsuario extends JFrame {
     }
 
     private void inicializador() {
-        this.setMinimumSize(new Dimension(1100, 700)); //Alto y ancho de nuestro frame
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setLocation(0, 0);
         this.setTitle("Menu de Usuario");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        this.setResizable(true);
 
     }
 
@@ -99,17 +99,17 @@ public class ContenedorMenuUsuario extends JFrame {
                 splitPane.repaint();
             }
         });
-        
-        panelIzquierdo.getBtnHabitaciones().addActionListener(new ActionListener(){
+
+        panelIzquierdo.getBtnHabitaciones().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel panelHabitaciones = new PanelHabitaciones();
-                panelHabitaciones.setPreferredSize(new Dimension(500,0));
+                panelHabitaciones.setPreferredSize(new Dimension(500, 0));
                 splitPane.setRightComponent(panelHabitaciones);
                 splitPane.revalidate();
                 splitPane.repaint();
             }
-            
+
         });
         this.add(splitPane, BorderLayout.CENTER);
         this.pack();

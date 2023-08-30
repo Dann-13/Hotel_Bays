@@ -24,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import models.Room;
 import utils.Colores;
+import views.components.buttons.JButtonsFactory;
+import views.components.labels.JLabelFactory;
 
 /**
  *
@@ -139,7 +141,8 @@ public class EdicionHabitaciones extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER; // Centro el contenido en la columna
         gbc.insets = new Insets(5, 10, 5, 5); // Ajusta los márgenes izquierdo y derecho del botón
 
-        btnSave = new JButton("Guardar");
+         btnSave = JButtonsFactory.buttonStandardFont("Guardar Cambios", 0, 0, 0, 0, 15f, Colores.MORADO_BASE);
+        btnSave.setPreferredSize(new Dimension(200,35));
         this.add(btnSave, gbc);
 
         gbc.gridy = 1; // Fila 1
@@ -150,23 +153,27 @@ public class EdicionHabitaciones extends JPanel {
         this.add(btnAdd, gbc);
 
         gbc.gridy = 3; // Fila 3
-        lblBuscar = new JLabel("Buscar Habitacion");
+        lblBuscar = JLabelFactory.labelStandard("Buscar Hbitacion", 0, 0, 0, 0, 15f, Colores.MORADO_BASE, Color.WHITE);
+        lblBuscar.setPreferredSize(new Dimension(200,35));
+        lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 
         lblBuscar.setFont(lblBuscar.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblBuscar.setForeground(Color.WHITE);
         this.add(lblBuscar, gbc);
 
-        gbc.gridy = 3; // Fila 3
+        gbc.gridy = 4; 
         txtBuscar = new JTextField();
         txtBuscar.setPreferredSize(new Dimension(250, 25));
         this.add(txtBuscar, gbc);
 
-        gbc.gridy = 4;
-        btnShare = new JButton("Buscar");
+        gbc.gridy = 5;
+        btnShare = JButtonsFactory.buttonStandardFont("Buscar", 0, 0, 0, 0, 16f, Colores.MORADO_BASE);
+        btnShare.setPreferredSize(new Dimension(200,35));
         this.add(btnShare, gbc);
 
-        gbc.gridy = 5;
-        btnUpdate = new JButton("Actualizar Tabla");
+        gbc.gridy = 6;
+        btnUpdate = JButtonsFactory.buttonStandardFont("Actualizar Tabla", 0, 0, 0, 0, 16f, Colores.MORADO_BASE);
+        btnUpdate.setPreferredSize(new Dimension(200,35));
         this.add(btnUpdate, gbc);
     }
 

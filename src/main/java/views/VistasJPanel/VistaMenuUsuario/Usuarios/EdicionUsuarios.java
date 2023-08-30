@@ -24,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import models.Usuario;
 import utils.Colores;
+import views.components.buttons.JButtonsFactory;
+import views.components.labels.JLabelFactory;
 
 /**
  *
@@ -135,17 +137,19 @@ public class EdicionUsuarios extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER; // Centro el contenido en la columna
         gbc.insets = new Insets(5, 10, 5, 5); // Ajusta los márgenes izquierdo y derecho del botón
 
-        btnSave = new JButton("Guardar");
+        btnSave = JButtonsFactory.buttonStandardFont("Guardar Cambios", 0, 0, 0, 0, 15f, Colores.MORADO_BASE);
+        btnSave.setPreferredSize(new Dimension(200,35));
         this.add(btnSave, gbc);
 
         gbc.gridy = 1; // Fila 1
-        this.add(new JButton("Eliminar"), gbc);
+        btnDelete =JButtonsFactory.buttonStandardFont("Eliminar", 0, 0, 0, 0, 16f, Colores.MORADO_BASE);
+        btnDelete.setPreferredSize(new Dimension(200,35));
+        this.add(btnDelete , gbc);
 
         gbc.gridy = 2; // Fila 2
-        lblBuscar = new JLabel("Buscar Usuario");
-
-        lblBuscar.setFont(lblName.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
-        lblBuscar.setForeground(Color.WHITE);
+        lblBuscar = JLabelFactory.labelStandard("Buscar Usuario", 0, 0, 0, 0, 15f, Colores.MORADO_BASE, Color.WHITE);
+        lblBuscar.setPreferredSize(new Dimension(200,35));
+        lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblBuscar, gbc);
 
         gbc.gridy = 3; // Fila 3
@@ -154,11 +158,13 @@ public class EdicionUsuarios extends JPanel {
         this.add(txtBuscar, gbc);
 
         gbc.gridy = 4;
-        btnShare = new JButton("Buscar");
+        btnShare = JButtonsFactory.buttonStandardFont("Buscar", 0, 0, 0, 0, 16f, Colores.MORADO_BASE);
+        btnShare.setPreferredSize(new Dimension(200,35));
         this.add(btnShare, gbc);
 
         gbc.gridy = 5;
-        btnUpdate = new JButton("Actualizar Tabla");
+        btnUpdate = JButtonsFactory.buttonStandardFont("Actualizar Tabla", 0, 0, 0, 0, 16f, Colores.MORADO_BASE);
+        btnUpdate.setPreferredSize(new Dimension(200,35));
         this.add(btnUpdate, gbc);
     }
 
