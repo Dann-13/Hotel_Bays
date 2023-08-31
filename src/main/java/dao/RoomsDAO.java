@@ -21,7 +21,7 @@ public class RoomsDAO {
 
     public ArrayList<Room> obtenerHabitaciones() throws CustomDaoException {
         ArrayList<Room> habitaciones = new ArrayList<>();
-        String query = "SELECT id_room, room_number, room_type, capacity, price_per_night "
+        String query = "SELECT id_room, room_number, room_type, capacity, price_per_night, image_url "
                 + "FROM rooms";
         Connection con = null;
         PreparedStatement stmt = null;
@@ -36,8 +36,9 @@ public class RoomsDAO {
                 String room_type = rs.getString("room_type");
                 int capacity = rs.getInt("capacity");
                 double price_per_night = rs.getDouble("price_per_night");
+                String img_url = rs.getString("image_url");
 
-                Room rooms = new Room(id, room_number, room_type, capacity, price_per_night);
+                Room rooms = new Room(id, room_number, room_type, capacity, price_per_night, img_url);
                 habitaciones.add(rooms);
                 System.out.println(rooms.toString());
 
@@ -52,7 +53,7 @@ public class RoomsDAO {
     }
 
     public boolean actualizarHabitacion(Room room) throws CustomDaoException {
-        String query = "UPDATE rooms SET room_number = ?, room_type = ?, capacity = ?, price_per_night = ? WHERE id_room = ?";
+        String query = "UPDATE rooms SET room_number = ?, room_type = ?, capacity = ?, price_per_night = ?, image_url = ? WHERE id_room = ?";
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -63,7 +64,8 @@ public class RoomsDAO {
             stmt.setString(2, room.getRoom_type());
             stmt.setInt(3, room.getCapacity());
             stmt.setDouble(4, room.getPrice_per_night());
-            stmt.setInt(5, room.getId_room());
+            stmt.setString(5, room.getImage_url());
+            stmt.setInt(6, room.getId_room());
 
             int rowsAffected = stmt.executeUpdate();
 

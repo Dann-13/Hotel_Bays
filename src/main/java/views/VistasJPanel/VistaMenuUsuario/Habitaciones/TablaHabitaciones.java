@@ -59,7 +59,7 @@ public class TablaHabitaciones extends JPanel {
         RoomsController roomsController = new RoomsController();
 
         // Columnas de la tabla
-        String[] columnNames = {"ID", "N° Habitacion", "Tipo Habitacion", "Capacidad", "Precio Noche"};
+        String[] columnNames = {"ID", "N° Habitacion", "Tipo Habitacion", "Capacidad", "Precio Noche", "Url img"};
 
         // Crear el TableModel con los nombres de las columnas
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -99,7 +99,8 @@ public class TablaHabitaciones extends JPanel {
                     habitacion.getRoom_number(),
                     habitacion.getRoom_type(),
                     habitacion.getCapacity(),
-                    habitacion.getPrice_per_night()
+                    habitacion.getPrice_per_night(),
+                    habitacion.getImage_url(),
                 };
                 tableModel.addRow(rowData);
             }
@@ -129,8 +130,8 @@ public class TablaHabitaciones extends JPanel {
                         String tipo = table.getValueAt(selectedRow, 2).toString();
                         int capacidad = (int) table.getValueAt(selectedRow, 3);
                         double precioNoche = (double) table.getValueAt(selectedRow, 4);
-
-                        edicionHabitaciones.RecogerDatos(id, numeroHabitacion, tipo, capacidad, precioNoche);
+                        String image_Url = table.getValueAt(selectedRow, 5).toString();
+                        edicionHabitaciones.RecogerDatos(id, numeroHabitacion, tipo, capacidad, precioNoche, image_Url);
                     }
                 }
             }
@@ -159,7 +160,9 @@ public class TablaHabitaciones extends JPanel {
                     habitacion.getRoom_number(),
                     habitacion.getRoom_type(),
                     habitacion.getCapacity(),
-                    habitacion.getPrice_per_night()};
+                    habitacion.getPrice_per_night(),
+                    habitacion.getImage_url(),
+                };
                 tableModel.addRow(rowData);
             }
         } catch (CustomDaoException e) {

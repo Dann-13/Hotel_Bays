@@ -48,7 +48,7 @@ public class ContenedorMenuUsuario extends JFrame {
         this.setTitle("Menu de Usuario");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setResizable(true);
+        this.setResizable(false);
 
     }
 

@@ -35,8 +35,8 @@ public class EdicionHabitaciones extends JPanel {
 
     TablaHabitaciones tablaHabitaciones;
 
-    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar;
-    JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice, txtBuscar, txtid;
+    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar, lblImgUrl;
+    JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice, txtBuscar, txtid, txtImgUrl;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
     String[] roomOptions = {"Deluxe", "Standard"};
     JComboBox<String> cmbRoomOptions;
@@ -121,7 +121,21 @@ public class EdicionHabitaciones extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 3;
         this.add(txtPrice, gbc);
-
+        
+        lblImgUrl = new JLabel("Imagen Url:");
+        lblImgUrl.setPreferredSize(new Dimension(150, 20));
+        lblImgUrl.setFont(lblPrice.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
+        lblImgUrl.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        this.add(lblImgUrl, gbc);
+        
+        txtImgUrl = new JTextField();
+        txtImgUrl.setPreferredSize(new Dimension(180, 25));
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        this.add(txtImgUrl, gbc);
+        
         // Separador vertical
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setPreferredSize(new Dimension(2, 0));
@@ -153,7 +167,7 @@ public class EdicionHabitaciones extends JPanel {
         this.add(btnAdd, gbc);
 
         gbc.gridy = 3; // Fila 3
-        lblBuscar = JLabelFactory.labelStandard("Buscar Hbitacion", 0, 0, 0, 0, 15f, Colores.MORADO_BASE, Color.WHITE);
+        lblBuscar = JLabelFactory.labelStandard("Buscar Habitacion", 0, 0, 0, 0, 15f, Colores.MORADO_BASE, Color.WHITE);
         lblBuscar.setPreferredSize(new Dimension(200,35));
         lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -177,12 +191,14 @@ public class EdicionHabitaciones extends JPanel {
         this.add(btnUpdate, gbc);
     }
 
-    public void RecogerDatos(int id, String roomNumber, String roomType, int capacity, double pricePerNight) {
+    public void RecogerDatos(int id, String roomNumber, String roomType, int capacity, 
+            double pricePerNight, String imgUrl) {
         txtid.setText(String.valueOf(id));
         txtRoomNumber.setText(roomNumber);
         cmbRoomOptions.setSelectedItem(roomType);
         txtCapacity.setText(String.valueOf(capacity));
         txtPrice.setText(String.valueOf(pricePerNight));
+        txtImgUrl.setText(imgUrl);
 
     }
 
@@ -228,8 +244,9 @@ public class EdicionHabitaciones extends JPanel {
         
         int capacity = Integer.parseInt(txtCapacity.getText());
         double price = Double.parseDouble(txtPrice.getText());
+        String imageUrl = txtImgUrl.getText();
 
-        Room room = new Room(id, roomNumber, selectedValueTypeRoom, capacity, price);
+        Room room = new Room(id, roomNumber, selectedValueTypeRoom, capacity, price,imageUrl);
         RoomsController roomsController = new RoomsController();
         try {
             boolean actualizado = roomsController.actualizarHabitacion(room);
@@ -256,8 +273,9 @@ public class EdicionHabitaciones extends JPanel {
         String selectedValueTypeRoom = selectedOptionCmb.toString();
         int capacity = Integer.parseInt(txtCapacity.getText());
         double price = Double.parseDouble(txtPrice.getText());
+        String imageUrl = txtImgUrl.getText();
 
-        Room room = new Room( roomNumber, selectedValueTypeRoom, capacity, price);
+        Room room = new Room( roomNumber, selectedValueTypeRoom, capacity, price,imageUrl);
         RoomsController roomsController = new RoomsController();
 
         try {
