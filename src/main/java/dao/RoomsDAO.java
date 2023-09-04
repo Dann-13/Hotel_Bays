@@ -40,11 +40,9 @@ public class RoomsDAO {
 
                 Room rooms = new Room(id, room_number, room_type, capacity, price_per_night, img_url);
                 habitaciones.add(rooms);
-                System.out.println(rooms.toString());
-
             }
         } catch (SQLException e) {
-            throw new CustomDaoException("Error al obtener Habitaciones", e);
+            throw new CustomDaoException("Error al obtener Habitaciones para la tabla", e);
         } finally {
             cerrarRecursos(con, stmt, rs);
             System.out.println("Cerrando Recursos en RoomsDAO Metodo obtenerHabitaciones");

@@ -35,7 +35,7 @@ public class EdicionHabitaciones extends JPanel {
 
     TablaHabitaciones tablaHabitaciones;
 
-    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar, lblImgUrl;
+    JLabel lblRoomNumber, lblRommType, lblCapacity, lblPrice, lblBuscar, lblImgUrl, lblTitle;
     JTextField txtRoomNumber, txtRommType, txtCapacity, txtPrice, txtBuscar, txtid, txtImgUrl;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
     String[] roomOptions = {"Deluxe", "Standard"};
@@ -59,24 +59,34 @@ public class EdicionHabitaciones extends JPanel {
 
     private void inicializadorObjetos() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
-
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10); 
+        gbcTitle.insets = new Insets(5, 10, 5, 10);
         // Columna izquierda
         gbc.anchor = GridBagConstraints.WEST;
         txtid = new JTextField();
-        // JLabel y JTextField para "Id Reserva"
+        
+        // JLabel y JTextField
+        lblTitle = JLabelFactory.labelStandardFont("Formulario  Habitaciones", 0, 0, 25f, Colores.MORADO_BASE, Color.WHITE);
+        gbcTitle.gridx = 0; // Columna 0
+        gbcTitle.gridy = 0; // Fila 0
+        gbcTitle.anchor = GridBagConstraints.CENTER;
+        gbcTitle.gridwidth = 2; // Indicar que ocupe dos columnas
+        this.add(lblTitle, gbcTitle);
+        
+        
         lblRoomNumber = new JLabel("N° Habitacion:");
         lblRoomNumber.setPreferredSize(new Dimension(150, 20));
         lblRoomNumber.setFont(lblRoomNumber.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblRoomNumber.setForeground(Color.WHITE);
         gbc.gridx = 0; // Columna 0
-        gbc.gridy = 0; // Fila 0
+        gbc.gridy = 2; // Fila 0
         this.add(lblRoomNumber, gbc);
 
         txtRoomNumber = new JTextField();
         txtRoomNumber.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
-        gbc.gridy = 0; // Fila 0
+        gbc.gridy = 2; // Fila 0
         this.add(txtRoomNumber, gbc);
 
         //txtIdentify = new JTextField();
@@ -85,13 +95,13 @@ public class EdicionHabitaciones extends JPanel {
         lblRommType.setFont(lblRommType.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblRommType.setForeground(Color.WHITE);
         gbc.gridx = 0; // Columna 0
-        gbc.gridy = 1; // Fila 1
+        gbc.gridy = 3; // Fila 1
         this.add(lblRommType, gbc);
         
         cmbRoomOptions = new JComboBox<>(roomOptions);
         cmbRoomOptions.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         this.add(cmbRoomOptions, gbc);
 
         lblCapacity = new JLabel("Capacidad:");
@@ -99,13 +109,13 @@ public class EdicionHabitaciones extends JPanel {
         lblCapacity.setFont(lblCapacity.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblCapacity.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         this.add(lblCapacity, gbc);
 
         txtCapacity = new JTextField();
         txtCapacity.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         this.add(txtCapacity, gbc);
 
         lblPrice = new JLabel("Precio:");
@@ -113,13 +123,13 @@ public class EdicionHabitaciones extends JPanel {
         lblPrice.setFont(lblPrice.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblPrice.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         this.add(lblPrice, gbc);
 
         txtPrice = new JTextField();
         txtPrice.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         this.add(txtPrice, gbc);
         
         lblImgUrl = new JLabel("Imagen Url:");
@@ -127,13 +137,13 @@ public class EdicionHabitaciones extends JPanel {
         lblImgUrl.setFont(lblPrice.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblImgUrl.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         this.add(lblImgUrl, gbc);
         
         txtImgUrl = new JTextField();
         txtImgUrl.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         this.add(txtImgUrl, gbc);
         
         // Separador vertical

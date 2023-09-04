@@ -115,7 +115,11 @@ public class TablaReservas extends JPanel {
             throw new CustomDaoException("Error al obtener usuarios para la tabla", e);
 
         }
-
+        //Oculto las dos primeros columnas ID por que no son necesarias mostrar 
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
+        table.getColumnModel().getColumn(1).setMinWidth(0);
+        table.getColumnModel().getColumn(1).setMaxWidth(0);
         // Cambiar el color de fondo y color de letra de la fila de títulos (celdas de encabezado)
         table.getTableHeader().setBackground(Colores.MORADO_BASE); // Cambia el color de fondo a tu preferencia
         table.getTableHeader().setForeground(Color.white); // Cambia el color de letra a tu preferencia

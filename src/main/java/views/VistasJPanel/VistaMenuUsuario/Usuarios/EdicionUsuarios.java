@@ -33,7 +33,7 @@ import views.components.labels.JLabelFactory;
  */
 public class EdicionUsuarios extends JPanel {
 
-    JLabel lblName, lblAddress, lblPhone, lblCorreo, lblBuscar;
+    JLabel lblName, lblAddress, lblPhone, lblCorreo, lblBuscar, lblTitle;
     JTextField txtName, txtAdress, txtPhone, txtCorreo, txtBuscar, txtIdentify;
     JButton btnSave, btnDelete, btnAdd, btnShare, btnUpdate;
     TablaUsuarios tablaUsuarios;
@@ -55,23 +55,32 @@ public class EdicionUsuarios extends JPanel {
 
     private void inicializadorObjetos() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes
-
+        GridBagConstraints gbcTitle = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10); // Márgenes para todos los componentes      
+        gbcTitle.insets = new Insets(5, 10, 5, 10);
         // Columna izquierda
         gbc.anchor = GridBagConstraints.WEST;
-        // JLabel y JTextField para "Id Reserva"
+        // JLabel y JTextField
+        // JLabel y JTextField
+        lblTitle = JLabelFactory.labelStandardFont("Formulario  Usuarios", 0, 0, 25f, Colores.MORADO_BASE, Color.WHITE);
+        gbcTitle.gridx = 0; // Columna 0
+        gbcTitle.gridy = 0; // Fila 0
+        gbcTitle.anchor = GridBagConstraints.CENTER;
+        gbcTitle.gridwidth = 2; // Indicar que ocupe dos columnas
+        this.add(lblTitle, gbcTitle);
+        
         lblName = new JLabel("Nombre:");
         lblName.setPreferredSize(new Dimension(150, 20));
         lblName.setFont(lblName.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblName.setForeground(Color.WHITE);
         gbc.gridx = 0; // Columna 0
-        gbc.gridy = 0; // Fila 0
+        gbc.gridy = 1; // Fila 0
         this.add(lblName, gbc);
 
         txtName = new JTextField();
         txtName.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
-        gbc.gridy = 0; // Fila 0
+        gbc.gridy = 1; // Fila 0
         this.add(txtName, gbc);
 
         txtIdentify = new JTextField();
@@ -81,13 +90,13 @@ public class EdicionUsuarios extends JPanel {
         lblAddress.setFont(lblAddress.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblAddress.setForeground(Color.WHITE);
         gbc.gridx = 0; // Columna 0
-        gbc.gridy = 1; // Fila 1
+        gbc.gridy = 2; // Fila 1
         this.add(lblAddress, gbc);
 
         txtAdress = new JTextField();
         txtAdress.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1; // Columna 1
-        gbc.gridy = 1; // Fila 1
+        gbc.gridy = 2; // Fila 1
         this.add(txtAdress, gbc);
 
         lblPhone = new JLabel("Telefono");
@@ -95,13 +104,13 @@ public class EdicionUsuarios extends JPanel {
         lblPhone.setFont(lblPhone.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblPhone.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         this.add(lblPhone, gbc);
 
         txtPhone = new JTextField();
         txtPhone.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         this.add(txtPhone, gbc);
 
         lblCorreo = new JLabel("Correo");
@@ -109,13 +118,13 @@ public class EdicionUsuarios extends JPanel {
         lblCorreo.setFont(lblCorreo.getFont().deriveFont(Font.BOLD, 15)); // Aumentar tamaño de fuente
         lblCorreo.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         this.add(lblCorreo, gbc);
 
         txtCorreo = new JTextField();
         txtCorreo.setPreferredSize(new Dimension(180, 25));
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         this.add(txtCorreo, gbc);
 
         // Separador vertical

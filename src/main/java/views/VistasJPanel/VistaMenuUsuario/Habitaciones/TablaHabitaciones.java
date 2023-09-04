@@ -77,6 +77,8 @@ public class TablaHabitaciones extends JPanel {
         for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setResizable(true);
         }
+        
+
         // Actualizar los títulos de columna con saltos de línea
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnNames.length; i++) {
@@ -107,6 +109,9 @@ public class TablaHabitaciones extends JPanel {
         } catch (CustomDaoException e) {
             throw new CustomDaoException("Error al obtener habitaciones para la tabla", e);
         }
+        //Oculto las dos primeros columnas ID por que no son necesarias mostrar 
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
         // Personalizar el aspecto de la tabla
         table.getTableHeader().setBackground(Colores.MORADO_BASE);
         table.getTableHeader().setForeground(Color.white);

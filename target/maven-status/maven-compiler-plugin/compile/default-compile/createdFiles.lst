@@ -8,6 +8,7 @@ views/VistasJPanel/VistaMenuUsuario/Reservas/TablaReservas.class
 views/VistasJPanel/VistaMenuUsuario/Habitaciones/EdicionHabitaciones$2.class
 views/VistasJPanel/VistaMenuUsuario/Usuarios/EdicionUsuarios$1.class
 views/VistasJPanel/VistaMenuUsuario/MenuPanel$1.class
+views/components/buttons/JButtonsFactory$1.class
 views/components/textField/event/TextFieldFocusListener/TextFieldFocusListener.class
 views/components/buttons/JButtonsFactory.class
 views/ContenedoresJFrame/ContenedorMenuUsuario.class

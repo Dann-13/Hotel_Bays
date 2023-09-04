@@ -12,6 +12,8 @@ import views.ContenedoresJFrame.ContenedorInicio;
  */
 public class Hotel_Bays {
 
+    
+
     public static void main(String[] args) {
         try {
             ContenedorInicio inicio = new ContenedorInicio();

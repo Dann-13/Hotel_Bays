@@ -5,7 +5,9 @@
 package views.ContenedoresJFrame;
 
 import java.awt.FontFormatException;
+import java.awt.Toolkit;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import views.VistasJPanel.VIstaRegister.JPanelRegister;
 import views.VistasJPanel.VistaInicio.MainPanelInicio;
@@ -25,6 +27,7 @@ public class ContenedorInicio extends JFrame {
         //en donde vamos a inicializar dos metodos
         this.inicializador();
         this.inicializadorObjetos();
+
     }
 
     /**
@@ -55,11 +58,13 @@ public class ContenedorInicio extends JFrame {
         revalidate();
         repaint();
     }
+
     public void showRegisterPanel() {
         setContentPane(registerPanel);
         revalidate();
         repaint();
     }
+
     public void showMainPanel() {
         setContentPane(mainInicio);
         revalidate();

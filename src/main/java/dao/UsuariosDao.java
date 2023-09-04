@@ -52,7 +52,6 @@ public class UsuariosDao {
                 String username = rs.getString("username");
 
                 Usuario client = new Usuario(name, identity_document, date_of_birth, gender, address, city, country, phone, email, username);
-                System.err.println(client.toString());
                 clientes.add(client);
             }
         } catch (SQLException e) {
