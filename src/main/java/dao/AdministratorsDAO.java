@@ -18,22 +18,6 @@ import utils.Conexion;
  */
 public class AdministratorsDAO {
 
-//    public void registrarAdministrador(Administrator administrador) throws SQLException {
-//        String query = "INSERT INTO administrators (name, username, email, password, administrator_type) VALUES (?,?,?,?,?)";
-//        try (Connection con = Conexion.getInstance().getConnection(); PreparedStatement stmt = con.prepareStatement(query)) {
-//            stmt.setString(1, administrador.getName());
-//            stmt.setString(2, administrador.getUserName());
-//            stmt.setString(3, administrador.getEmail());
-//            stmt.setString(4, administrador.getPassword());
-//            stmt.setString(5, administrador.getAdministrator_type());
-//            stmt.executeUpdate();
-//            System.out.println("Administrador Registrado");
-//
-//        } catch (SQLException e) {
-//            System.out.println(administrador.toString());
-//            e.printStackTrace();
-//        }
-//    }
     public boolean registrarAdministrador(Administrator administrador) throws CustomDaoException {
         String query = "INSERT INTO administrators (name, username, email, password, administrator_type) VALUES (?,?,?,?,?)";
         Connection con = null;
@@ -42,6 +26,7 @@ public class AdministratorsDAO {
         try {
             con = Conexion.getInstance().getConnection();
             stmt = con.prepareStatement(query);
+            
             stmt.setString(1, administrador.getName());
             stmt.setString(2, administrador.getUserName());
             stmt.setString(3, administrador.getEmail());

@@ -10,19 +10,21 @@ package models;
  */
 public class Administrator {
     private String Name;
-    private String Email;
+    
     private String UserName;
+    private String Email;
     private String Password;
     private String Administrator_type;
 
-    public Administrator(String Name, String Email, String UserName, String Password, String Administrator_type) {
+    public Administrator(String Name, String UserName, String Email, String Password, String Administrator_type) {
         this.Name = Name;
-        this.Email = Email;
         this.UserName = UserName;
+        this.Email = Email;
         this.Password = Password;
         this.Administrator_type = Administrator_type;
     }
 
+    
     public Administrator(String Name, String Email, String UserName, String Administrator_type) {
         this.Name = Name;
         this.Email = Email;

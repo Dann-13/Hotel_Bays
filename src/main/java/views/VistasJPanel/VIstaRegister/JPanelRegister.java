@@ -98,7 +98,7 @@ public class JPanelRegister extends JPanel {
         jPanelDerecho.add(lblLogin);
 
         //Label Login
-        lblUsuario = JLabelFactory.labelStandardFont("User Name", 70, 110, 23f, Color.WHITE, new Color(52, 43, 255));
+        lblUsuario = JLabelFactory.labelStandardFont("Name", 70, 110, 23f, Color.WHITE, new Color(52, 43, 255));
         jPanelDerecho.add(lblUsuario);
 
         //Caja del usuario 
@@ -106,13 +106,13 @@ public class JPanelRegister extends JPanel {
 
         TxtUsuario.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        FocusListener focusListener = new TextFieldFocusListener(TxtUsuario, "Ingrese su Nombre de Usuario", Color.GRAY, Color.darkGray);
+        FocusListener focusListener = new TextFieldFocusListener(TxtUsuario, "Ingrese su Nombre Real", Color.GRAY, Color.darkGray);
         TxtUsuario.addFocusListener(focusListener);
         TxtUsuario.requestFocus();
         jPanelDerecho.add(TxtUsuario);
 
         //label name
-        lblUsuario = JLabelFactory.labelStandardFont("Name", 70, 175, 23f, Color.WHITE, new Color(52, 43, 255));
+        lblUsuario = JLabelFactory.labelStandardFont("User Name", 70, 175, 23f, Color.WHITE, new Color(52, 43, 255));
         jPanelDerecho.add(lblUsuario);
 
         //Caja del usuario nommbre completo
@@ -121,7 +121,7 @@ public class JPanelRegister extends JPanel {
         txtNameUser.setSelectionEnd(0);
         txtNameUser.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        FocusListener focusListenerTxtNameUser = new TextFieldFocusListener(txtNameUser, "Ingrese su Nombren Completo", Color.GRAY, Color.darkGray);
+        FocusListener focusListenerTxtNameUser = new TextFieldFocusListener(txtNameUser, "Ingrese su Nombre de Usuario", Color.GRAY, Color.darkGray);
         txtNameUser.addFocusListener(focusListenerTxtNameUser);
         txtNameUser.requestFocus();
         jPanelDerecho.add(txtNameUser);
@@ -190,21 +190,21 @@ public class JPanelRegister extends JPanel {
         ActionListener escuchaBtnEnviar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                if (validarCampos()) {
-//                    
-//                    try {
-//                        registrarAdministrador();
-//                        TxtUsuario.setText("");
-//                        txtEmail.setText("");
-//                        txtNameUser.setText("");
-//                        passwordField.setText("");
-//                    } catch (SQLException ex) {
-//                        Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//
-//                    // Mostrar el mensaje con la imagen
-//                    JOptionPane.showMessageDialog(null, "Se ha Registrado Correctamente", "Registro", JOptionPane.PLAIN_MESSAGE, resizedIcon);
-//                }
+                if (validarCampos()) {
+                    
+                    try {
+                        registrarAdministrador();
+                        TxtUsuario.setText("");
+                        txtEmail.setText("");
+                        txtNameUser.setText("");
+                        passwordField.setText("");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    // Mostrar el mensaje con la imagen
+                    JOptionPane.showMessageDialog(null, "Se ha Registrado Correctamente", "Registro", JOptionPane.PLAIN_MESSAGE, resizedIcon);
+                }
 
             }
 
@@ -267,6 +267,7 @@ public class JPanelRegister extends JPanel {
         char[] password = passwordField.getPassword();
         String Pass = new String(password);
         AdministratorsController administradorController = new AdministratorsController();
+        administradorController.registrarAdministrador(Name, UserName, Email, Pass);
         
     }
 

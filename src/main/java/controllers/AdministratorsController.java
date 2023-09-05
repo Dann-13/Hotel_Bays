@@ -6,7 +6,6 @@ package controllers;
 
 import dao.AdministratorsDAO;
 import exceptions.CustomDaoException;
-import java.sql.SQLException;
 import models.Administrator;
 
 /**
@@ -21,10 +20,10 @@ public class AdministratorsController {
         administradorDAO = new AdministratorsDAO();
     }
 
-    public boolean registrarAdministrador(String name, String userName, String email, String password, String administratorType) {
+    public boolean registrarAdministrador(String name, String userName, String email, String password) {
         try {
-            // Crear un objeto Administrator con los datos proporcionados
-            Administrator administrator = new Administrator(name, userName, email, password, administratorType);
+            // Crear un objeto Administrator con los datos proporcionados este administrador siempre sera de contenido
+            Administrator administrator = new Administrator(name, userName, email, password, "contenido");
 
             // Llamar al método del DAO para registrar el administrador
             return administradorDAO.registrarAdministrador(administrator);
