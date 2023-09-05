@@ -23,6 +23,15 @@ public class Administrator {
         this.Administrator_type = Administrator_type;
     }
 
+    public Administrator(String Name, String Email, String UserName, String Administrator_type) {
+        this.Name = Name;
+        this.Email = Email;
+        this.UserName = UserName;
+        this.Administrator_type = Administrator_type;
+    }
+    
+    
+
     public Administrator(String Email, String Password) {
         this.Email = Email;
         this.Password = Password;

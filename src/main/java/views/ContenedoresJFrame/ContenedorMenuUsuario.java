@@ -28,14 +28,8 @@ import views.VistasJPanel.VistaMenuUsuario.PanelUsuarios;
  */
 public class ContenedorMenuUsuario extends JFrame {
 
-    PanelUsuarios panelUsuario;
-    PanelReservas panelReservas;
-    PanelHabitaciones panelHabitaciones;
     MenuPanel panelIzquierdo;
     PanelDefecto panelDefecto;
-    private JPanel cards;
-    private CardLayout cardLayout;
-    private JButton button1, button2;
 
     public ContenedorMenuUsuario() {
         this.inicializador();
@@ -60,7 +54,7 @@ public class ContenedorMenuUsuario extends JFrame {
 
         panelDefecto = new PanelDefecto();
 
-        panelIzquierdo = new MenuPanel();
+        panelIzquierdo = new MenuPanel(this);
         panelIzquierdo.setLayout(null);
         panelIzquierdo.setPreferredSize(new Dimension(250, 0));
 

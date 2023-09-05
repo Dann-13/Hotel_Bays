@@ -5,7 +5,6 @@
 package views.VistasJPanel.VIstaRegister;
 
 import controllers.AdministratorsController;
-import views.VistasJPanel.VistaLoguin.*;
 import views.components.labels.JLabelFactory;
 import views.components.checkBox.event.PasswordFieldWithCheckbox;
 import views.components.jPasswordField.PasswordFieldFactory;
@@ -191,21 +190,21 @@ public class JPanelRegister extends JPanel {
         ActionListener escuchaBtnEnviar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validarCampos()) {
-                    
-                    try {
-                        registrarAdministrador();
-                        TxtUsuario.setText("");
-                        txtEmail.setText("");
-                        txtNameUser.setText("");
-                        passwordField.setText("");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    // Mostrar el mensaje con la imagen
-                    JOptionPane.showMessageDialog(null, "Se ha Registrado Correctamente", "Registro", JOptionPane.PLAIN_MESSAGE, resizedIcon);
-                }
+//                if (validarCampos()) {
+//                    
+//                    try {
+//                        registrarAdministrador();
+//                        TxtUsuario.setText("");
+//                        txtEmail.setText("");
+//                        txtNameUser.setText("");
+//                        passwordField.setText("");
+//                    } catch (SQLException ex) {
+//                        Logger.getLogger(JPanelRegister.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//
+//                    // Mostrar el mensaje con la imagen
+//                    JOptionPane.showMessageDialog(null, "Se ha Registrado Correctamente", "Registro", JOptionPane.PLAIN_MESSAGE, resizedIcon);
+//                }
 
             }
 
@@ -268,7 +267,7 @@ public class JPanelRegister extends JPanel {
         char[] password = passwordField.getPassword();
         String Pass = new String(password);
         AdministratorsController administradorController = new AdministratorsController();
-        administradorController.registrarAdmin(Name, UserName, Email, Pass);
+        
     }
 
     private void escuchaBtnVolverClick() {

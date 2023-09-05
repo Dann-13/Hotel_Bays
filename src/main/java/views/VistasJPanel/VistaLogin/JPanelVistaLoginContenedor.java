@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package views.VistasJPanel.VistaLoguin;
+package views.VistasJPanel.VistaLogin;
 
 import controllers.AdministratorsController;
+import exceptions.CustomDaoException;
 import views.components.labels.JLabelFactory;
 import views.components.checkBox.event.PasswordFieldWithCheckbox;
 import views.components.jPasswordField.PasswordFieldFactory;
@@ -20,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
@@ -31,7 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import utils.Conexion;
+import models.Administrator;
+import utils.SessionManager;
 import views.ContenedoresJFrame.ContenedorInicio;
 import views.ContenedoresJFrame.ContenedorMenuUsuario;
 
@@ -52,11 +53,16 @@ public class JPanelVistaLoginContenedor extends JPanel {
 
     private ContenedorInicio mainFrame;
 
-    public JPanelVistaLoginContenedor(ContenedorInicio mainFrame) throws FontFormatException, IOException {
-        this.mainFrame = mainFrame;
-        this.inicializador();
-        this.inicializadorObjetos();
-        inicializadorEventos();
+    public JPanelVistaLoginContenedor(ContenedorInicio mainFrame) {
+        try {
+            this.mainFrame = mainFrame;
+            this.inicializador();
+            this.inicializadorObjetos();
+            inicializadorEventos();
+        } catch (FontFormatException | IOException e) {
+            // Manejar las excepciones aquí, por ejemplo, mostrando un mensaje de error.
+            JOptionPane.showMessageDialog(null, "Error en la carga de fuentes o archivo de entrada/salida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 //
     }
 
@@ -132,7 +138,7 @@ public class JPanelVistaLoginContenedor extends JPanel {
         jpanelIzquierdo.add(showPasswordCheckbox);
 
         //Aviso mayus
-        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20,17f, Color.WHITE, Color.RED);
+        capsLockLabel = JLabelFactory.labelStandard("Mayus Activado", 70, 325, 300, 20, 17f, Color.WHITE, Color.RED);
         capsLockLabel.setVisible(false);
         PasswordFieldCapsLockListener capsLockListener = new PasswordFieldCapsLockListener(passwordField, capsLockLabel);
         passwordField.addKeyListener(capsLockListener);
@@ -150,18 +156,15 @@ public class JPanelVistaLoginContenedor extends JPanel {
         ActionListener escuchaBtnIngresar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                if (validarCampos()) {
-//                    if (iniciarSesion()) {
-//                        escuchaBtnEntrarClick();
-//                    } else {
-//                        JOptionPane.showMessageDialog(null, "Inicio de Sesion Incorrecto, Usuario o contraseña no validos", "Sesion", JOptionPane.WARNING_MESSAGE);
-//                    }
-//
-//                } else {
-//                    System.out.println("Campis no validos ");
-//                }
-                escuchaBtnEntrarClick();
-                
+                if (validarCampos()) {
+                    if (iniciarSesion()) {
+
+                        escuchaBtnEntrarClick();
+                    }
+                } else {
+                    System.out.println("Camposs no validos ");
+                }
+
             }
 
         };
@@ -203,14 +206,35 @@ public class JPanelVistaLoginContenedor extends JPanel {
         return texto.equals("Ingrese su Nombre de Usuario") || texto.equals("");
     }
 
-//    private boolean iniciarSesion() {
-//        String user = TxtUsuario.getText();
-//        String pass = new String(passwordField.getPassword());
-//        Conexion conexion = new Conexion();
-//        Connection con = conexion.getConnection();
-//        AdministratorsController administradorController = new AdministratorsController(con);
-//        return administradorController.verificarAdministrador(user, pass);
-//    }
+    private boolean iniciarSesion() {
+        String user = TxtUsuario.getText();
+        String pass = new String(passwordField.getPassword());
+
+        AdministratorsController administradorController = new AdministratorsController();
+        try {
+            boolean verificationTrue = administradorController.verificarAdministrador(user, pass);
+            System.out.println(verificationTrue);
+            if (verificationTrue) {
+                // Inicio de sesión exitoso, obtén la información del administrador por su correo electrónico
+                Administrator loggedInAdministrator = administradorController.obtenerAdministradorPorEmail(user);
+
+                if (loggedInAdministrator != null) {
+                    // Configura la sesión
+                    SessionManager.setLoggedInAdministrator(loggedInAdministrator);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo obtener la información del administrador.", "Sesión", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Inicio de Sesión Incorrecto. Usuario o contraseña no válidos", "Sesión", JOptionPane.WARNING_MESSAGE);
+            }
+            return verificationTrue;
+        } catch (CustomDaoException e) {
+            JOptionPane.showMessageDialog(null, "Error al Iniciar Sesion: " + e.getMessage());
+            return false;
+        }
+
+    }
 
     private void escuchaBtnEntrarClick() {
         ContenedorMenuUsuario menuUseuario = new ContenedorMenuUsuario();

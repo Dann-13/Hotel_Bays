@@ -5,8 +5,7 @@
 package controllers;
 
 import dao.AdministratorsDAO;
-import dao.RoomsDAO;
-import java.sql.Connection;
+import exceptions.CustomDaoException;
 import java.sql.SQLException;
 import models.Administrator;
 
@@ -22,25 +21,27 @@ public class AdministratorsController {
         administradorDAO = new AdministratorsDAO();
     }
 
-    public void registrarAdmin(String Name, String UserName, String Email, String Password) throws SQLException {
-        int numAdmin = administradorDAO.numeroAdministradoresRegistrados();
-        if (numAdmin != 1) {
-            Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "principal");
-            administradorDAO.registrarAdministrador(nuevoAdministrador);
-            
-        }else{
-            Administrator nuevoAdministrador = new Administrator(Name, UserName, Email, Password, "contenido");
-            administradorDAO.registrarAdministrador(nuevoAdministrador);
-            
-        }
+    public boolean registrarAdministrador(String name, String userName, String email, String password, String administratorType) {
+        try {
+            // Crear un objeto Administrator con los datos proporcionados
+            Administrator administrator = new Administrator(name, userName, email, password, administratorType);
 
+            // Llamar al método del DAO para registrar el administrador
+            return administradorDAO.registrarAdministrador(administrator);
+        } catch (CustomDaoException e) {
+            // Manejo de excepciones, puedes mostrar un mensaje de error en la interfaz de usuario
+            e.printStackTrace();
+            return false; // Opcionalmente, puedes lanzar la excepción para un manejo superior
+        }
     }
-    
-    public boolean verificarAdministrador(String Email, String Password){
-       boolean result = administradorDAO.iniciarSesion(Email, Password);
-       
-       return result;
+
+    public boolean verificarAdministrador(String Email, String Password) throws CustomDaoException {
+        boolean result = administradorDAO.iniciarSesion(Email, Password);
+        return result;
     }
-    
-   
+
+    public Administrator obtenerAdministradorPorEmail(String email) throws CustomDaoException {
+        return administradorDAO.obtenerAdministradorPorEmail(email);
+    }
+
 }

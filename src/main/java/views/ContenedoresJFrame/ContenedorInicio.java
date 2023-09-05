@@ -9,9 +9,10 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import views.VistasJPanel.VIstaRegister.JPanelRegister;
 import views.VistasJPanel.VistaInicio.MainPanelInicio;
-import views.VistasJPanel.VistaLoguin.JPanelVistaLoginContenedor;
+import views.VistasJPanel.VistaLogin.JPanelVistaLoginContenedor;
 
 /**
  *
@@ -23,10 +24,16 @@ public class ContenedorInicio extends JFrame {
     JPanelRegister registerPanel;
     JPanelVistaLoginContenedor loginPanel;
 
-    public ContenedorInicio() throws FontFormatException, IOException {
-        //en donde vamos a inicializar dos metodos
-        this.inicializador();
-        this.inicializadorObjetos();
+    public ContenedorInicio(){
+         try {
+            
+            this.inicializador();
+            this.inicializadorObjetos();
+            
+        } catch (FontFormatException | IOException e) {
+            // Manejar las excepciones aquí, por ejemplo, mostrando un mensaje de error.
+            JOptionPane.showMessageDialog(null, "Error en la carga de fuentes o archivo de entrada/salida: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
