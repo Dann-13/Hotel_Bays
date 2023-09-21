@@ -33,6 +33,7 @@ public class MenuPanel extends JPanel {
     private JButton btnReserva;
     private JButton btnHabitaciones;
     private JButton btnCerrarSession;
+    private JButton btnAdministradores;
     JLabel lblAdmin;
     Administrator loggedInAdministrator = SessionManager.getLoggedInAdministrator();
     ContenedorMenuUsuario mainFrame;
@@ -42,6 +43,7 @@ public class MenuPanel extends JPanel {
         this.inicializador();
         this.inicializadorObjetos();
         this.inicializadorEventos();
+        this.actualizarInterfazSegunTipoAdmin();
     }
 
     private void inicializador() {
@@ -50,14 +52,6 @@ public class MenuPanel extends JPanel {
     }
 
     private void inicializadorObjetos() {
-
-        if (loggedInAdministrator != null) {
-            // Muestra el nombre del administrador en el JLabel
-            lblAdmin = new JLabel();
-            lblAdmin.setBounds(50, 450, 100, 30);
-            lblAdmin.setText("Hola, " + loggedInAdministrator.getName());
-            this.add(lblAdmin);
-        }
 
         //Imagen Logo
         JLabel LblImgLogoIzquierdo = JLabelFactory.labelStandardImg("./src/main/java/views/resources/images/imgLogoCirculo.png", 0, 0, 250, 250);
@@ -71,12 +65,15 @@ public class MenuPanel extends JPanel {
 
         btnHabitaciones = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Habitaciones", 40, 350, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
         this.add(btnHabitaciones);
-
-        btnCerrarSession = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Cerrar Sesion", 40, 400, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
+        
+        btnAdministradores = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Administradores", 40, 400, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
+        this.add(btnAdministradores);
+        
+        btnCerrarSession = JButtonsFactory.buttonStandardFontWithHoverAndBorder("Cerrar Sesion", 40, 600, 170, 30, 25f, Colores.MORADO_BASE, Colores.MORADO_BASE, Colores.MORADO_BASE);
         this.add(btnCerrarSession);
 
         Calendar cal = Calendar.getInstance();
-        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 600, 100, 30, 17f, null, Colores.MORADO_BASE);
+        JLabel labelHora = JLabelFactory.labelStandard(" ", 150, 700, 100, 30, 17f, null, Colores.MORADO_BASE);
         new Thread() {
             @Override
             public void run() {
@@ -106,6 +103,10 @@ public class MenuPanel extends JPanel {
     public JButton getBtnHabitaciones() {
         return btnHabitaciones;
     }
+    public JButton getBtnAdministradores() {
+        return btnAdministradores;
+    }
+
 
     private void inicializadorEventos() {
         ActionListener escuchaBtnCerrarSession = new ActionListener() {
@@ -126,5 +127,26 @@ public class MenuPanel extends JPanel {
         ContenedorInicio inicio = new ContenedorInicio();
         inicio.setVisible(true);
 
+    }
+
+    private void actualizarInterfazSegunTipoAdmin() {
+        if (loggedInAdministrator != null) {
+            String adminType = loggedInAdministrator.getAdministrator_type();
+
+            // Aquí decides qué botones mostrar u ocultar según el tipo de administrador
+            if ("principal".equals(adminType)) {
+                // Es un administrador principal, muestra todos los botones
+                btnUsuarios.setVisible(true);
+                btnReserva.setVisible(true);
+                btnHabitaciones.setVisible(true);
+                btnAdministradores.setVisible(true);
+            } else if ("contenido".equals(adminType)) {
+                // Es un administrador de contenido, oculta los botones que no necesita
+                btnUsuarios.setVisible(true);
+                btnReserva.setVisible(true); // Puedes personalizar esto según tus necesidades
+                btnHabitaciones.setVisible(true); // Puedes personalizar esto según tus necesidades
+                btnAdministradores.setVisible(false);
+            }
+        }
     }
 }

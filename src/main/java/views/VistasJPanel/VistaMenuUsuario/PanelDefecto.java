@@ -19,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import models.Administrator;
 import utils.Colores;
+import utils.SessionManager;
 
 /**
  *
@@ -27,8 +29,9 @@ import utils.Colores;
  */
 public class PanelDefecto extends JPanel {
 
-    JLabel lblHora, lblTitulo;
+    JLabel lblHora, lblTitulo, lblAdmin;
     JTextArea area;
+    Administrator loggedInAdministrator = SessionManager.getLoggedInAdministrator();
 
     public PanelDefecto() {
         this.inicializador();
@@ -42,8 +45,17 @@ public class PanelDefecto extends JPanel {
     }
 
     private void inicializadorObjetos() {
-        lblTitulo = JLabelFactory.labelStandard("Sistemas de Reservas Hotel Bay's", 0, 0, 0, 0, 25f, Colores.MORADO_BASE, Color.WHITE);
-        lblTitulo.setPreferredSize(new Dimension(0, 60));
+
+        if (loggedInAdministrator != null) {
+            // Muestra el nombre del administrador en el JLabel
+            lblAdmin = new JLabel();
+            lblAdmin.setBounds(50, 450, 100, 30);
+            lblAdmin.setText("Hola, " + loggedInAdministrator.getName());
+            this.add(lblAdmin);
+        }
+
+        lblTitulo = JLabelFactory.labelStandard("Sistemas de Reservas Hotel Playa Cristal", 0, 0, 0, 0, 25f, Colores.MORADO_BASE, Color.WHITE);
+        lblTitulo.setPreferredSize(new Dimension(0, 80));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(lblTitulo, BorderLayout.NORTH);
 
@@ -54,30 +66,31 @@ public class PanelDefecto extends JPanel {
         this.add(lblHora, BorderLayout.CENTER);
 
         JPanel areaPanel = new JPanel(new BorderLayout()); // Panel intermedio para JTextArea
-        area = new JTextArea();
-        area.setLineWrap(true); // Activa el ajuste automático de línea
-        area.setWrapStyleWord(true); // Activa el ajuste de palabras
-        area.setBackground(new Color(0, 0, 0, 0));
-        area.setText("Sistema de reservas Hotel, Controle y administre de forma óptima y fácil el flujo de reservas y huéspedes del hotel.\n"
-                + "Esta herramienta le permite llevar un control completo y detallado de sus reservas y huéspedes,\n"
-                + "tendrá acceso a herramientas especiales para tareas específicas como el registro de reservas de huéspedes,\n"
-                + "edición de reservas y huéspedes existentes, y eliminación de todo tipo de registros.\n"
-                + "En el lado derecho encontrarás 2 botones, huéspedes y reservas, que te llevarán a la interfaz con las funcionalidades mencionadas.\n"
-                + "Gracias por leer esto!"
-        );
-        area.setFont(new Font("Arial", Font.PLAIN, 16));
-        // Agrega un margen al JTextArea para separar el texto del borde
-        Border marginBorder = BorderFactory.createEmptyBorder(50, 10, 10, 10);
-        Border compoundBorder = BorderFactory.createCompoundBorder(area.getBorder(), marginBorder);
-        area.setBorder(compoundBorder);
-
-        JScrollPane scrollPane = new JScrollPane(area);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        areaPanel.add(scrollPane, BorderLayout.CENTER);
-        areaPanel.setPreferredSize(new Dimension(0, 650)); // Ajusta el alto aquí
+        area = createConfiguredTextArea(""
+                + "Sistema de reserva del Hotel playa crystal, aqui podras encontrar diferentes opciones"
+                + "que te ayudaran a controlar, ver y editar el flijo de huespedes, y a su vez otras opciones"
+                + "como las habitaciones y reservas, tu como administrador principal tendras funcioalodades"
+                + "mas avanzadas como la creacion, edicion y eliminacion de administradores principales y de"
+                + "contenido"
+                + "Muchas Gracias por usar este sistema");
 
         this.add(areaPanel, BorderLayout.SOUTH);
 
     }
+
+    private JTextArea createConfiguredTextArea(String text) {
+        JTextArea area = new JTextArea();
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setBackground(new Color(0, 0, 0, 0));
+        area.setText(text);
+        area.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        Border marginBorder = BorderFactory.createEmptyBorder(50, 10, 10, 10);
+        Border compoundBorder = BorderFactory.createCompoundBorder(area.getBorder(), marginBorder);
+        area.setBorder(compoundBorder);
+
+        return area;
+    }
+
 }

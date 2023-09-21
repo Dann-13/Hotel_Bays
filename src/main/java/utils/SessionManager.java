@@ -20,10 +20,6 @@ public class SessionManager {
     public static Administrator getLoggedInAdministrator() {
         return loggedInAdministrator;
     }
-
-    public static void clearSession() {
-        loggedInAdministrator = null;
-    }
     public static void cerrarSesion() {
         loggedInAdministrator = null;
     }

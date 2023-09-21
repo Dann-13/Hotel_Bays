@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import views.VistasJPanel.VistaMenuUsuario.PanelAdministrador;
 import views.VistasJPanel.VistaMenuUsuario.PanelHabitaciones;
 import views.VistasJPanel.VistaMenuUsuario.PanelReservas;
 import views.VistasJPanel.VistaMenuUsuario.PanelUsuarios;
@@ -104,6 +105,17 @@ public class ContenedorMenuUsuario extends JFrame {
                 splitPane.repaint();
             }
 
+        });
+        panelIzquierdo.getBtnAdministradores().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel panelAdministrador = new PanelAdministrador();
+                panelAdministrador.setPreferredSize(new Dimension(500, 0));
+                splitPane.setRightComponent(panelAdministrador);
+                splitPane.revalidate();
+                splitPane.repaint();
+            }
+            
         });
         this.add(splitPane, BorderLayout.CENTER);
         this.pack();

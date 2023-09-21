@@ -44,13 +44,13 @@ import views.ContenedoresJFrame.ContenedorMenuUsuario;
  */
 public class JPanelVistaLoginContenedor extends JPanel {
 
-    JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, LblImgLogoIzquierdo, lblUsuario, lblContrasena, capsLockLabel;
+    JLabel LblImgPanelDerecho, lblBienvenido, lblLogin, lblUsuario, lblContrasena, capsLockLabel;
     JTextField TxtUsuario;
     JButton btnIngresar, btnVolver;
     JPasswordField passwordField;
     JCheckBox showPasswordCheckbox;
     JPanel jpanelIzquierdo, jPanelDerecho;
-
+    
     private ContenedorInicio mainFrame;
 
     public JPanelVistaLoginContenedor(ContenedorInicio mainFrame) {
